@@ -45,7 +45,20 @@ class BBSRepListPost {
         page = json['page'],
         hasNext = json['hasNext'],
         totalNum = json['totalNum'],
-        head = _Head.fromJson(json['head']),
-        list = json['list'].map((value) => Post.fromJson(value));
+        head = _Head.fromJson(json['head']){
+
+    if (json['list'] == null) {
+      list = null;
+    } else {
+      var result = <Post>[];
+      for (int i = 0; i < json['list'].length; i++) {
+        var item = Post.fromJson(json['list'][i]);
+        result.add(item);
+      }
+      this.list = result;
+    }
+
+
+  }
 
 }

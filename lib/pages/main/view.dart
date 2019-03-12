@@ -17,7 +17,6 @@ class MainViewImpl extends IMainView {
   @override
   getWidget(index) {
     var widget;
-    print('============this is MainView.getWidget(${index})=============');
     switch(index) {
       case 0:
         widget = HomePageWidget();
@@ -38,7 +37,6 @@ class MainViewImpl extends IMainView {
 
   @override
   getTabBar(index) {
-    print('============this is MainView.getTabBar(${index})=============');
     var widget;
     switch(index) {
       case 0:

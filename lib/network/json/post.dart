@@ -1,3 +1,9 @@
+/**
+ * created by sgh     2019-3-11
+ * 获取发帖的返回json
+ * 目前“今日热点”“最新发表”“最新回复”都会用到该json
+ * 不过该json是封装在BBSResponse中的
+ */
 class Post {
   int board_id;
   String board_name;

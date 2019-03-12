@@ -1,5 +1,6 @@
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:meta/meta.dart';
 
 /**
  * created by sgh     2019-3-3
@@ -29,9 +30,9 @@ abstract class IBasePresenter<T extends IBaseView, E extends IBaseModel> extends
   }
 
 
-  Future loadNetData({String type, Map<String, dynamic> query});
-  loadMoreNetData({String type, Map<String, dynamic> query});
-  refresh({String type, Map<String, dynamic> query});
+  Future loadNetData({String type, @required Map<String, dynamic> query});
+  loadMoreNetData({String type, @required Map<String, dynamic> query});
+  refresh({String type, @required Map<String, dynamic> query});
 }
 
 abstract class IMainPresenter extends IMVPPresenter {

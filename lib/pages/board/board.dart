@@ -31,14 +31,14 @@ class BoardPageWidget extends StatelessWidget {
 
 class BoardWidget extends StatefulWidget {
 
-  BoardPresenter presenter;      //Presenter的实现类
-  BoardView view;               //View的实现类
-  BoardModel model;            //Model的实现类
+  BoardPresenterImpl presenter;      //Presenter的实现类
+  BoardViewImpl view;               //View的实现类
+  BoardModelImpl model;            //Model的实现类
 
   BoardWidget() {
-    this.presenter = BoardPresenter();
-    this.view = BoardView();
-    this.model = BoardModel();
+    this.presenter = BoardPresenterImpl();
+    this.view = BoardViewImpl();
+    this.model = BoardModelImpl();
     presenter.bindView(view);
     presenter.bindModel(model);
     view.setPresenter(presenter);
@@ -54,7 +54,7 @@ class BoardWidget extends StatefulWidget {
 /**
  * BoardState是View层是实现类
  */
-class BoardView extends State<BoardWidget> implements IBaseView {
+class BoardViewImpl extends State<BoardWidget> implements IBaseView {
 
   ForumListModel sourceData = null;    //源数据
 
@@ -71,7 +71,7 @@ class BoardView extends State<BoardWidget> implements IBaseView {
               slivers: MapUtil(sourceData.list).finalResult
           );
         } else {
-          return Text("loading");
+          return Center(child: CircularProgressIndicator(),);
         }
       },
     );
@@ -97,7 +97,7 @@ class BoardView extends State<BoardWidget> implements IBaseView {
 
   @override
   Future<ForumListModel> toGetNetData() async{
-    print('this is BoardView toGetNetData and finalUser is ---------------${UserCache.finalUser.toString()}');
+    //print('this is BoardView toGetNetData and finalUser is ---------------${UserCache.finalUser.toString()}');
     User finaluser = await UserCache.finalUser();
     var response = await mPresenter.loadNetData (type: ConstUtil.BOARD, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
@@ -114,7 +114,7 @@ class BoardView extends State<BoardWidget> implements IBaseView {
 
   @override
   bindData(sourcedata) {
-    print("this is bindData in BoardView ---------------${sourcedata.toString()}");
+    //print("this is bindData in BoardView ---------------${sourcedata.toString()}");
     setState(() {
       this.sourceData = sourcedata;
     });

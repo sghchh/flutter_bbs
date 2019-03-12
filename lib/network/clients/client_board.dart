@@ -13,7 +13,7 @@ class BoardClient {
     var result = null;
     final response = await _dioClient.post(_FORMLIST_PATH, queryParameters: query);
     if(response.statusCode == 200) {
-      print("this is getForumList in client_board----------------:${response.data.toString()}");
+      //print("this is getForumList in client_board----------------:${response.data.toString()}");
       result = await compute(getForumListModel, response.data);
       return result;
     }

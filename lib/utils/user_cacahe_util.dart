@@ -30,17 +30,17 @@ storeUser(user) async {
   var sharedPreferences = await SharedPreferences.getInstance();
   String userString = convert.jsonEncode(user);
   sharedPreferences.setString('userinfo', userString);
-  print("-----------this is cache store,store successed finalUser is---------------${finalUser}");
+  //print("-----------this is cache store,store successed finalUser is---------------${finalUser}");
   sharedPreferences = null;
   return;
 }
 
 //获取User对象
 Future<String> getUser() async {
-  print("this is getUser in cacheutil----------");
+  //print("this is getUser in cacheutil----------");
   var sharedPreferences = await SharedPreferences.getInstance();
   var userInfo = sharedPreferences.getString('userinfo');
-  print("this is getUser in usercache and user 是-------------${userInfo.toString()}");
+  //print("this is getUser in usercache and user 是-------------${userInfo.toString()}");
   sharedPreferences = null;
   //await compute(_bindUser, user);
   return userInfo == null ? "none" : userInfo;
@@ -56,8 +56,8 @@ Future<String> getAppHash () async{
 
 //用于后台解析Json的方法
 _bindUser(String soucre) {
-  print("this is bindUser----------------------");
+  //print("this is bindUser----------------------");
   User u = User.fromJson(convert.jsonDecode(soucre));
-  print("this is binduser 解析出来的user的值是：${u.toString()}");
+  //print("this is binduser 解析出来的user的值是：${u.toString()}");
   return;
 }

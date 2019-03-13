@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bbs/pages/home/home_stateful.dart';
 
-import 'package:flutter_bbs/constant.dart' as ConstUtil;
+import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 class HomePageWidget extends StatelessWidget {
 
   @override

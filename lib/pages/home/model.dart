@@ -1,6 +1,6 @@
 
 import 'package:flutter_bbs/mvp/model.dart';
-import 'package:flutter_bbs/constant.dart' as ConstUtil;
+import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 import 'package:flutter_bbs/network/clients/client_home.dart';
 
 class HomeModelImpl extends IBaseModel implements IMainModel {

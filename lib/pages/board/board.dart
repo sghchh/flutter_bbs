@@ -6,7 +6,7 @@ import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/network/json/forum.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/board/board_map.dart';
-import 'package:flutter_bbs/constant.dart' as ConstUtil;
+import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 import 'package:flutter_bbs/pages/board/model.dart';
 import 'package:flutter_bbs/pages/board/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
@@ -97,9 +97,8 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
 
   @override
   Future<ForumListModel> toGetNetData() async{
-    //print('this is BoardView toGetNetData and finalUser is ---------------${UserCache.finalUser.toString()}');
     User finaluser = await UserCache.finalUser();
-    var response = await mPresenter.loadNetData (type: ConstUtil.BOARD, query: { 'accessToken' : finaluser.token,
+    var response = mPresenter.loadNetData (type: ConstUtil.BOARD, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await UserCache.getAppHash(),
       'sdkVersion' : '2.5.0.0'

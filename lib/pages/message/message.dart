@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bbs/pages/message/reply_stateful.dart';
-import 'package:flutter_bbs/pages/message/atme_stateful.dart';
-import 'package:flutter_bbs/pages/message/private_stateful.dart';
-import 'package:flutter_bbs/pages/message/system_stateful.dart';
+import 'package:flutter_bbs/pages/message/message_stateful/reply_stateful.dart';
+import 'package:flutter_bbs/pages/message/message_stateful/atme_stateful.dart';
+import 'package:flutter_bbs/pages/message/message_stateful/private_stateful.dart';
+import 'package:flutter_bbs/pages/message/message_stateful/system_stateful.dart';
 
 /**
  * created by sgh     2019-2-28

@@ -1,29 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bbs/mvp/model.dart';
+import 'package:flutter_bbs/mvp/presenter.dart';
+import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/network/json/message.dart';
+import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/pages/message/model.dart';
+import 'package:flutter_bbs/pages/message/presenter.dart';
+import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
+import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 
-/**
- * created by sgh    2019-2-28
- * 消息界面中“@Me”的界面
- */
+///created by sgh    2019-2-28
+/// 消息界面中“@Me”的界面
 class MessageAtmeWidget extends StatefulWidget {
+
+  MsgPresenterImpl _presenter;
+  MsgModelImpl _model;
+  _MsgViewImpl _view;
+
+  MessageAtmeWidget() :_presenter = MsgPresenterImpl(), _model = MsgModelImpl();
 
   @override
   State<StatefulWidget> createState() {
-    return _MessageAtmeState();
+    _view = _MsgViewImpl();
+    _presenter.bindModel(_model);
+    _presenter.bindView(_view);
+    _view.setPresenter(_presenter);
+    return _view;
   }
 }
 
-class _MessageAtmeState extends State<MessageAtmeWidget> with AutomaticKeepAliveClientMixin {
+class _MsgViewImpl extends State<MessageAtmeWidget> with AutomaticKeepAliveClientMixin implements IBaseView {
+
+  MsgPresenterImpl _presenter;
+  List<AtMe> sourceData;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: null,
+      future: toGetNetData(),
       builder: (context, snaphot){
+        //网络访问中
         if (!snaphot.hasData) {
           return Center(child: CircularProgressIndicator(),);
         }
+        //网络错误
+        if (snaphot.data.runtimeType == String) {
+          return Text('error');
+        }
+        //成功获取数据
+        sourceData = snaphot.data.body.data;
         return ListView.builder(
-            itemCount: 10,
+            itemCount: sourceData.length,
             itemBuilder: (context, index){
               return Container(
                   margin: EdgeInsets.only(top: 6, bottom: 6),
@@ -32,7 +59,7 @@ class _MessageAtmeState extends State<MessageAtmeWidget> with AutomaticKeepAlive
                     Container(
                       margin: EdgeInsets.only(right: 12),
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('images/c.jpg'),
+                        backgroundImage: NetworkImage(sourceData[index].icon),
                         radius: 24,
                       ),
                     ),
@@ -45,19 +72,19 @@ class _MessageAtmeState extends State<MessageAtmeWidget> with AutomaticKeepAlive
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text('Username ${index}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
-                              Text('MessageTime', style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
+                              Text(sourceData[index].user_name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                              Text(sourceData[index].replied_date, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                             ],
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 6),
                               padding: EdgeInsets.only(left: 6, top: 6, right: 3),
                               decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
-                              child: Text('Message', style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,)
+                              child: Text(sourceData[index].topic_subject, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,)
                           ),
                           Container(
                               padding: EdgeInsets.only(left: 3, top: 4, right: 3),
-                              child: Text('ReplyMessage', style: TextStyle(fontSize: 12), textAlign: TextAlign.right,)
+                              child: Text(sourceData[index].reply_content, style: TextStyle(fontSize: 12), textAlign: TextAlign.right,)
                           )
                         ],),
                     )
@@ -72,4 +99,42 @@ class _MessageAtmeState extends State<MessageAtmeWidget> with AutomaticKeepAlive
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  bindData(sourcedata) {
+    return null;
+  }
+
+  @override
+  IBasePresenter<IBaseView, IBaseModel> get mPresenter => _presenter;
+
+  @override
+  void setPresenter(presenter) {
+    this._presenter = presenter;
+  }
+
+  @override
+  void showToast(content) {
+  }
+
+  @override
+  toGetMoreNetData() {
+    return null;
+  }
+
+  @override
+  toGetNetData() async {
+    User finaluser = await UserCache.finalUser();
+    var response = mPresenter.loadNetData (type: ConstUtil.MESSAGE_ATME, query: { 'accessToken' : finaluser.token,
+      'accessSecret' :finaluser.secret,
+      'apphash' : await UserCache.getAppHash(),
+      'sdkVersion' : '2.5.0.0'
+    });
+    return response;
+  }
+
+  @override
+  toRefresh() {
+    return null;
+  }
 }

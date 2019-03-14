@@ -1,7 +1,5 @@
-/**
- * created by sgh     2019-3-12
- * 该dart文件是一系列"消息"界面的请求json
- */
+///created by sgh     2019-3-12
+/// 该dart文件是一系列"消息"界面的请求json
 
 //根json,这里只是给了个样板，并没有用
 class MessageResponse {
@@ -32,7 +30,7 @@ class PostMessage {
   String topic_content;
   String topic_url;
   String reply_content;
-  String reply_remind_id;
+  int reply_remind_id;
   String reply_url;
   String content;
   String user_name;
@@ -119,7 +117,7 @@ class System {
   String type;
   String icon;
   String user_name;
-  int user_id;
+  String user_id;
   String mod;
   String note;
   String is_read;
@@ -169,7 +167,7 @@ class PmseMission {
         this.isNew = json['isNew'];
 }
 
-//消息界面中私信的最终返回的json
+//消息界面中 私信 的最终返回的json
 class MsgRespListPmse {
   int rs;
   _Head head;
@@ -196,5 +194,95 @@ class _PmseBody {
       result.add(item);
     }
     this.list = result;
+  }
+}
+
+//消息界面中 系统消息 的最终返回的json
+class MsgRespListSystem {
+  int rs;
+  _Head head;
+  _SystemBody body;
+
+  MsgRespListSystem({this.rs, this.head, this.body});
+
+  MsgRespListSystem.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.head = _Head.fromJson(json['head']),
+        this.body = _SystemBody.fromJson(json['body']);
+}
+
+//搭配MsgRespListSystem
+class _SystemBody {
+  List<System> data;
+
+  _SystemBody({this.data});
+
+  _SystemBody.fromJson(Map<String, dynamic> json) {
+    var result = <System>[];
+    for(int i = 0; i < json['data'].length; i++) {
+      var item = System.fromJson(json['data'][i]);
+      result.add(item);
+    }
+    this.data = result;
+  }
+}
+
+//消息界面中 帖子回复 的最终返回的json
+class MsgRespListReply {
+  int rs;
+  _Head head;
+  _ReplyBody body;
+
+  MsgRespListReply({this.rs, this.head, this.body});
+
+  MsgRespListReply.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.head = _Head.fromJson(json['head']),
+        this.body = _ReplyBody.fromJson(json['body']);
+}
+
+//搭配MsgRespListReply
+class _ReplyBody {
+  List<PostMessage> data;
+
+  _ReplyBody({this.data});
+
+  _ReplyBody.fromJson(Map<String, dynamic> json) {
+    var result = <PostMessage>[];
+    for(int i = 0; i < json['data'].length; i++) {
+      var item = PostMessage.fromJson(json['data'][i]);
+      result.add(item);
+    }
+    this.data = result;
+  }
+}
+
+//消息界面中 @我 的最终返回的json
+class MsgRespListAtMe {
+  int rs;
+  _Head head;
+  _AtMeBody body;
+
+  MsgRespListAtMe({this.rs, this.head, this.body});
+
+  MsgRespListAtMe.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.head = _Head.fromJson(json['head']),
+        this.body = _AtMeBody.fromJson(json['body']);
+}
+
+//搭配MsgRespListAtMe
+class _AtMeBody {
+  List<AtMe> data;
+
+  _AtMeBody({this.data});
+
+  _AtMeBody.fromJson(Map<String, dynamic> json) {
+    var result = <AtMe>[];
+    for(int i = 0; i < json['data'].length; i++) {
+      var item = AtMe.fromJson(json['data'][i]);
+      result.add(item);
+    }
+    this.data = result;
   }
 }

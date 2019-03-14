@@ -117,7 +117,6 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
 
   @override
   Future toGetNetData() async {
-    print("this is toGetNetData in private_stateful.dart------------");
     User finaluser = await UserCache.finalUser();
     var response = mPresenter.loadNetData (type: ConstUtil.MESSAGE_PMSE, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,

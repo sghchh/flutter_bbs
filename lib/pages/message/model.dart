@@ -18,10 +18,13 @@ class MsgModelImpl extends IBaseModel {
         result = MsgClient.getPostMsg(query);
         break;
       case ConstUtil.MESSAGE_REPLY:
+        result = MsgClient.getReplyMsg(query);
         break;
       case ConstUtil.MESSAGE_ATME:
+        result = MsgClient.getAtMeMsg(query);
         break;
-      default:
+      case ConstUtil.MESSAGE_SYSTEM:
+        result = MsgClient.getSystemMsg(query);
         break;
     }
     return result;

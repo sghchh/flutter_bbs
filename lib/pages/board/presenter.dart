@@ -1,4 +1,6 @@
-
+import 'dart:convert' as convert;
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/forum.dart';
 
@@ -10,12 +12,15 @@ class BoardPresenterImpl extends IBasePresenter {
   }
 
   @override
-  Future<ForumListModel> loadNetData ({String type, Map<String, dynamic> query}) async {
-    //print("this is loadNetData----------------${query.toString()}");
-
-    ForumListModel data = await mModel.onLoadNetData(type: type, query: query);
-    return data;
-    //mView.bindData(data);
+  Future loadNetData ({String type, Map<String, dynamic> query}) async {
+    Response response = await mModel.onLoadNetData(type: type, query: query);
+    if (response.statusCode == 200) {
+      ForumListModel data = await compute(getForumListModel, response.data);
+      return data;
+    } else {
+      mView.showToast(response.statusCode);
+      return 'error';
+    }
   }
 
   @override
@@ -23,4 +28,10 @@ class BoardPresenterImpl extends IBasePresenter {
     return null;
   }
 
+}
+
+//后台解析responseBody的方法
+ForumListModel getForumListModel (boady) {
+var user = ForumListModel.fromJson(convert.jsonDecode(boady));
+return user;
 }

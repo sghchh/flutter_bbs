@@ -9,10 +9,8 @@ import 'package:flutter_bbs/pages/message/presenter.dart';
 import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
 
-/**
- * created by sgh     2019-2-28
- * 构建消息界面的"私信"界面
- */
+///created by sgh     2019-2-28
+/// 构建消息界面的"私信"界面
 class MessagePrivateWidget extends StatefulWidget {
 
   MsgPresenterImpl _presenter;
@@ -41,9 +39,14 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
     return FutureBuilder(
       future: toGetNetData(),
       builder: (context, snaphot) {
+        //网络请求中
         if (!snaphot.hasData) {
           return Center(child: CircularProgressIndicator(),);
-        } else {
+        }
+        //网络错误
+        if (snaphot.data.runtimeType == String) {
+          return Text('error');
+        }
           sourceData = snaphot.data.body.list;
           return ListView.builder(
               itemCount: sourceData.length,
@@ -83,7 +86,6 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
                 );
 
               });
-        }
       },
     );
   }
@@ -114,7 +116,7 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
   }
 
   @override
-  Future<MsgRespListPmse> toGetNetData() async {
+  Future toGetNetData() async {
     print("this is toGetNetData in private_stateful.dart------------");
     User finaluser = await UserCache.finalUser();
     var response = mPresenter.loadNetData (type: ConstUtil.MESSAGE_PMSE, query: { 'accessToken' : finaluser.token,

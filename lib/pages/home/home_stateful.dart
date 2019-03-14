@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
-import 'package:flutter_bbs/network/json/bbs_response.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/home/model.dart';
 import 'package:flutter_bbs/pages/home/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
 
 
-/**
- * created by sgh    2019-02-28
- * Home中显示List的StatefulWidget
- */
+///created by sgh    2019-02-28
+///Home中显示List的StatefulWidget
 class HomeWidget extends StatefulWidget {
 
   HomePresenterImpl _presenter;    //创建——HomeState时传递的Presenter对象
@@ -37,9 +34,7 @@ class HomeWidget extends StatefulWidget {
   }
 }
 
-/**
- * _HomeState为View层的实现类
- */
+///HomeState为View层的实现类
 class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin implements IBaseView {
 
   IBasePresenter _presenter;   //用啦发起网络请求的Presenter
@@ -55,8 +50,13 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
     return FutureBuilder(
       future: toGetNetData(),
       builder: (context, snaphot) {
+        //网络访问中
         if (!snaphot.hasData) {
           return Center(child: CircularProgressIndicator(),);
+        }
+        //网络出错
+        if (snaphot.data.runtimeType == String) {
+          return Text('error');
         }
         data = snaphot.data.list;
         return RefreshIndicator(

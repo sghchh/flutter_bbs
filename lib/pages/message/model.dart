@@ -2,10 +2,8 @@ import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/network/clients/client_message.dart';
 import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
 
-/**
- * created by sgh     2019-3-12
- * 消息界面中model的实现类
- */
+///created by sgh     2019-3-12
+/// 消息界面中model的实现类
 class MsgModelImpl extends IBaseModel {
   @override
   Future onLoadMoreData({String type, Map<String, dynamic> query}) {

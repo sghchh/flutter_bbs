@@ -51,25 +51,27 @@ class BoardWidget extends StatefulWidget {
   
 }
 
-/**
- * BoardState是View层是实现类
- */
+///BoardState是View层是实现类
 class BoardViewImpl extends State<BoardWidget> implements IBaseView {
 
-  ForumListModel sourceData = null;    //源数据
+  ForumListModel sourceData;    //源数据
 
   IBasePresenter _presenter;      //进行网络访问的Presenter
 
   @override
   Widget build(BuildContext context){
-    return FutureBuilder<ForumListModel>(
+    return FutureBuilder(
       future: toGetNetData(),
       builder: (context, snaphot) {
         if (snaphot.hasData) {
-          this.sourceData = snaphot.data;
-          return CustomScrollView(
-              slivers: MapUtil(sourceData.list).finalResult
-          );
+          if (snaphot.data.runtimeType != String) {
+            this.sourceData = snaphot.data;
+            return CustomScrollView(
+                slivers: MapUtil(sourceData.list).finalResult
+            );
+          } else {
+            return Text('出错了');
+          }
         } else {
           return Center(child: CircularProgressIndicator(),);
         }
@@ -96,7 +98,7 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
   }
 
   @override
-  Future<ForumListModel> toGetNetData() async{
+  Future toGetNetData() async{
     User finaluser = await UserCache.finalUser();
     var response = mPresenter.loadNetData (type: ConstUtil.BOARD, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,

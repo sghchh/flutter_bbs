@@ -20,8 +20,8 @@ class User {
   int groupid;
   List repeatList;
   List verify;
-  //List<_CreditShowListBean> creditShowList;
-  var creditShowList;
+  List<_CreditShowListBean> creditShowList;
+
 
   User({this.rs,
       this.errcode,
@@ -58,9 +58,15 @@ class User {
         this.mobile = json['mobile'],
         this.groupid = json['groupid'],
         this.repeatList = json['repeatList'],
-        this.verify = json['verify'],
-        this.creditShowList = json['creditShowList'];
-        //this.creditShowList = (json['creditShowList'] == null || json['creditShowList'].length == 0) ? json['creditShowList'] : json['creditShowList'].map((value) => _CreditShowListBean.fromJson(value));
+        this.verify = json['verify'] {
+    var result = <_CreditShowListBean>[];
+    for (int i = 0; i < json['creditShowList'].length; i ++) {
+      var item = _CreditShowListBean.fromJson(json['creditShowList'][i]);
+      result.add(item);
+    }
+    this.creditShowList = result;
+  }
+
 
 
   Map<String, dynamic> toJson() => {
@@ -87,7 +93,7 @@ class User {
 
   @override
   String toString() {
-    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}}";
+    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}, \"userTitle\" : ${this.userTitle}}";
   }
 }
 

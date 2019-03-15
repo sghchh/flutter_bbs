@@ -6,11 +6,6 @@ import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/user/UserDrawer.dart';
-import 'package:flutter_bbs/pages/home/home.dart';
-import 'package:flutter_bbs/pages/board/board.dart';
-import 'package:flutter_bbs/pages/message/message.dart';
-import 'package:flutter_bbs/pages/user/posted/posted.dart';
-import 'package:flutter_bbs/test.dart';
 
 /**
  * create by sgh   2019-02-17

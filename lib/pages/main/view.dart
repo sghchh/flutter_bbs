@@ -5,7 +5,6 @@ import 'package:flutter_bbs/pages/board/board.dart';
 import 'package:flutter_bbs/pages/home/home.dart';
 import 'package:flutter_bbs/pages/message/message.dart';
 import 'package:flutter_bbs/mvp/view.dart';
-import 'package:flutter_bbs/test.dart';
 
 /**
  * created by sgh     2019-3-3

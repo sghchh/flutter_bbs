@@ -110,7 +110,6 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 
   //发起登陆的事件
   void _onLoginPressed() async {
-    print("this is Login.dart _onLoginPressed mathod---------------------------");
     var name = nameController.text.trim();
     var pass = passController.text.trim();
     if (name == "" || name == null || pass == "" || pass == null) {
@@ -121,8 +120,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
     final response =
         await LoginClient.login(type: 'login', username: name, password: pass);
     if (response.statusCode == 200) {
-      print("this is responsebody------------------${response.body}");
-      User mUser = await compute(_getBody, response.body);
+      User mUser = await compute(_getBody, response.data);
       Navigator.of(mContext).pushNamed('main/mainPage');
       UserCacheUtil.storeUser(mUser);
     } else {
@@ -133,7 +131,6 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 
   void _onRegasitorPressed() async {
     var hash = await UserCacheUtil.getAppHash();
-    print('AppHash is ${hash}-----------------------------');
   }
 
   //根据传入的内容返回一个SnackBar
@@ -146,7 +143,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 }
 
 //通过compute内部调用该方法实现后台解析Json
-User _getBody(String body) {
+User _getBody(body) {
   print("this is Login.dart _getBody method---------------------------");
   return User.fromJson(convert.jsonDecode(body));
 }

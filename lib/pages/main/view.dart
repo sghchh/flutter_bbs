@@ -49,7 +49,7 @@ class MainViewImpl extends IMainView {
     return widget;
   }
 
-  var homeTabTitles = <String>['最新回复', '最新发表', '今日热门']; ////Home界面中的Tab导航的标题
+  var homeTabTitles = <String>['今日热门','最新回复', '最新发表']; ////Home界面中的Tab导航的标题
   //构建Home的TabBar
   Widget _buildHmoeTabBar() {
     return TabBar(

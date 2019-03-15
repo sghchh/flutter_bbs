@@ -10,9 +10,9 @@ class HomePageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(
       children: <Widget>[
+        HomeWidget(tap: const_util.TODATHOT),
         HomeWidget(tap: const_util.NEWREPLY),
         HomeWidget(tap: const_util.NEWPUBLISH),
-        HomeWidget(tap: const_util.TODATHOT)
       ]
     );
   }

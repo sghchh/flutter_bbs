@@ -56,9 +56,11 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
                 return Container(
                     margin: EdgeInsets.only(top: 6, bottom: 6),
                     padding: EdgeInsets.only(top: 6, left: 4, right: 4, bottom: 6),
-                    child: Row(children: <Widget>[
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(right: 12),
+                        margin: EdgeInsets.only(right: 12, top: 10),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(sourceData[index].toUserAvatar),
                           radius: 24,
@@ -73,13 +75,13 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
-                                Text(sourceData[index].toUserName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                                Text(sourceData[index].toUserName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
                                 Text(sourceData[index].lastDateline, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                               ],
                             ),
                             Container(
                                 padding: EdgeInsets.only(left: 3, top: 4, right: 3),
-                                child: Text(sourceData[index].lastSummary, style: TextStyle(fontSize: 12), textAlign: TextAlign.right,)
+                                child: Text(sourceData[index].lastSummary, style: TextStyle(fontSize: 14),)
                             )
                           ],),
                       )

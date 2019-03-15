@@ -57,12 +57,17 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
               return Container(
                   margin: EdgeInsets.only(top: 6, bottom: 6),
                   padding: EdgeInsets.only(top: 6, left: 4, right: 4, bottom: 6),
-                  child: Row(children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: 12),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(sourceData[index].icon),
-                        radius: 24,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 12, top: 10),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(sourceData[index].icon),
+                          radius: 24,
+                        ),
                       ),
                     ),
                     Flexible(
@@ -74,19 +79,19 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(sourceData[index].user_name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                              Text(sourceData[index].user_name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
                               Text(sourceData[index].replied_date, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                             ],
                           ),
                           Container(
                               margin: EdgeInsets.only(left: 6),
-                              padding: EdgeInsets.only(left: 6, top: 6, right: 3),
+                              padding: EdgeInsets.only(left: 6, top: 3, right: 3, bottom: 3),
                               decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
-                              child: Text(sourceData[index].topic_subject, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,)
+                              child: Text(sourceData[index].topic_subject, style: TextStyle(fontSize: 12, color: Colors.grey),)
                           ),
                           Container(
                               padding: EdgeInsets.only(left: 3, top: 4, right: 3),
-                              child: Text(sourceData[index].reply_content, style: TextStyle(fontSize: 12), textAlign: TextAlign.right,)
+                              child: Text(sourceData[index].reply_content, style: TextStyle(fontSize: 12))
                           )
                         ],),
                     )

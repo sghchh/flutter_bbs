@@ -73,17 +73,14 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
                       borderRadius: BorderRadius.all(Radius.circular(5.0))),
                   margin: const EdgeInsets.only(left: 2, right: 2, top: 2, bottom: 2),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(right: 10, bottom: 20),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(data[index].userAvatar),
-                              radius: 30,
-                            ),
-                          )
-                        ],
+                      Container(
+                        margin: const EdgeInsets.only(top: 10, right: 10),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(data[index].userAvatar),
+                          radius: 30,
+                        ),
                       ),
                       Flexible(child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

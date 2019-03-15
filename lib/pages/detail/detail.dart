@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/detail/detail_stateful.dart';
 
-/**
- * created by sgh    2019-02-27
- * "帖子详情"的展示界面
- */
+import 'package:flutter/material.dart';
+
+///created by sgh    2019-02-27
+/// "帖子详情"的展示界面
 class DetailPageWidget extends StatelessWidget {
 
   @override

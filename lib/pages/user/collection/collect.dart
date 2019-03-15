@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/user/collection/collect_stateful.dart';
 
-/**
- * created by sgh    2019-2-26
- * 用户信息中“我的收藏”的界面
- */
+import 'package:flutter/material.dart';
+
+///created by sgh    2019-2-26
+/// 用户信息中“我的收藏”的界面
 class UserCollectionWidget extends StatelessWidget {
 
   @override

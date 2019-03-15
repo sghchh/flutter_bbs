@@ -1,9 +1,6 @@
-import 'dart:convert';
 
-/**
- * created by sgh      2019-3-2
- * 登录请求的返回数据
- */
+///created by sgh      2019-3-2
+/// 登录请求的返回数据
 class LoginApi {
   final String secret;   //返回的accountSecret
   final String token;    //返回的accountToken

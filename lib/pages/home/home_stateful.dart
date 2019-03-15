@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/home/model.dart';
 import 'package:flutter_bbs/pages/home/presenter.dart';
-import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
+import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
+import 'package:flutter/material.dart';
 
 ///created by sgh    2019-02-28
 ///Home中显示List的StatefulWidget
@@ -149,7 +150,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   }
 
   @override
-  IBasePresenter<IBaseView, IBaseModel> get mPresenter => _presenter;
+  IBasePresenter<IBaseView, IBaseModel> get presenter => _presenter;
 
   @override
   void setPresenter(presenter) {
@@ -168,8 +169,8 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
 
   @override
   Future toGetNetData() async {
-    User finalUser = await UserCache.finalUser();
-    return _presenter.loadNetData(type: tap, query :{ 'apphash' : await UserCache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
+    User finalUser = await user_cache.finalUser();
+    return _presenter.loadNetData(type: tap, query :{ 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
   }
 
   @override

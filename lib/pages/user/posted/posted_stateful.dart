@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-/**
- * created by sgh    2019-2-23
- * User界面“我的发表”的UI
- */
+///created by sgh    2019-2-23
+/// User界面“我的发表”的UI
 class PostedWidget extends StatefulWidget {
 
   @override

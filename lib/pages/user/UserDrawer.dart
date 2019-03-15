@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bbs/pages/user/posted/posted.dart';
 
-/**
- * create by sgh    2019-20-17
- * 用户信息的界面
- */
+///create by sgh    2019-20-17
+/// 用户信息的界面
 class UserDrawer {
 
   //返回侧拉抽屉的drawer布局

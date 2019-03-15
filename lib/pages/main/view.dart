@@ -1,15 +1,14 @@
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/pages/board/board.dart';
 import 'package:flutter_bbs/pages/home/home.dart';
 import 'package:flutter_bbs/pages/message/message.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 
-/**
- * created by sgh     2019-3-3
- * Main界面中View的实现类
- */
+import 'package:flutter/material.dart';
+
+///created by sgh     2019-3-3
+/// Main界面中View的实现类
 class MainViewImpl extends IMainView {
   IMainPresenter mainPresenterImpl;
 

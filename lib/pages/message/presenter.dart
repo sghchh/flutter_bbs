@@ -1,9 +1,11 @@
 import 'dart:convert' as convert;
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
-import 'package:dio/dio.dart';
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/message.dart';
+
+import 'package:dio/dio.dart';
 
 ///ceated by sgh     2019-3-12
 ///消息界面中的Presenter的实现类
@@ -15,24 +17,24 @@ class MsgPresenterImpl extends IBasePresenter {
 
   @override
   Future loadNetData({String type, Map<String, dynamic> query}) async{
-    Response response = await mModel.onLoadNetData(type: type, query: query);
+    Response response = await model.onLoadNetData(type: type, query: query);
     if (response.statusCode == 200) {
       switch (type) {
-        case ConstUtil.MESSAGE_PMSE:
+        case const_util.MESSAGE_PMSE:
           MsgRespListPmse result = await compute(_decodePmseRes, response.data);
           return result;
-        case ConstUtil.MESSAGE_ATME:
+        case const_util.MESSAGE_ATME:
           MsgRespListAtMe result = await compute(_decodeAtMeRes, response.data);
           return result;
-        case ConstUtil.MESSAGE_REPLY:
+        case const_util.MESSAGE_REPLY:
           MsgRespListReply result = await compute(_decodeReplyRes, response.data);
           return result;
-        case ConstUtil.MESSAGE_SYSTEM:
+        case const_util.MESSAGE_SYSTEM:
           MsgRespListSystem result = await compute(_decodeSysRes, response.data);
           return result;
       }
     }
-    mView.showToast(response.statusCode);
+    view.showToast(response.statusCode);
     return 'error';
   }
 

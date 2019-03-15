@@ -1,28 +1,25 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/edit/edit_menu_item.dart';
 
+import 'package:flutter/material.dart';
 
-/**
- * created by sgh    2019-02-28
- * 编辑帖子的界面的底部选择板块的UI
- */
+///created by sgh    2019-02-28
+/// 编辑帖子的界面的底部选择板块的UI
 class EditWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _EditState();
   }
 }
 
 class _EditState extends State<EditWidget> {
 
-  var mTypeValue = null;
-  var mBoardValue = null;
+  var typeValue;
+  var boardValue;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -30,23 +27,22 @@ class _EditState extends State<EditWidget> {
           padding: EdgeInsets.all(8),
           child: DropdownButton<String>(items: typeMenuItem,
             onChanged: (value) {setState(() {
-              mTypeValue = value;
-              print(mTypeValue.runtimeType.toString() + '======================');
+              typeValue = value;
             });},
             hint: Text('选择分类', style: TextStyle(
                 color: Colors.grey, fontSize: 16)),
-            value: mTypeValue,
+            value: typeValue,
           ),
         ),
         Container(
           padding: EdgeInsets.all(8),
-          child: DropdownButton<String>(items: mTypeValue == null ? null : getMenuItem(mTypeValue),
+          child: DropdownButton<String>(items: typeValue == null ? null : getMenuItem(typeValue),
             onChanged: (value) {setState(() {
-              mBoardValue = value;
+              boardValue = value;
             });},
             hint: Text('板块分类', style: TextStyle(
                 color: Colors.grey, fontSize: 16)),
-            value: mBoardValue,
+            value: boardValue,
           ),
         ),
         Container(

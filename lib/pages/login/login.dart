@@ -1,14 +1,15 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bbs/network/clients/client_login.dart';
-import 'package:flutter_bbs/network/json/user.dart';
-import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCacheUtil;
 import 'dart:convert' as convert;
 
-/**
- * create by sgh    2019-2-16
- * 登录界面的UI
- */
+import 'package:flutter_bbs/network/clients/client_login.dart';
+import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+
+///create by sgh    2019-2-16
+/// 登录界面的UI
 
 class LoginPageWidget extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   @override
   void initState() {
     super.initState();
-    user = UserCacheUtil.getUser();
+    user = user_cache.getUser();
   }
 
   @override
@@ -122,7 +123,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
     if (response.statusCode == 200) {
       User mUser = await compute(_getBody, response.data);
       Navigator.of(mContext).pushNamed('main/mainPage');
-      UserCacheUtil.storeUser(mUser);
+      user_cache.storeUser(mUser);
     } else {
       Scaffold.of(mContext)
           .showSnackBar(showToast(response.statusCode.toString()));
@@ -130,7 +131,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   }
 
   void _onRegasitorPressed() async {
-    var hash = await UserCacheUtil.getAppHash();
+    var hash = await user_cache.getAppHash();
   }
 
   //根据传入的内容返回一个SnackBar
@@ -144,6 +145,5 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 
 //通过compute内部调用该方法实现后台解析Json
 User _getBody(body) {
-  print("this is Login.dart _getBody method---------------------------");
   return User.fromJson(convert.jsonDecode(body));
 }

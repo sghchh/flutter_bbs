@@ -1,8 +1,10 @@
 import 'dart:convert' as convert;
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// created by sgh     2019-3-11
 /// HomePresenter中Presenter的最终实现类
@@ -14,12 +16,12 @@ class HomePresenterImpl extends IBasePresenter {
 
   @override
   Future loadNetData({String type, Map<String, dynamic> query}) async{
-    Response response = await mModel.onLoadNetData(type: type, query: query);
+    Response response = await model.onLoadNetData(type: type, query: query);
     if (response.statusCode == 200) {
       BBSRepListPost result = await compute(decodeResponse, response.data);
       return result;
     }
-    mView.showToast(response.statusCode);
+    view.showToast(response.statusCode);
     return 'error';
   }
 

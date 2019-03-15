@@ -1,7 +1,5 @@
-/**
- * created by sgh     2019-3-4
- * 登录后返回的Json封装
- */
+///created by sgh     2019-3-4
+/// 登录后返回的Json封装
 class User {
   int rs;
   String errcode;
@@ -97,9 +95,7 @@ class User {
   }
 }
 
-/**
- * User的Bean中的一部分
- */
+///User的Bean中的一部分
 class _HeadBean {
   String errCode;
   String errInfo;
@@ -122,9 +118,7 @@ class _HeadBean {
   };
 }
 
-/**
- * User的Bean中的一部分
- */
+///User的Bean中的一部分
 class _BodyBean {
   _ExternInfoBean externInfo;
   _BodyBean({this.externInfo});
@@ -136,9 +130,7 @@ class _BodyBean {
   };
 }
 
-/**
- * _BodyBean中的一部分
- */
+///_BodyBean中的一部分
 class _ExternInfoBean {
   String padding;
   _ExternInfoBean({this.padding});
@@ -149,9 +141,7 @@ class _ExternInfoBean {
   };
 }
 
-/**
- * User的Bean中的一部分
- */
+///User的Bean中的一部分
 class _CreditShowListBean {
   String type;
   String title;

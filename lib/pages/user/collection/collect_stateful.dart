@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-/**
- * created by sgh    2019-2-26
- * 用户信息中“我的收藏”的界面
- */
+///created by sgh    2019-2-26
+/// 用户信息中“我的收藏”的界面
 class CollectionWidget extends StatefulWidget {
 
   @override

@@ -1,5 +1,4 @@
 
-
 class BoardPositionInfo {
   bool isBoard;       //表示该位置的数据是否代表着板块的分类
   int mather;         //如果该位置的数据是具体的板块，那么该属性代表着属于哪个位置的板块

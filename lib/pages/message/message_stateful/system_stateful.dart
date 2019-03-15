@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
@@ -6,8 +6,10 @@ import 'package:flutter_bbs/network/json/message.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/message/model.dart';
 import 'package:flutter_bbs/pages/message/presenter.dart';
-import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCache;
-import 'package:flutter_bbs/utils/constant.dart' as ConstUtil;
+import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
+
+import 'package:flutter/material.dart';
 
 ///created by sgh     2019-2-28
 /// 构建消息界面的"系统消息"界面
@@ -101,7 +103,7 @@ class _MsgViewImpl extends State<MessageSystemWidget> with AutomaticKeepAliveCli
   }
 
   @override
-  IBasePresenter<IBaseView, IBaseModel> get mPresenter => _presenter;
+  IBasePresenter<IBaseView, IBaseModel> get presenter => _presenter;
 
   @override
   void setPresenter(presenter) {
@@ -119,10 +121,10 @@ class _MsgViewImpl extends State<MessageSystemWidget> with AutomaticKeepAliveCli
 
   @override
   Future toGetNetData() async {
-    User finaluser = await UserCache.finalUser();
-    var response = mPresenter.loadNetData (type: ConstUtil.MESSAGE_SYSTEM, query: { 'accessToken' : finaluser.token,
+    User finaluser = await user_cache.finalUser();
+    var response = presenter.loadNetData (type: const_util.MESSAGE_SYSTEM, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
-      'apphash' : await UserCache.getAppHash(),
+      'apphash' : await user_cache.getAppHash(),
       'sdkVersion' : '2.5.0.0'
     });
     return response;

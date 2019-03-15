@@ -1,13 +1,12 @@
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bbs/network/http_client.dart';
-import 'package:meta/meta.dart';
 
-/**
- * created by sgh    2019-3-2
- * 负责登录请求的Client类
- */
+import 'package:meta/meta.dart';
+import 'package:dio/dio.dart';
+
+///created by sgh    2019-3-2
+/// 负责登录请求的Client类
 class LoginClient {
   static final url = 'http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/login';    //发起登陆请求的url
 

@@ -1,8 +1,10 @@
 import 'dart:convert' as convert;
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/forum.dart';
+
+import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 
 class BoardPresenterImpl extends IBasePresenter {
 
@@ -13,12 +15,12 @@ class BoardPresenterImpl extends IBasePresenter {
 
   @override
   Future loadNetData ({String type, Map<String, dynamic> query}) async {
-    Response response = await mModel.onLoadNetData(type: type, query: query);
+    Response response = await model.onLoadNetData(type: type, query: query);
     if (response.statusCode == 200) {
       ForumListModel data = await compute(getForumListModel, response.data);
       return data;
     } else {
-      mView.showToast(response.statusCode);
+      view.showToast(response.statusCode);
       return 'error';
     }
   }

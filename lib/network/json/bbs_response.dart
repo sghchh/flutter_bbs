@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_bbs/network/json/post.dart';
 
@@ -25,10 +24,8 @@ class _Head {
         errCode = json['errCode'];
 }
 
-/**
- * Home界面“最新发表”“最新回复”“今日热点”
- * 返回的Json
- */
+///Home界面“最新发表”“最新回复”“今日热点”
+/// 返回的Json
 class BBSRepListPost {
   int rs;
   String errcode;

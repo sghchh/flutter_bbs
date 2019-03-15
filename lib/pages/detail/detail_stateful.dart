@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 class DetailWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return DetailState();
   }
 }

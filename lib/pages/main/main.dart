@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/main/model.dart';
 import 'package:flutter_bbs/pages/main/presenter.dart';
 import 'package:flutter_bbs/pages/main/view.dart';
@@ -7,10 +7,10 @@ import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/user/UserDrawer.dart';
 
-/**
- * create by sgh   2019-02-17
- * 登录后的首页面
- */
+import 'package:flutter/material.dart';
+
+///create by sgh   2019-02-17
+/// 登录后的首页面
 
 class MainPageWidget extends StatefulWidget {
 

@@ -1,12 +1,9 @@
 
-
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-/**
- * 封装了发起Http请求的客户端
- */
+///封装了发起Http请求的客户端
 class DioClient {
   static Dio _mClient;
 
@@ -18,9 +15,7 @@ class DioClient {
     return _mClient;
   }
 
-  /**
-   * 为Dio对象进行全局的请求配置
-   */
+  ///为Dio对象进行全局的请求配置
   static void _gloableConfigClient () {
     BaseOptions mOptions = BaseOptions();
     mOptions.baseUrl = 'http://bbs.uestc.edu.cn/mobcent';

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-/**
- * created by sgh     2019-3-1
- * 用来将板块列表的数据转化成Widget
- */
+///created by sgh     2019-3-1
+/// 用来将板块列表的数据转化成Widget
 class MapUtil {
 
   List _sourceData;           //从后台获取的板块列表的源数据
@@ -90,9 +88,7 @@ class MapUtil {
   }
 }
 
-/**
- * 用来构建Board界面中“分类”的Text条目
- */
+///用来构建Board界面中“分类”的Text条目
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   SliverAppBarDelegate({
     @required this.minHeight,

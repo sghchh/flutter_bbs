@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-/**
- * created by sgh    2019-2-23
- * 编辑帖子界面选择板块的item
- */
+///created by sgh    2019-2-23
+/// 编辑帖子界面选择板块的item
 var typeItem = <String>['成电校园','科技交流','休闲娱乐','跳蚤市场','站务管理'];    //类型的list
 var schoolItem = <String>['就业创业','学术交流','出国留学','情感专区','成电锐评','校园热点','学术交流','交通出行','成电轨迹','考试专区','同城同乡','毕业感言','新生专区'];
 var technologyItem = <String>['自然科学','前端之美','科技资讯','数字前端','电脑FAQ','硬件数码','Unix/Linux','程序员','电子设计'];

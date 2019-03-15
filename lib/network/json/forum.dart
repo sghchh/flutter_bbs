@@ -1,6 +1,4 @@
-/**
- * Board界面获取板块列表的Json
- */
+///Board界面获取板块列表的Json
 class ForumListModel {
   List<_Data> list;
   int online_user_num;
@@ -19,9 +17,7 @@ class ForumListModel {
   }
 }
 
-/**
- * ForumListModel的内部元素
- */
+///ForumListModel的内部元素
 class _Data {
   List<_BoardList> board_list;
   int board_category_id;
@@ -42,9 +38,7 @@ class _Data {
   }
 }
 
-/**
- * _Data的内部元素
- */
+///Data的内部元素
 class _BoardList {
   int board_id;
   String board_name;

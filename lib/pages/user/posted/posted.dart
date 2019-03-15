@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/user/posted/posted_stateful.dart';
 
-/**
- * created by sgh    2019-2-23
- * User界面“我的发表”的UI
- */
+import 'package:flutter/material.dart';
+
+///created by sgh    2019-2-23
+/// User界面“我的发表”的UI
 
 class UserPostPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

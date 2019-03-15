@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bbs/pages/login/login.dart';
 import 'package:flutter_bbs/pages/main/main.dart' as mainpage;
 import 'package:flutter_bbs/pages/edit/edit.dart' as edit;
 import 'package:flutter_bbs/pages/user/posted/posted.dart';
 import 'package:flutter_bbs/pages/user/collection/collect.dart';
 import 'package:flutter_bbs/pages/detail/detail.dart';
-import 'package:flutter_bbs/utils/user_cacahe_util.dart' as UserCacheUtil;
+import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         'login/loginPage' : (context) => LoginPageWidget(),
       },
       home: FutureBuilder<String>(
-          future: UserCacheUtil.getUser(),
+          future: user_cache.getUser(),
           builder: (context, snaphot) {
             if (snaphot.hasData) {
               if (snaphot.data == "none") {

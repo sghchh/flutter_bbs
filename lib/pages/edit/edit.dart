@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bbs/pages/edit/edit_stateful.dart';
 
-/**
- * Created by sgh   2019-2-22
- * 编辑帖子的界面
- */
+///Created by sgh   2019-2-22
+/// 编辑帖子的界面
 
 class EditPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

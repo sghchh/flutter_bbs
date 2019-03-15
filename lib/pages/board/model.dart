@@ -1,8 +1,8 @@
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/network/clients/client_board.dart';
-import 'package:flutter_bbs/network/json/forum.dart';
+
+import 'package:dio/dio.dart';
 
 class BoardModelImpl extends IBaseModel {
 

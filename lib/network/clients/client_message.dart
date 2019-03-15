@@ -1,7 +1,7 @@
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bbs/network/http_client.dart';
 
+import 'package:dio/dio.dart';
 
 class MsgClient {
   static final String replyMsg = '/app/web/index.php?r=message/notifylistex&type=post&pageSize=100';

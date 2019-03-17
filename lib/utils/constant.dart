@@ -12,5 +12,7 @@ const String user_publish = 'user_publish';       //用来区分User界面中当
 const String userPublishType = 'topic';            //用户界面中获取已经发表消息时必须传递的type参数的值
 const String user_favourite = 'user_favourite';     //用来区分User界面中当前的请求是：我的收藏
 const String userFavoriteType = 'favorite';        //用户界面中获取我的收藏时必须传递的type参数的值
+const String user_friends = 'user_friends';           //用来区分User界面中当前的请求是：好友列表
+const String userFriendsType = 'friend';          //用户界面中获取好友列表时必须传递的type参数的值
 
 const String sdkVersion = "2.5.0.0";

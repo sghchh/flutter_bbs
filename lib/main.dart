@@ -2,6 +2,7 @@
 import 'package:flutter_bbs/pages/login/login.dart';
 import 'package:flutter_bbs/pages/main/main.dart' as mainpage;
 import 'package:flutter_bbs/pages/edit/edit.dart' as edit;
+import 'package:flutter_bbs/pages/user/friends/friends.dart';
 import 'package:flutter_bbs/pages/user/posted/posted.dart';
 import 'package:flutter_bbs/pages/user/collection/collect.dart';
 import 'package:flutter_bbs/pages/detail/detail.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         'user/userCollection' : (context) => UserCollectionWidget(),
         'detail/detailPage' : (context) => DetailPageWidget(),
         'login/loginPage' : (context) => LoginPageWidget(),
+        'user/userFriends' : (context) => UserFriendsWidget(),
       },
       home: FutureBuilder<String>(
           future: user_cache.getUser(),

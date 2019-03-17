@@ -91,11 +91,11 @@ class User {
 
   @override
   String toString() {
-    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}, \"userTitle\" : ${this.userTitle}, \"uid\" : ${this.uid}}";
+    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}, \"userTitle\" : ${this.userTitle}, \"uid\" : ${this.uid}, \"creditShowList\" : [{\"type\" : ${this.creditShowList[0].type}, \"title\" : ${this.creditShowList[0].title}, \"data\" : ${this.creditShowList[0].data}}, {\"type\" : ${this.creditShowList[1].type}, \"title\" : ${this.creditShowList[1].title}, \"data\" : ${this.creditShowList[1].data}}]}";
   }
 }
 
-///User的Bean中的一部分
+///User以及UserList的Bean中的一部分
 class _HeadBean {
   String errCode;
   String errInfo;
@@ -118,7 +118,7 @@ class _HeadBean {
   };
 }
 
-///User的Bean中的一部分
+///User以及UserList的Bean中的一部分
 class _BodyBean {
   _ExternInfoBean externInfo;
   _BodyBean({this.externInfo});
@@ -205,7 +205,74 @@ class UserPublish {
         this.essence = json['essence'],
         this.hot = json['hot'],
         this.userAvatar = json['userAvatar'];
+}
 
+/// 用户界面中获取好友列表的json类
+class UserList {
+  int rs;
+  String errcode;
+  _HeadBean head;
+  _BodyBean body;
+  int page;
+  int has_next;
+  int total_num;
+  List<ListBean> list;
 
+  UserList.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.errcode = json['errcode'],
+        this.head = _HeadBean.fromJson(json['head']),
+        this.body = _BodyBean.fromJson(json['body']),
+        this.page = json['page'],
+        this.has_next = json['has_next'],
+        this.total_num = json['total_num'] {
+    var result = <ListBean>[];
+    for (int i = 0; i < json['list'].length; i++) {
+      var item = ListBean.fromJson(json['list'][i]);
+      result.add(item);
+    }
+    this.list = result;
+  }
+}
 
+/// UserList的一部分
+class ListBean {
+  String distance;
+  String location;
+  int is_friend;
+  int isFriend;
+  int isFollow;
+  int uid;
+  String name;
+  int status;
+  int is_black;
+  int gender;
+  String icon;
+  int level;
+  String userTitle;
+  String lastLogin;
+  String dateline;
+  String signature;
+  int credits;
+  List verify;
+
+  ListBean.fromJson(Map<String, dynamic> json)
+      : this.distance = json['distance'],
+        this.location = json['location'],
+        this.is_friend = json['is_friend'],
+        this.isFriend = json['isFriend'],
+        this.isFollow = json['isFollow'],
+        this.uid = json['uid'],
+        this.name = json['name'],
+        this.status = json['status'],
+        this.is_black = json['is_black'],
+        this.gender = json['gender'],
+        this.icon = json['icon'],
+        this.level = json['level'],
+        this.userTitle = json['userTitle'],
+        this.lastLogin = json['lastLogin'],
+        this.dateline = json['dateline'],
+        this.signature = json['signature'],
+        this.credits = json['credits'],
+        this.verify = json['verify'];
 }

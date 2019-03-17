@@ -21,6 +21,9 @@ class UserModelImpl extends IBaseModel{
       case const_util.user_favourite:
         result = await UserClient.getUserFavorite(query);
         break;
+      case const_util.user_friends:
+        result = await UserClient.getUserFriends(query);
+        break;
     }
     return result;
   }

@@ -26,8 +26,13 @@ class HomePresenterImpl extends IBasePresenter {
   }
 
   @override
-  refresh({String type, Map<String, dynamic> query}) {
-    return null;
+  refresh({String type, Map<String, dynamic> query}) async {
+    Response response = await model.onRefresh(type: type, query: query);
+    if (response.statusCode == 200) {
+      BBSRepListPost result = await compute(decodeResponse, response.data);
+      view.bindData(result);
+    }
+    view.showToast(response.statusCode);
   }
 }
 

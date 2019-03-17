@@ -23,7 +23,6 @@ class UserPresenterImpl extends IBasePresenter {
       view.showToast(response.statusCode);
       return 'error';
     }
-
     var result;
 
     switch(type) {

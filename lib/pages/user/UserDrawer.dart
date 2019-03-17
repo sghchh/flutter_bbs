@@ -83,7 +83,7 @@ class _UserPageWidgetState extends State<_UserPageWidget> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(padding: EdgeInsets.only(bottom: 6),child: Text('Name',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white),),),
+            Container(padding: EdgeInsets.only(bottom: 6),child: Text(sourceData.userName,style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white),),),
             Container(padding: EdgeInsets.only(left:3,bottom: 4),child: Text('等级: ${sourceData.userTitle}',style: TextStyle(fontSize: 14,color: Colors.white),),),
             Container(padding: EdgeInsets.only(left:3,bottom: 4),child: Text('积分: ${sourceData.creditShowList[0].data}',style: TextStyle(fontSize: 14,color: Colors.white),),),
             Container(padding: EdgeInsets.only(left:3,bottom: 4),child: Text('水滴: ${sourceData.creditShowList[1].data}',style: TextStyle(fontSize: 14,color: Colors.white),),),

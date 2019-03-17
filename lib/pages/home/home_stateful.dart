@@ -44,6 +44,8 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
 
   final String tap;
 
+  int page = 1;       //表示当前数据一共几页
+
   _HomeViewImpl(this.tap);
 
   @override
@@ -61,7 +63,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
         }
         data = snaphot.data.list;
         return RefreshIndicator(
-          onRefresh: onRefresh,
+          onRefresh: toRefresh,
           child: ListView.builder(
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -141,11 +143,6 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
     );
   }
 
-  Future<Null> onRefresh() async{
-    await Future.delayed(Duration(seconds: 2));
-    return null;
-  }
-
   @override
   IBasePresenter<IBaseView, IBaseModel> get presenter => _presenter;
 
@@ -167,18 +164,24 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    return _presenter.loadNetData(type: tap, query :{ 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
+    return presenter.loadNetData(type: tap, query :{ 'page' : page, 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
   }
 
-  @override
-  toRefresh() {
 
-    return null;
+  //和toGetNetData的区别就是没有返回值，而是通过bindData方法更新数据
+  @override
+  Future<void> toRefresh() async {
+    User finalUser = await user_cache.finalUser();
+    await presenter.refresh(type : tap, query: { 'page' : 1, 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
   }
 
   @override
   bindData(sourcedata) {
-    return null;
+    setState(() {
+      //将page重置为1
+      this.page = 1;
+      this.data = sourcedata.list;
+    });
   }
 
   @override

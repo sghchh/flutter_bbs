@@ -27,7 +27,7 @@ class HomeClient {
 
   //获取"最新发表"的数据
   static Future getNewPublish(Map query) async{
-    var newQuery = {'accountToken' : query['accountToken'], 'accountSecret' : query['accountSecret'], 'apphash' : query['apphash'], 'sortby' : 'new'};
+    var newQuery = {'accountToken' : query['accountToken'], 'accountSecret' : query['accountSecret'], 'apphash' : query['apphash'], 'sortby' : 'new', 'page' : query['page']};
     final response = await _client.post(newPublish, queryParameters: newQuery);
     return response;
   }

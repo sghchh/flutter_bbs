@@ -24,8 +24,17 @@ class HomeModelImpl extends IBaseModel implements IMainModel {
   }
 
   @override
-  Future onRefresh({String type, Map<String, dynamic> query}) {
-
+  Future onRefresh({String type, Map<String, dynamic> query}) async {
+    switch(type) {
+      case const_util.NEWPUBLISH:
+        return await HomeClient.getNewPublish(query);
+        break;
+      case const_util.NEWREPLY:
+        return await HomeClient.getNewReply(query);
+        break;
+      default:
+        return await HomeClient.getTodayHot(query);
+    }
   }
 
 }

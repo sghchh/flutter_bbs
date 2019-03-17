@@ -91,7 +91,7 @@ class User {
 
   @override
   String toString() {
-    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}, \"userTitle\" : ${this.userTitle}}";
+    return "{ \"userName\" : ${userName}, \"avatar\" : ${this.avatar}, \"token\" : ${this.token}, \"secret\" : ${this.token}, \"userTitle\" : ${this.userTitle}, \"uid\" : ${this.uid}}";
   }
 }
 
@@ -158,5 +158,54 @@ class _CreditShowListBean {
     'title' : this.title,
     'data' : this.data
   };
+}
+
+/// 用户信息界面中已经发表帖子的json
+class UserPublish {
+  String pic_path;
+  int board_id;
+  String board_name;
+  int topic_id;
+  int type_id;
+  int sort_id;
+  String title;
+  String subject;
+  int user_id;
+  String last_reply_date;
+  String user_nick_name;
+  int hits;
+  int replies;
+  int top;
+  int status;
+  int essence;
+  int hot;
+  String userAvatar;
+
+  UserPublish(this.pic_path, this.board_id, this.board_name, this.topic_id,
+      this.type_id, this.sort_id, this.title, this.subject, this.user_id,
+      this.last_reply_date, this.user_nick_name, this.hits, this.replies,
+      this.top, this.status, this.essence, this.hot, this.userAvatar,);
+
+  UserPublish.fromJson(Map<String, dynamic> json)
+      : this.pic_path = json['pic_path'],
+        this.board_id = json['board_id'],
+        this.board_name = json['board_name'],
+        this.topic_id = json['topic_id'],
+        this.type_id = json['type_id'],
+        this.sort_id = json['sort_id'],
+        this.title = json['title'],
+        this.subject = json['subject'],
+        this.user_id = json['user_id'],
+        this.last_reply_date = json['last_reply_date'],
+        this.user_nick_name = json['user_nick_name'],
+        this.hits = json['hits'],
+        this.replies = json['replies'],
+        this.top = json['top'],
+        this.status = json['status'],
+        this.essence = json['essence'],
+        this.hot = json['hot'],
+        this.userAvatar = json['userAvatar'];
+
+
 
 }

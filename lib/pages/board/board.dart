@@ -38,15 +38,15 @@ class BoardWidget extends StatefulWidget {
 
   BoardWidget() {
     this.presenter = BoardPresenterImpl();
-    this.view = BoardViewImpl();
     this.model = BoardModelImpl();
-    presenter.bindView(view);
-    presenter.bindModel(model);
-    view.setPresenter(presenter);
   }
   
   @override
   State<StatefulWidget> createState() {
+    this.view = BoardViewImpl();
+    presenter.bindView(view);
+    presenter.bindModel(model);
+    view.setPresenter(presenter);
     return view;
   }
   

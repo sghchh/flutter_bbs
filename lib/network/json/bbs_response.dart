@@ -1,5 +1,6 @@
 
 import 'package:flutter_bbs/network/json/post.dart';
+import 'package:flutter_bbs/network/json/user.dart';
 
 class BBSResponse<T> {
   int rs;
@@ -54,8 +55,37 @@ class BBSRepListPost {
       }
       this.list = result;
     }
-
-
   }
+}
+
+/// 用户信息界面返回已发帖子的json
+class BBSRespListUserPub {
+  int rs;
+  String errcode;
+  int page;
+  int hasNext;
+  int totalNum;
+  _Head head;
+  List<UserPublish> list;
+
+  BBSRespListUserPub(this.rs, this.errcode, this.page, this.hasNext,
+      this.totalNum, this.head, this.list);
+
+  BBSRespListUserPub.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.errcode = json['errcode'],
+        this.page = json['page'],
+        this.hasNext = json['hasNext'],
+        this.totalNum = json['totalNum'],
+        this.head = _Head.fromJson(json['head']) {
+
+    var result = <UserPublish>[];
+    for (int i = 0; i < json['list'].length; i++) {
+      var item = UserPublish.fromJson(json['list'][i]);
+      result.add(item);
+    }
+    this.list = result;
+  }
+
 
 }

@@ -1,5 +1,6 @@
 
 import 'package:flutter_bbs/network/json/post.dart';
+import 'package:flutter_bbs/network/json/reply.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 
 class BBSResponse<T> {
@@ -86,6 +87,33 @@ class BBSRespListUserPub {
     }
     this.list = result;
   }
+}
 
+/// 帖子详情返回的json
+class PostDetailResponse {
+  int rs;
+  String errcode;
+  int page;
+  int hasNext;
+  int totalNum;
+  _Head head;
+  List<ReplyDetail> list;
+  PostDetail topic;
 
+  PostDetailResponse.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.errcode = json['errcode'],
+        this.page = json['page'],
+        this.hasNext = json['hasNext'],
+        this.totalNum = json['totalNum'],
+        this.head = _Head.fromJson(json['head']),
+        this.topic = PostDetail.fromJson(json['topic']) {
+
+    var result = <ReplyDetail>[];
+    for (int i = 0; i < json['list'].length; i++) {
+      var item = ReplyDetail.fromJson(json['list'][i]);
+      result.add(item);
+    }
+    this.list = result;
+  }
 }

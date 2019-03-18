@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
         'edit/editPage': (context) => edit.EditPageWidget(),
         'user/userPost': (context) => UserPostPageWidget(),
         'user/userCollection' : (context) => UserCollectionWidget(),
-        'detail/detailPage' : (context) => DetailPageWidget(),
         'login/loginPage' : (context) => LoginPageWidget(),
         'user/userFriends' : (context) => UserFriendsWidget(),
       },

@@ -2,7 +2,9 @@
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/network/json/post.dart';
 import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/pages/detail/detail.dart';
 import 'package:flutter_bbs/pages/home/model.dart';
 import 'package:flutter_bbs/pages/home/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
@@ -19,19 +21,18 @@ class HomeWidget extends StatefulWidget {
   _HomeViewImpl _view;
   //表示该HomeWidget显示的List的内容，tap值为"最新回复""最新发表""今日热门"三者之一
   String tap = '最新回复';
-  List _data;     //页面展示的数据源
 
   HomeWidget({@required this.tap}){
     this._presenter = HomePresenterImpl();
     this._model = HomeModelImpl();
-    this._view = _HomeViewImpl(tap);
-    _presenter.bindModel(_model);
-    _presenter.bindView(_view);
-    _view.setPresenter(_presenter);
   }
 
   @override
   State<StatefulWidget> createState() {
+    this._view = _HomeViewImpl(tap);
+    _presenter.bindModel(_model);
+    _presenter.bindView(_view);
+    _view.setPresenter(_presenter);
     return _view;
   }
 }
@@ -41,7 +42,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
 
   IBasePresenter _presenter;   //用啦发起网络请求的Presenter
 
-  List data;          //展示的数据源
+  List<Post> data;          //展示的数据源
 
   String tap;    //表示该页代表的内容
 
@@ -110,7 +111,14 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
         itemBuilder: (context, index) {
           if (index < data.length) {
             return GestureDetector(
-              onTap: () => Navigator.of(context, rootNavigator: true).pushNamed('detail/detailPage'),
+              onTap: () {
+                var post = data[index];
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context){
+                      //注意今日热点的topicId等同于其source_id
+                      return DetailPageWidget(this.tap == const_util.TODATHOT ? post.source_id : post.topic_id);
+                    }));
+              },
               child: Container(
                 padding: const EdgeInsets.only(top: 6, bottom: 6, left: 10, right: 8),
                 margin: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
@@ -219,6 +227,11 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
         child: Text("上拉加载更多...", style: TextStyle(color: Colors.blueGrey)),
       ),
     );
+  }
+
+  //点击事件
+  Function _onClick() {
+
   }
 
   @override

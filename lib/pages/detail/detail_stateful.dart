@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 
 class DetailWidget extends StatefulWidget {
 
+  int topicId;          // 请求时必须传递的参数
+
+  DetailWidget(this.topicId);
+
   @override
   State<StatefulWidget> createState() {
-    return DetailState();
+    return DetailState(this.topicId);
   }
 }
 
 class DetailState extends State<DetailWidget> {
+
+  int topicId;
+
+  DetailState(this.topicId);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +27,7 @@ class DetailState extends State<DetailWidget> {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(bottom: 1),
-            child: Text('帖子标题', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
+            child: Text('帖子标题 ${topicId}', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
           ),
           Row(
             children: <Widget>[

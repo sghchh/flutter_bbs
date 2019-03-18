@@ -5,8 +5,8 @@
 class Post {
   int board_id;
   String board_name;
-  int topic_id;
-  int source_id;
+  int topic_id;         //该字段在除今日热点的返回数据中出现
+  int source_id;      //该字段只在今日热点的返回数据中出现，其值和topic_id相同
   String type;
   String title;
   int user_id;
@@ -48,6 +48,9 @@ class Post {
         this.vote = jsonSource['vote'];
 }
 
+
+/// 帖子详情的一部分
+/// 封装在PostDetailResponse中
 class PostDetail {
   int topic_id;
   String title;
@@ -157,3 +160,4 @@ class PostMessage {
         this.replied_date = json['replied_date'];
 
 }
+

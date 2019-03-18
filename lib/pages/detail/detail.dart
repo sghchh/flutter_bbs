@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 /// "帖子详情"的展示界面
 class DetailPageWidget extends StatelessWidget {
 
+  int topicId;         //获取帖子详情必须传递的参数
+
+  DetailPageWidget(this.topicId);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +21,7 @@ class DetailPageWidget extends StatelessWidget {
           title: Text('帖子详情', style: TextStyle(fontSize: 24, color: Colors.white),),
           centerTitle: true,
         ),
-        body: DetailWidget(),
+        body: DetailWidget(this.topicId),
       ),
     );
   }

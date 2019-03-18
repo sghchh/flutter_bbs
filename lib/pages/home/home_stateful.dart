@@ -11,6 +11,7 @@ import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ///created by sgh    2019-02-28
 ///Home中显示List的StatefulWidget
@@ -128,7 +129,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
                     Container(
                       margin: const EdgeInsets.only(top: 10, right: 10),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(data[index].userAvatar),
+                        backgroundImage: CachedNetworkImageProvider(data[index].userAvatar),
                         radius: 30,
                       ),
                     ),

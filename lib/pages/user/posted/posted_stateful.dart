@@ -9,6 +9,7 @@ import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ///created by sgh    2019-2-23
 /// User界面“我的发表”的UI
@@ -66,7 +67,7 @@ class _UserViewImpl extends State<PostedWidget> implements IBaseView {
                       Container(
                         margin: const EdgeInsets.only(top: 10, right: 12),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(sourceData[index].userAvatar),
+                          backgroundImage: CachedNetworkImageProvider(sourceData[index].userAvatar),
                           radius: 30,
                         ),
                       ),

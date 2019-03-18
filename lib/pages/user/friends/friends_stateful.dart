@@ -8,6 +8,7 @@ import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FriendsWidget extends StatefulWidget {
 
@@ -49,7 +50,7 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
           itemCount: sourceData.length,
           itemBuilder: (context, index) {
             return ListTile(
-                leading: CircleAvatar(backgroundImage: NetworkImage(sourceData[index].icon), radius: 16,),
+                leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData[index].icon), radius: 16,),
                 title: Text(sourceData[index].name,style: TextStyle(fontSize: 18),)
             );
           },

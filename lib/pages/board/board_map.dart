@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ///created by sgh     2019-3-1
 /// 用来将板块列表的数据转化成Widget
@@ -35,7 +37,7 @@ class MapUtil {
       )),
     );
     results.add(name);
-    results.add(_mapBoard(sourceData.board_list));
+    results.add(_mapCardBoard(sourceData.board_list));
     return results;
   }
 
@@ -87,6 +89,49 @@ class MapUtil {
     );
   }
 }
+
+// 构建Card的板块
+_mapCardBoard(sourceBoardData) {
+  return SliverGrid(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 4,
+    ),
+    delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+        return _buildItem(sourceBoardData[index]);
+      },
+      childCount: sourceBoardData.length,
+    ),
+  );
+}
+
+// 构建card布局
+Widget _buildItem(data) {
+  return Container(
+    //padding: EdgeInsets.all(8),
+    child: Card(
+      child: Column(
+        children: <Widget>[
+          Align(
+            child: Container(
+              padding: EdgeInsets.only(top: 5),
+              child: CachedNetworkImage(imageUrl: data.board_img, height: 60, width: 60,),
+            ),
+            alignment: Alignment.topCenter,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: EdgeInsets.only(top: 4, bottom: 2),
+              child: Text("${data.board_name}" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 
 ///用来构建Board界面中“分类”的Text条目
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

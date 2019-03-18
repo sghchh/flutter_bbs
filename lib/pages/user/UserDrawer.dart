@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+
+import 'package:cached_network_image/cached_network_image.dart';
+
 ///create by sgh    2019-20-17
 /// 用户信息的界面
 class UserDrawer {
@@ -76,7 +79,7 @@ class _UserPageWidgetState extends State<_UserPageWidget> {
         Container(
           padding: EdgeInsets.only(right: 20),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(sourceData.avatar),
+            backgroundImage: CachedNetworkImageProvider(sourceData.avatar),
             radius: 48,
           ),
         ),
@@ -91,20 +94,6 @@ class _UserPageWidgetState extends State<_UserPageWidget> {
         )
       ],
     );
-  }
-
-  //构建展开后的好友列表的方法
-  List<Widget> _getFriends() {
-    return <Widget>[
-      ListTile(
-        leading: CircleAvatar(backgroundImage: AssetImage('images/c.jpg'), radius: 16,),
-        title: Text('好友姓名',style: TextStyle(fontSize: 18),)
-      ),
-      ListTile(
-        leading: CircleAvatar(backgroundImage: AssetImage('images/c.jpg'), radius: 16,),
-          title: Text('好友姓名',style: TextStyle(fontSize: 18),)
-      ),
-    ];
   }
 
 }

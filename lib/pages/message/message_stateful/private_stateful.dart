@@ -10,6 +10,7 @@ import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ///created by sgh     2019-2-28
 /// 构建消息界面的"私信"界面
@@ -62,7 +63,7 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
                       Container(
                         margin: EdgeInsets.only(right: 12, top: 10),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(sourceData[index].toUserAvatar),
+                          backgroundImage: CachedNetworkImageProvider(sourceData[index].toUserAvatar),
                           radius: 24,
                         ),
                       ),

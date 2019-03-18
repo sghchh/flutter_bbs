@@ -9,6 +9,7 @@ import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 ///created by sgh    2019-2-26
 /// 用户信息中“我的收藏”的界面
@@ -60,7 +61,7 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
                   Container(
                     margin: const EdgeInsets.only(top: 10, right: 12),
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(sourceData[index].userAvatar),
+                      backgroundImage: CachedNetworkImageProvider(sourceData[index].userAvatar传递),
                       radius: 30,
                     ),
                   ),

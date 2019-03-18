@@ -122,7 +122,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
         await LoginClient.login(type: 'login', username: name, password: pass);
     if (response.statusCode == 200) {
       User mUser = await compute(_getBody, response.data);
-      Navigator.of(mContext).pushNamed('main/mainPage');
+      Navigator.of(mContext).popAndPushNamed('main/mainPage');
       user_cache.storeUser(mUser);
     } else {
       Scaffold.of(mContext)

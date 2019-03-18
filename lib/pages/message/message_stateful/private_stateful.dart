@@ -98,7 +98,7 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
   bool get wantKeepAlive => true;
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     return null;
   }
 

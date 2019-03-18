@@ -59,7 +59,7 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
   }
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     return null;
   }
 

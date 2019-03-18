@@ -130,7 +130,7 @@ class _UserViewImpl extends State<PostedWidget> implements IBaseView {
   }
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     return null;
   }
 

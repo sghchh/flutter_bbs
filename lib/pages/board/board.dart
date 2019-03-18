@@ -115,7 +115,7 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
   }
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     //print("this is bindData in BoardView ---------------${sourcedata.toString()}");
     setState(() {
       this.sourceData = sourcedata;

@@ -122,7 +122,7 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
   }
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     return null;
   }
 

@@ -108,7 +108,7 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
   bool get wantKeepAlive => true;
 
   @override
-  bindData(sourcedata) {
+  bindData(sourcedata, type) {
     return null;
   }
 

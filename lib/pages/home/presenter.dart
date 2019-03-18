@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -10,8 +11,19 @@ import 'package:flutter/foundation.dart';
 /// HomePresenter中Presenter的最终实现类
 class HomePresenterImpl extends IBasePresenter {
   @override
-  loadMoreNetData({String type, Map<String, dynamic> query}) {
-    return null;
+  loadMoreNetData({String type, Map<String, dynamic> query}) async{
+    Response response = await model.onLoadMoreData(type: type, query: query);
+    if (response.statusCode == 200) {
+      BBSRepListPost result = await compute(decodeResponse, response.data);
+      if (result.list.length > 0) {
+        view.bindData(result, const_util.loadMore);
+      } else {
+        //表示没有更多数据了
+        view.bindData(result, const_util.noMore);
+      }
+    }else {
+      view.showToast(response.statusCode);
+    }
   }
 
   @override
@@ -30,9 +42,10 @@ class HomePresenterImpl extends IBasePresenter {
     Response response = await model.onRefresh(type: type, query: query);
     if (response.statusCode == 200) {
       BBSRepListPost result = await compute(decodeResponse, response.data);
-      view.bindData(result);
+      view.bindData(result, const_util.refresh);
+    } else {
+      view.showToast(response.statusCode);
     }
-    view.showToast(response.statusCode);
   }
 }
 

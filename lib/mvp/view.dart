@@ -24,7 +24,7 @@ abstract class IBaseView extends IMVPView {
   //刷新的方法
   toRefresh();
 
-  bindData(sourcedata);
+  bindData(sourcedata, type);
 }
 
 abstract class IMainView extends IMVPView{

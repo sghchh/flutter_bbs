@@ -3,6 +3,7 @@ import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
 import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/pages/board/board_map.dart';
 import 'package:flutter_bbs/pages/detail/model.dart';
 import 'package:flutter_bbs/pages/detail/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
@@ -55,76 +56,94 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
         //网络错误
         if (snaphot.data.runtimeType == String)
           return Text('error');
-        sourceData = snaphot.data;
-        return Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(bottom: 1),
-                child: Text(sourceData.topic.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(6),
-                    child: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(sourceData.topic.icon),
-                      radius: 28,
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(bottom: 6),
-                        child: Text(sourceData.topic.user_nick_name, style: TextStyle(fontSize: 14, color: Colors.lightBlue),),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 6),
-                        child: Text(sourceData.topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 4),
-                padding: EdgeInsets.only(left: 12, right: 10),
-                child: Divider(height: 1, color: Colors.blueGrey,),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
-                child: Text(sourceData.topic.content[0].infor, style: TextStyle(fontSize: 14,),
-                  maxLines: 100,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 12, right: 10),
-                child: Divider(height: 1, color: Colors.grey,),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 14, right: 12),
-                child: Text("评论", style: TextStyle(fontSize: 16, color: Colors.grey),
-                  maxLines: 100,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 12, right: 10),
-                child: Divider(height: 1, color: Colors.blueGrey,),
-              ),
-              Flexible(child: ListView.builder(itemBuilder: _buildListItem, itemCount: sourceData.list.length,),)
-            ],
-          ),
-        );
 
+        // 成功获取网络数据
+        sourceData = snaphot.data;
+        return _buildNew();
       },
     );
   }
 
-  //构建列表项的item
+  Widget _buildNew () {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate(_buildHeadContent, childCount: sourceData.topic.content.length + 1),
+        ),
+        SliverPersistentHeader(
+          delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 25,
+              child: Container(
+                padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
+                child: Text("评论", textAlign: TextAlign.center,textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
+              ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(_buildListItem, childCount: sourceData.list.length),
+        )
+      ],
+    );
+  }
+
+  // 构建发帖人及其帖子内容的widget
+  Widget _buildHeadContent(context, index) {
+    // 构建头像等
+    if (index == 0) {
+      return Container(
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(bottom: 1),
+              child: Text(sourceData.topic.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(6),
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(sourceData.topic.icon),
+                    radius: 24,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(bottom: 6),
+                      child: Text(sourceData.topic.user_nick_name, style: TextStyle(fontSize: 16, color: Colors.blueGrey),),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 6),
+                      child: Text(sourceData.topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 4),
+              //padding: EdgeInsets.only(left: 12, right: 10),
+              child: Divider(height: 1, color: Colors.blueGrey,),
+            ),
+            //ListView.builder(shrinkWrap: true, itemBuilder: _buildHeadContent, itemCount: sourceData.topic.content.length,)
+          ],
+        ),
+      );
+    }
+
+    // 构建帖子内容
+    return Container(
+      padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
+      child: Text(sourceData.topic.content[0].infor, style: TextStyle(fontSize: 14,),
+        maxLines: 100,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  //构建回复列表项的item
   Widget _buildListItem(context, index) {
     return Container(
       padding: EdgeInsets.only(top: 12, left: 6, right: 6, bottom: 8),

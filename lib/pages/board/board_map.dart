@@ -29,12 +29,10 @@ class MapUtil {
     var categoryId = sourceData.board_category_name;        //获取板块分类的名称
     List<Widget> results = <Widget>[];
     var name = SliverPersistentHeader(
-      delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 40, child: Card(
-        child: Container(
-          padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
-          child: Text("${categoryId}", textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
-        ),
-      )),
+      delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 40, child: Container(
+        padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
+        child: Text("${categoryId}", textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
+      ),),
     );
     results.add(name);
     results.add(_mapCardBoard(sourceData.board_list));

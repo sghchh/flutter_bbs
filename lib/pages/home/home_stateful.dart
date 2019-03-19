@@ -141,7 +141,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text('${data[index].user_nick_name}', style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
+                                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueGrey)),
                             Text('${data[index].board_name}',
                               style: TextStyle(fontSize: 12, color: Colors.grey),
                               textAlign: TextAlign.right,),
@@ -155,7 +155,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
                         Container(
                             padding: EdgeInsets.only(top: 4, bottom: 4),
                             child: Text('${data[index].title}',
-                              style: TextStyle(fontSize: 18, color: Colors.black),
+                              style: TextStyle(fontSize: 14, color: Colors.black),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               softWrap: true,)

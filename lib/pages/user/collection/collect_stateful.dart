@@ -61,7 +61,7 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
                   Container(
                     margin: const EdgeInsets.only(top: 10, right: 12),
                     child: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(sourceData[index].userAvatar传递),
+                      backgroundImage: CachedNetworkImageProvider(sourceData[index].userAvatar),
                       radius: 30,
                     ),
                   ),

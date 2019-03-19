@@ -115,15 +115,15 @@ Widget _buildItem(data) {
           Align(
             child: Container(
               padding: EdgeInsets.only(top: 5),
-              child: CachedNetworkImage(imageUrl: data.board_img, height: 60, width: 60,),
+              child: CachedNetworkImage(imageUrl: data.board_img, height: 55, width: 55,),
             ),
             alignment: Alignment.topCenter,
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 4, bottom: 2),
-              child: Text("${data.board_name}" , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              margin: EdgeInsets.only(top: 2, bottom: 2),
+              child: Text("${data.board_name}" , style: TextStyle( fontSize: 12)),
             ),
           )
         ],

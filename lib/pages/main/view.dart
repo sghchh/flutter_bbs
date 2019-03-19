@@ -53,11 +53,11 @@ class MainViewImpl extends IMainView {
   //构建Home的TabBar
   Widget _buildHmoeTabBar() {
     return TabBar(
-      labelPadding: EdgeInsets.all(8),
+      labelPadding: EdgeInsets.all(6),
       tabs: <Widget>[
-        Text(homeTabTitles[0], style: TextStyle(fontSize: 16)),
-        Text(homeTabTitles[1], style: TextStyle(fontSize: 16)),
-        Text(homeTabTitles[2], style: TextStyle(fontSize: 16))
+        Text(homeTabTitles[0], style: TextStyle(fontSize: 15)),
+        Text(homeTabTitles[1], style: TextStyle(fontSize: 15)),
+        Text(homeTabTitles[2], style: TextStyle(fontSize: 15))
       ],
     );
   }
@@ -66,12 +66,12 @@ class MainViewImpl extends IMainView {
   //构建Message的TabBar
   Widget _buildMessageTabBar() {
     return TabBar(
-      labelPadding: EdgeInsets.all(8),
+      labelPadding: EdgeInsets.all(6),
       tabs: <Widget>[
-        Text(messageTabTitles[0], style: TextStyle(fontSize: 16)),
-        Text(messageTabTitles[1], style: TextStyle(fontSize: 16)),
-        Text(messageTabTitles[2], style: TextStyle(fontSize: 16)),
-        Text(messageTabTitles[3], style: TextStyle(fontSize: 16))
+        Text(messageTabTitles[0], style: TextStyle(fontSize: 15)),
+        Text(messageTabTitles[1], style: TextStyle(fontSize: 15)),
+        Text(messageTabTitles[2], style: TextStyle(fontSize: 15)),
+        Text(messageTabTitles[3], style: TextStyle(fontSize: 15))
       ],
     );
   }

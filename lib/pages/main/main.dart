@@ -66,22 +66,24 @@ class _MainPageWidgetState extends State<MainPageWidget>
           length: 4,
           //由于该属性为final修饰的，所以这里不能根据_currentInteIndfex来进行适配，直接赋值为了4
           child: Scaffold(
-              appBar: AppBar(
-                  leading: Builder(builder: (context) {
-                    return IconButton(icon: Icon(
-                      Icons.person, color: Colors.white, size: 38.0,),
-                      onPressed: () => Scaffold.of(context).openDrawer(),);
-                  }),
-                  title: Text('清水河畔', style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: Colors.white),),
-                  centerTitle: true,
-                  actions: <Widget>[IconButton(
-                    icon: Icon(Icons.search, color: Colors.white, size: 38.0,),
-                    onPressed: null,)
-                  ],
-                  bottom: _getTabBar()
+              appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),
+                child: AppBar(
+                    leading: Builder(builder: (context) {
+                      return IconButton(icon: Icon(
+                        Icons.person, color: Colors.white, size: 35.0,),
+                        onPressed: () => Scaffold.of(context).openDrawer(),);
+                    }),
+                    title: Text('清水河畔', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white),),
+                    centerTitle: true,
+                    actions: <Widget>[IconButton(
+                      icon: Icon(Icons.search, color: Colors.white, size: 35.0,),
+                      onPressed: null,)
+                    ],
+                    bottom: _getTabBar()
+                ),
               ),
               bottomNavigationBar: BottomNavigationBar(
                 items: _bottomNavigationBar,

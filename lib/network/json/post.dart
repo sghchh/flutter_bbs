@@ -59,7 +59,7 @@ class PostDetail {
   int replies;
   int vote;
   int is_favor;
-  int create_date;
+  String create_date;
   String icon;
   List<_Content> content;
 
@@ -84,8 +84,15 @@ class PostDetail {
         this.vote = json['vote'],
         this.is_favor = json['is_favor'],
         this.create_date = json['create_date'],
-        this.icon = json['icon'],
-        this.content = json['content'].map((value) => _Content.fromJson(value));
+        this.icon = json['icon'] {
+
+    var result = <_Content>[];
+    for (int i = 0; i < json['content'].length; i ++) {
+      var item = _Content.fromJson(json['content'][i]);
+      result.add(item);
+    }
+    this.content = result;
+  }
 }
 
 class _Content {

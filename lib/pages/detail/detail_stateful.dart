@@ -9,6 +9,8 @@ import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 class DetailWidget extends StatefulWidget {
 
   PostPresenterImpl _presenter;
@@ -35,7 +37,7 @@ class DetailWidget extends StatefulWidget {
 
 class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
-  int page;         //记录当前的页数
+  int page = 1;         //记录当前的页数
   int topicId;      //网络请求的参数
   PostPresenterImpl _presenter;
   PostViewImpl(this.topicId);
@@ -61,14 +63,14 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(bottom: 1),
-                child: Text('帖子标题 ${topicId}', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
+                child: Text(sourceData.topic.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
               ),
               Row(
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.all(6),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('images/c.jpg'),
+                      backgroundImage: CachedNetworkImageProvider(sourceData.topic.icon),
                       radius: 28,
                     ),
                   ),
@@ -76,11 +78,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(bottom: 6),
-                        child: Text('Username', style: TextStyle(fontSize: 16, color: Colors.black),),
+                        child: Text(sourceData.topic.user_nick_name, style: TextStyle(fontSize: 14, color: Colors.lightBlue),),
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 6),
-                        child: Text('PostTime', style: TextStyle(fontSize: 10, color: Colors.grey),),
+                        child: Text(sourceData.topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
                       ),
                     ],
                   )
@@ -93,7 +95,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
               ),
               Container(
                 padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
-                child: Text("content", style: TextStyle(fontSize: 16,),
+                child: Text(sourceData.topic.content[0].infor, style: TextStyle(fontSize: 14,),
                   maxLines: 100,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -132,7 +134,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(8),
-            child: CircleAvatar(backgroundImage: AssetImage('images/c.jpg'), radius: 24,),
+            child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData.list[index].icon), radius: 24,),
           ),
           Flexible(
             child: Column(
@@ -143,29 +145,31 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(top: 4, bottom: 2, right: 16),
-                      child: Text('Username', style: TextStyle(fontSize: 20,),),
+                      child: Text(sourceData.list[index].reply_name, style: TextStyle(fontSize: 15,),),
                     ),
-                    Text('Layer Number ${index}', style: TextStyle(fontSize: 12, color: Colors.grey),)
+                    Text('${index} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
                   ],
                 ),
                 Container(
                     padding: EdgeInsets.only(left: 4, bottom: 2),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text('Time', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      child: Text(sourceData.list[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
                     )
                 ),
-                Container(
+
+                // 根据是否是回复来显示内容
+                sourceData.list[index].quote_content != "" ? Container(
                     decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text('Reply', style: TextStyle(fontSize: 16, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
-                    )
-                ),
+                      child: Text(sourceData.list[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
+                    ),
+                ) : Container(width: 0, height: 0,),
                 Container(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Content', style: TextStyle(fontSize: 16, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
+                    child: Text(sourceData.list[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
                   ),
                   padding: EdgeInsets.only(bottom: 6, top: 6),
                 ),

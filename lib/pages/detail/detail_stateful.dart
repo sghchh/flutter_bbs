@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
+import 'package:flutter_bbs/network/json/post.dart';
+import 'package:flutter_bbs/network/json/reply.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/board/board_map.dart';
 import 'package:flutter_bbs/pages/detail/model.dart';
@@ -38,55 +40,85 @@ class DetailWidget extends StatefulWidget {
 
 class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
+  ScrollController _scrollController;       //用来控制上拉加载
   int page = 1;         //记录当前的页数
   int topicId;      //网络请求的参数
   PostPresenterImpl _presenter;
-  PostViewImpl(this.topicId);
 
-  PostDetailResponse sourceData;
+  PostViewImpl(topicId) {
+    this.topicId = topicId;
+    _scrollController = ScrollController();
+  }
+
+  PostDetail topic;           //楼主的帖子的详情
+  List<ReplyDetail> comments;      //评论区 的内容
+  bool hasMore = true;       //表示评论区是否还有数据
+  bool isLoading = false;        //表示是否正在加载数据
+
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener((){
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (!isLoading && hasMore) {
+          toGetMoreNetData();
+          setState(() {
+            isLoading = true;
+          });
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: toGetNetData(),
-      builder: (context, snaphot) {
-        //网络加载中
-        if (!snaphot.hasData)
-          return Center(child: CircularProgressIndicator(),);
-        //网络错误
-        if (snaphot.data.runtimeType == String)
-          return Text('error');
+    if (this.topic == null) {
+      return FutureBuilder(
+        future: toGetNetData(),
+        builder: (context, snaphot) {
+          //网络加载中
+          if (!snaphot.hasData)
+            return Center(child: CircularProgressIndicator(),);
+          //网络错误
+          if (snaphot.data.runtimeType == String)
+            return Text('error');
 
-        // 成功获取网络数据
-        sourceData = snaphot.data;
-        return _buildNew();
-      },
-    );
+          // 成功获取网络数据
+          topic = snaphot.data.topic;
+          comments = snaphot.data.list;
+          return _buildNew();
+        },
+      );
+    }
+    return _buildNew();
   }
 
   Widget _buildNew () {
     return CustomScrollView(
+      controller: _scrollController,
       slivers: <Widget>[
         SliverList(
-          delegate: SliverChildBuilderDelegate(_buildHeadContent, childCount: sourceData.topic.content.length + 1),
+          delegate: SliverChildBuilderDelegate(_buildTopic, childCount: topic.content.length + 1),
         ),
         SliverPersistentHeader(
-          delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 25,
-              child: Container(
+          delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 40,
+              child: Card(child: Container(
                 padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
                 child: Text("评论", textAlign: TextAlign.center,textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
-              ),
+              ),)
           ),
         ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(_buildListItem, childCount: sourceData.list.length),
+          delegate: SliverChildBuilderDelegate(_buildCommentsItem, childCount: comments.length + 1),
         )
       ],
     );
   }
 
   // 构建发帖人及其帖子内容的widget
-  Widget _buildHeadContent(context, index) {
+  Widget _buildTopic(context, index) {
     // 构建头像等
     if (index == 0) {
       return Container(
@@ -96,14 +128,14 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(bottom: 1),
-              child: Text(sourceData.topic.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
+              child: Text(topic.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
             ),
             Row(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.all(6),
                   child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(sourceData.topic.icon),
+                    backgroundImage: CachedNetworkImageProvider(topic.icon),
                     radius: 24,
                   ),
                 ),
@@ -112,11 +144,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(bottom: 6),
-                      child: Text(sourceData.topic.user_nick_name, style: TextStyle(fontSize: 16, color: Colors.blueGrey),),
+                      child: Text(topic.user_nick_name, style: TextStyle(fontSize: 16, color: Colors.blueGrey),),
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 6),
-                      child: Text(sourceData.topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
+                      child: Text(topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
                     ),
                   ],
                 )
@@ -134,17 +166,30 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     }
 
     // 构建帖子内容
+    if ( topic.content[index - 1].type == 0) {
+      return Container(
+        padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
+        child: Text(topic.content[index - 1].infor, style: TextStyle(fontSize: 14,),
+          maxLines: 100,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    }
     return Container(
-      padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
-      child: Text(sourceData.topic.content[0].infor, style: TextStyle(fontSize: 14,),
-        maxLines: 100,
-        overflow: TextOverflow.ellipsis,
+      margin: EdgeInsets.only(top: 5, bottom: 5),
+      child: Align(
+        alignment: Alignment.center,
+        child: CachedNetworkImage(imageUrl: topic.content[index - 1].infor, width: 300, height: 160,),
       ),
     );
+
   }
 
   //构建回复列表项的item
-  Widget _buildListItem(context, index) {
+  Widget _buildCommentsItem(context, index) {
+    if (index == comments.length){
+      return _buildLoadMore();
+    }
     return Container(
       padding: EdgeInsets.only(top: 12, left: 6, right: 6, bottom: 8),
       child: Row(
@@ -153,7 +198,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(8),
-            child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData.list[index].icon), radius: 24,),
+            child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(comments[index].icon), radius: 24,),
           ),
           Flexible(
             child: Column(
@@ -164,7 +209,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(top: 4, bottom: 2, right: 16),
-                      child: Text(sourceData.list[index].reply_name, style: TextStyle(fontSize: 15,),),
+                      child: Text(comments[index].reply_name, style: TextStyle(fontSize: 15, color: Colors.blue),),
                     ),
                     Text('${index} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
                   ],
@@ -173,22 +218,23 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                     padding: EdgeInsets.only(left: 4, bottom: 2),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(sourceData.list[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      child: Text(comments[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
                     )
                 ),
 
                 // 根据是否是回复来显示内容
-                sourceData.list[index].quote_content != "" ? Container(
+                comments[index].quote_content != "" ? Container(
+                    padding: EdgeInsets.only(left: 5),
                     decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(sourceData.list[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
+                      child: Text(comments[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
                     ),
                 ) : Container(width: 0, height: 0,),
                 Container(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(sourceData.list[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
+                    child: Text(comments[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
                   ),
                   padding: EdgeInsets.only(bottom: 6, top: 6),
                 ),
@@ -204,9 +250,57 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     );
   }
 
+  //构建加载更多的widget
+  Widget _buildLoadMore() {
+    if (isLoading) {
+      return Container(
+        padding: EdgeInsets.only(top: 4, bottom: 4),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(bottom: 6),
+                child:  CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              ),
+              Text("正在加载数据...", style: TextStyle(color: Colors.lightBlueAccent),)
+            ],
+          ),
+        ),
+      );
+    }
+    if (!hasMore) {
+      return Container(
+        padding: EdgeInsets.only(top: 4, bottom: 4),
+        child: Center(
+          child: Text("没有更多了~~", style: TextStyle(color: Colors.blueGrey)),
+        ),
+      );
+    }
+
+    return Container(
+      padding: EdgeInsets.only(top: 4, bottom: 4),
+      child: Center(
+        child: Text("上拉加载更多...", style: TextStyle(color: Colors.blueGrey)),
+      ),
+    );
+  }
+
   @override
   bindData(sourcedata, type) {
-    return null;
+    setState(() {
+      if ( type == const_util.loadMore ) {
+        page++;
+        this.comments.addAll(sourcedata.list);
+      } else if ( type == const_util.refresh ) {
+        page = 1;
+        this.comments = sourcedata.list;
+      } else {
+        hasMore = false;
+      }
+      isLoading = false;
+    });
   }
 
   @override
@@ -222,8 +316,15 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
   }
 
   @override
-  toGetMoreNetData() {
-    return null;
+  toGetMoreNetData() async{
+    User finalUser = await user_cache.finalUser();
+    return presenter.loadMoreNetData(query: {
+      'accessToken' : finalUser.token,
+      'accessSecret' : finalUser.secret,
+      'apphash' : await user_cache.getAppHash(),
+      'topicId' : topicId,
+      'page' : page + 1
+    });
   }
 
   @override

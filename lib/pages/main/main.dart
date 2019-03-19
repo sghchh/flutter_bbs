@@ -70,7 +70,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
                 child: AppBar(
                     leading: Builder(builder: (context) {
                       return IconButton(icon: Icon(
-                        Icons.person, color: Colors.white, size: 35.0,),
+                        Icons.person, color: Colors.white, size: 30.0,),
                         onPressed: () => Scaffold.of(context).openDrawer(),);
                     }),
                     title: Text('清水河畔', style: TextStyle(
@@ -79,7 +79,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
                         color: Colors.white),),
                     centerTitle: true,
                     actions: <Widget>[IconButton(
-                      icon: Icon(Icons.search, color: Colors.white, size: 35.0,),
+                      icon: Icon(Icons.search, color: Colors.white, size: 30.0,),
                       onPressed: null,)
                     ],
                     bottom: _getTabBar()

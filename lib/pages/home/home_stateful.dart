@@ -230,11 +230,6 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
     );
   }
 
-  //点击事件
-  Function _onClick() {
-
-  }
-
   @override
   IBasePresenter<IBaseView, IBaseModel> get presenter => _presenter;
 

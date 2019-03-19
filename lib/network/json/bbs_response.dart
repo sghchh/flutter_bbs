@@ -98,7 +98,7 @@ class PostDetailResponse {
   int totalNum;
   _Head head;
   List<ReplyDetail> list;
-  PostDetail topic;
+  PostDetail topic;           //只有在请求的时候page为1的时候才会有该字段
 
   PostDetailResponse.fromJson(Map<String, dynamic> json)
       : this.rs = json['rs'],
@@ -107,7 +107,7 @@ class PostDetailResponse {
         this.hasNext = json['hasNext'],
         this.totalNum = json['totalNum'],
         this.head = _Head.fromJson(json['head']),
-        this.topic = PostDetail.fromJson(json['topic']) {
+        this.topic = json['page'] == 1 ? PostDetail.fromJson(json['topic']) : null {
 
     var result = <ReplyDetail>[];
     for (int i = 0; i < json['list'].length; i++) {

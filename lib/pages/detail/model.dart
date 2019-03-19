@@ -5,8 +5,9 @@ import 'package:dio/dio.dart';
 
 class PostModelImpl extends IBaseModel{
   @override
-  Future onLoadMoreData({String type, Map<String, dynamic> query}) {
-    return null;
+  Future onLoadMoreData({String type, Map<String, dynamic> query}) async{
+    final response = await PostClient.getPostDetail(query);
+    return response;
   }
 
   @override

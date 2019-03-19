@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 class MainViewImpl extends IMainView {
   IMainPresenter mainPresenterImpl;
 
+  MainViewImpl();
+
   @override
   getWidget(index) {
     var widget;
@@ -41,7 +43,7 @@ class MainViewImpl extends IMainView {
         widget = _buildHmoeTabBar();
         break;
       case 1:
-        widget = null;
+        widget = PreferredSize(preferredSize: Size.fromHeight(0), child: Container(width: 0, height: 0,),);
         break;
       default:
         widget = _buildMessageTabBar();

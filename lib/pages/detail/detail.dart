@@ -16,11 +16,12 @@ class DetailPageWidget extends StatelessWidget {
     return MaterialApp(
       title: '清水河畔',
       home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: null),
-          title: Text('帖子详情', style: TextStyle(fontSize: 24, color: Colors.white),),
-          centerTitle: true,
-        ),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),
+          child: AppBar(
+            leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: null),
+            title: Text('帖子详情', style: TextStyle(fontSize: 20, color: Colors.white),),
+            centerTitle: true,
+          ),),
         body: DetailWidget(this.topicId),
       ),
     );

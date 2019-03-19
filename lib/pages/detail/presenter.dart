@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -11,8 +12,18 @@ import 'package:flutter/foundation.dart';
 class PostPresenterImpl extends IBasePresenter {
   @override
   loadMoreNetData({String type, Map<String, dynamic> query}) async{
-
-    return null;
+    Response response = await model.onLoadNetData(query: query);
+    if (response.statusCode == 200) {
+      PostDetailResponse result = await compute(_decodeResponse, response.data);
+      if (result.list.length > 0) {
+        view.bindData(result, const_util.loadMore);
+      } else {
+        //表示没有更多数据了
+        view.bindData(result, const_util.noMore);
+      }
+    }else {
+      view.showToast(response.statusCode);
+    }
   }
 
   @override

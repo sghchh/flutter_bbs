@@ -2,7 +2,7 @@
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
-import 'package:flutter_bbs/network/json/forum.dart';
+import 'package:flutter_bbs/network/json/board.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/board/board_map.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
@@ -68,7 +68,7 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
           if (snaphot.data.runtimeType != String) {
             this.sourceData = snaphot.data;
             return CustomScrollView(
-                slivers: MapUtil(sourceData.list).finalResult
+                slivers: MapUtil(sourceData.list, context).finalResult
             );
           } else {
             return Text('出错了');
@@ -101,7 +101,7 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
   @override
   Future toGetNetData() async{
     User finaluser = await user_cache.finalUser();
-    var response = presenter.loadNetData (type: const_util.BOARD, query: { 'accessToken' : finaluser.token,
+    var response = presenter.loadNetData (type: const_util.board_boardList, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await user_cache.getAppHash(),
       'sdkVersion' : '2.5.0.0'

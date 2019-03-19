@@ -1,4 +1,5 @@
 
+import 'package:flutter_bbs/network/json/board.dart';
 import 'package:flutter_bbs/network/json/post.dart';
 import 'package:flutter_bbs/network/json/reply.dart';
 import 'package:flutter_bbs/network/json/user.dart';
@@ -112,6 +113,27 @@ class PostDetailResponse {
     var result = <ReplyDetail>[];
     for (int i = 0; i < json['list'].length; i++) {
       var item = ReplyDetail.fromJson(json['list'][i]);
+      result.add(item);
+    }
+    this.list = result;
+  }
+}
+
+/// 获取子版块信息的返回json
+class ChildBoardInfoResponse {
+  int rs;
+  String errcode;
+  _Head head;
+  List<Board> list;     //板块信息
+
+  ChildBoardInfoResponse.fromJson(Map<String, dynamic> json)
+      : this.rs = json['rs'],
+        this.errcode = json['errcode'],
+        this.head = _Head.fromJson(json['head']) {
+
+    var result = <Board>[];
+    for (int i = 0; i < json['list'].length; i++) {
+      var item = Board.fromJson(json['list'][i]);
       result.add(item);
     }
     this.list = result;

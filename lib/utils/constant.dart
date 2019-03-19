@@ -15,7 +15,10 @@ const String userFavoriteType = 'favorite';        //用户界面中获取我的
 const String user_friends = 'user_friends';           //用来区分User界面中当前的请求是：好友列表
 const String userFriendsType = 'friend';          //用户界面中获取好友列表时必须传递的type参数的值
 
-const String sdkVersion = "2.5.0.0";
+const String board_boardList = 'boardList';    //板块界面获取板块列表
+const String board_childBoard = 'childBoard';        //板块界面获取子板块
+
+const String sdkVersion = "2.6.1.7";
 const String refresh = 'refresh';                  //表示该网络请求是刷新
 const String loadMore = 'loadMore';              //表示该网络请求是加载更多数据
 const String noMore = 'noMore';                  //表示加载数据时没有更多数据了

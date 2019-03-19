@@ -131,7 +131,7 @@ class _MsgViewImpl extends State<MessageSystemWidget> with AutomaticKeepAliveCli
     var response = presenter.loadNetData (type: const_util.MESSAGE_SYSTEM, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await user_cache.getAppHash(),
-      'sdkVersion' : '2.5.0.0'
+      'sdkVersion' : const_util.sdkVersion
     });
     return response;
   }

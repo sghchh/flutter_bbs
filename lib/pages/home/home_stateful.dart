@@ -20,7 +20,7 @@ class HomeWidget extends StatefulWidget {
   HomePresenterImpl _presenter;    //创建——HomeState时传递的Presenter对象
   HomeModelImpl _model;
   _HomeViewImpl _view;
-  //表示该HomeWidget显示的List的内容，tap值为"最新回复""最新发表""今日热门"三者之一
+  //表示该HomeWidget显示的List的内容，tap值为"最新回复""最新发表""今日热门"三者之一;
   String tap = '最新回复';
 
   HomeWidget({@required this.tap}){
@@ -245,13 +245,13 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   @override
   toGetMoreNetData() async {
     User finalUser = await user_cache.finalUser();
-    presenter.loadMoreNetData(type: tap, query :{ 'page' : page + 1, 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
+    presenter.loadMoreNetData(type: tap, query :{ 'page' : page + 1, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
   }
 
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    return presenter.loadNetData(type: tap, query :{ 'page' : page, 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
+    return presenter.loadNetData(type: tap, query :{ 'page' : page, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
   }
 
 
@@ -259,7 +259,7 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   @override
   Future<void> toRefresh() async {
     User finalUser = await user_cache.finalUser();
-    await presenter.refresh(type : tap, query: { 'page' : 1, 'apphash' : await user_cache.getAppHash(), 'accountSecret' : finalUser.secret, 'accountToken' : finalUser.token});
+    await presenter.refresh(type : tap, query: { 'page' : 1, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
   }
 
   @override

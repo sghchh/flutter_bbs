@@ -133,7 +133,7 @@ class _MsgViewImpl extends State<MessageAtmeWidget> with AutomaticKeepAliveClien
     var response = presenter.loadNetData (type: const_util.MESSAGE_ATME, query: { 'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await user_cache.getAppHash(),
-      'sdkVersion' : '2.5.0.0'
+      'sdkVersion' : const_util.sdkVersion
     });
     return response;
   }

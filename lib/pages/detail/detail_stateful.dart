@@ -190,62 +190,65 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     if (index == comments.length){
       return _buildLoadMore();
     }
-    return Container(
-      padding: EdgeInsets.only(top: 12, left: 6, right: 6, bottom: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(8),
-            child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(comments[index].icon), radius: 24,),
-          ),
-          Flexible(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 4, bottom: 2, right: 16),
-                      child: Text(comments[index].reply_name, style: TextStyle(fontSize: 15, color: Colors.blue),),
-                    ),
-                    Text('${index} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
-                  ],
-                ),
-                Container(
-                    padding: EdgeInsets.only(left: 4, bottom: 2),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(comments[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
-                    )
-                ),
+    return Card(
+      margin: EdgeInsets.only(top: 5, bottom: 5, left: 6, right: 6),
+      child: Container(
+        padding: EdgeInsets.only(top: 12, left: 6, right: 6, bottom: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(8),
+              child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(comments[index].icon), radius: 24,),
+            ),
+            Flexible(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(top: 4, bottom: 2, right: 16),
+                        child: Text(comments[index].reply_name, style: TextStyle(fontSize: 15, color: Colors.blue),),
+                      ),
+                      Text('${index} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
+                    ],
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 4, bottom: 2),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(comments[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      )
+                  ),
 
-                // 根据是否是回复来显示内容
-                comments[index].quote_content != "" ? Container(
+                  // 根据是否是回复来显示内容
+                  comments[index].quote_content != "" ? Container(
                     padding: EdgeInsets.only(left: 5),
                     decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(comments[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
                     ),
-                ) : Container(width: 0, height: 0,),
-                Container(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(comments[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
+                  ) : Container(width: 0, height: 0,),
+                  Container(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(comments[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
+                    ),
+                    padding: EdgeInsets.only(bottom: 6, top: 6),
                   ),
-                  padding: EdgeInsets.only(bottom: 6, top: 6),
-                ),
-                Align(
-                  child: FlatButton(onPressed: null, child: Text('回复', style: TextStyle(color: Colors.blue),)),
-                  alignment: Alignment.centerRight,
-                )
-              ],
-            ),
-          )
-        ],
+                  Align(
+                    child: FlatButton(onPressed: null, child: Text('回复', style: TextStyle(color: Colors.blue),)),
+                    alignment: Alignment.centerRight,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -69,3 +69,34 @@ class _BoardList {
         this.posts_total_num = json['posts_total_num'],
         this.is_focus = json['is_focus'];
 }
+
+/// 该类是点击板块列表中的板块的时候
+/// 每个板块及其下面的子板块的信息
+/// 该类封装在BBSResponse下
+class Board {
+  int board_category_id;
+  String board_category_name;
+  List<ChildBoard> board_list;
+
+  Board.fromJson(Map<String, dynamic> json)
+      : this.board_category_id = json['board_category_id'],
+        this.board_category_name = json['board_category_name'] {
+
+    var result = <ChildBoard>[];
+    for (int i = 0; i < json['board_list'].length; i ++) {
+      var item = ChildBoard.fromJson(json['board_list'][i]);
+      result.add(item);
+    }
+    this.board_list = result;
+  }
+}
+
+/// 子版块的信息
+class ChildBoard {
+  int board_id;
+  String board_name;
+
+  ChildBoard.fromJson(Map<String, dynamic> json)
+      : this.board_id = json['board_id'],
+        this.board_name = json['board_name'];
+}

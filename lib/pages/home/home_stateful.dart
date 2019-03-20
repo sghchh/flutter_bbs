@@ -104,6 +104,7 @@ class _HomeViewImpl extends State<HomeWidget>
           return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
 
         data = snaphot.data.list;
+        hasMore = snaphot.data.has_next == 0 ? false : true;
         return _buildList();
       },
     );
@@ -317,9 +318,8 @@ class _HomeViewImpl extends State<HomeWidget>
       } else if (type == const_util.refresh) {
         page = 1;
         this.data = sourcedata.list;
-      } else {
-        hasMore = false;
       }
+      hasMore = sourcedata.has_next == 0 ? false : true;
       isLoading = false;
     });
   }

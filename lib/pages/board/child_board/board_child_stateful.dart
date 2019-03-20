@@ -107,6 +107,7 @@ class BoardPostViewImpl extends State<BoardPostWidget>
           return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
 
         data = snaphot.data.list;
+        hasMore = snaphot.data.has_next == 0 ? false : true;
         return _buildList();
       },
     );
@@ -321,9 +322,8 @@ class BoardPostViewImpl extends State<BoardPostWidget>
       } else if (type == const_util.refresh) {
         page = 1;
         this.data = sourcedata.list;
-      } else {
-        hasMore = false;
       }
+      hasMore = sourcedata.has_next == 0 ? false : true;
       isLoading = false;
     });
   }

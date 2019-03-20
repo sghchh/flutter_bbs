@@ -88,6 +88,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
           // 成功获取网络数据
           topic = snaphot.data.topic;
           comments = snaphot.data.list;
+          hasMore = snaphot.data.has_next == 0 ? false : true;
           return _buildNew();
         },
       );
@@ -299,9 +300,8 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
       } else if ( type == const_util.refresh ) {
         page = 1;
         this.comments = sourcedata.list;
-      } else {
-        hasMore = false;
       }
+      hasMore = sourcedata.has_next == 0 ? false : true;
       isLoading = false;
     });
   }

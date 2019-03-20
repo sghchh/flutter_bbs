@@ -33,18 +33,18 @@ class BBSRepListPost {
   int rs;
   String errcode;
   int page;
-  int hasNext;
-  int totalNum;
+  int has_next;
+  int total_num;
   _Head head;
   List<Post> list;
-  BBSRepListPost({this.rs, this.errcode, this.page, this.hasNext, this.totalNum, this.head, this.list});
+  BBSRepListPost({this.rs, this.errcode, this.page, this.has_next, this.total_num, this.head, this.list});
 
   BBSRepListPost.fromJson(Map<String, dynamic> json)
       : rs = json['rs'],
         errcode = json['errcode'],
         page = json['page'],
-        hasNext = json['hasNext'],
-        totalNum = json['totalNum'],
+        has_next = json['has_next'],
+        total_num = json['total_num'],
         head = _Head.fromJson(json['head']){
 
     if (json['list'] == null) {
@@ -65,20 +65,20 @@ class BBSRespListUserPub {
   int rs;
   String errcode;
   int page;
-  int hasNext;
-  int totalNum;
+  int has_next;
+  int total_num;
   _Head head;
   List<UserPublish> list;
 
-  BBSRespListUserPub(this.rs, this.errcode, this.page, this.hasNext,
-      this.totalNum, this.head, this.list);
+  BBSRespListUserPub(this.rs, this.errcode, this.page, this.has_next,
+      this.total_num, this.head, this.list);
 
   BBSRespListUserPub.fromJson(Map<String, dynamic> json)
       : this.rs = json['rs'],
         this.errcode = json['errcode'],
         this.page = json['page'],
-        this.hasNext = json['hasNext'],
-        this.totalNum = json['totalNum'],
+        this.has_next = json['has_next'],
+        this.total_num = json['total_num'],
         this.head = _Head.fromJson(json['head']) {
 
     var result = <UserPublish>[];
@@ -95,8 +95,8 @@ class PostDetailResponse {
   int rs;
   String errcode;
   int page;
-  int hasNext;
-  int totalNum;
+  int has_next;
+  int total_num;
   _Head head;
   List<ReplyDetail> list;
   PostDetail topic;           //只有在请求的时候page为1的时候才会有该字段
@@ -105,8 +105,8 @@ class PostDetailResponse {
       : this.rs = json['rs'],
         this.errcode = json['errcode'],
         this.page = json['page'],
-        this.hasNext = json['hasNext'],
-        this.totalNum = json['totalNum'],
+        this.has_next = json['has_next'],
+        this.total_num = json['total_num'],
         this.head = _Head.fromJson(json['head']),
         this.topic = json['page'] == 1 ? PostDetail.fromJson(json['topic']) : null {
 

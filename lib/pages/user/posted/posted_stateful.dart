@@ -90,6 +90,7 @@ class _UserViewImpl extends State<PostedWidget> implements IBaseView {
           return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
 
         sourceData = snaphot.data.list;
+        hasMore = snaphot.data.has_next == 0 ? false : true;
         return _buildList();
       },
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/network/json/bbs_response.dart';
 import 'package:flutter_bbs/network/json/board.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/board/child_board/board_child_stateful.dart';
@@ -27,7 +28,7 @@ class ChildBoardInfoWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    _view = ChildBoardInfoViewImpl(this.fid);
+    _view = ChildBoardInfoViewImpl(this.boardName, this.fid);
     _presenter.bindView(_view);
     _presenter.bindModel(_model);
     _view.setPresenter(_presenter);
@@ -38,10 +39,14 @@ class ChildBoardInfoWidget extends StatefulWidget {
 class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTickerProviderStateMixin
     implements IBaseView {
   BoardPresenterImpl _presenter;
-  Board sourceData;
-  int fid;
+  ChildBoardInfoResponse sourceData;
+  Board board;
+  List<ChildBoard> childBoard;
 
-  ChildBoardInfoViewImpl(this.fid);
+  int fid;
+  String boardName;
+
+  ChildBoardInfoViewImpl(this.boardName, this.fid);
 
   @override
   Widget build(BuildContext context) {
@@ -58,27 +63,30 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTick
             child: Text('error'),
           );
 
-        print("这是futurebuilder");
-        // 成功获取数据
-        if (snaphot.data.list.length == 0) {
-         return MaterialApp(
-              title: "清水河畔",
-              home: Scaffold(
-                  body: Center(child: Text('该板块已经关闭...'),)));
-        }
-        sourceData = snaphot.data.list[0];
+        //有可能该板块不含有子版块
+        sourceData = snaphot.data;
+        board = sourceData.list.length == 0 ? null : sourceData.list[0];        //不为null则说明该板块含有子板块
+        childBoard = board == null ? null : board.board_list;
+
         return MaterialApp(
             title: "清水河畔",
-            home: DefaultTabController(length: sourceData.board_list.length,
+            home: DefaultTabController(length: board != null ? childBoard.length + 1 : 1,
                 child: Scaffold(
                     appBar: sourceData == null
                         ? null
-                        : AppBar(
-                      title: Text(sourceData.board_category_name),
-                      centerTitle: true,
-                      bottom: sourceData == null
-                          ? null
-                          : _buildTabBar(sourceData.board_list),
+                        : PreferredSize(
+                      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
+                      child: AppBar(
+                        title: Text(boardName,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white),),
+                        centerTitle: true,
+                        bottom: sourceData == null
+                            ? null
+                            : _buildTabBar(),
+                      ),
                     ),
                     body: TabBarView(children: _buildBody()))));
       },
@@ -124,20 +132,34 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTick
   }
 
   // 根据data构建tab
-  Widget _buildTabBar(List<ChildBoard> data) {
+  Widget _buildTabBar() {
     var tabs = <Widget>[];
-    for (int i = 0; i < data.length; i++) {
-      var tab = Text(data[i].board_name, style: TextStyle(fontSize: 15));
+    // 将板块自己加进去
+    var tab0 = Text(this.boardName, style: TextStyle(fontSize: 15),);
+    tabs.add(tab0);
+
+    if (childBoard == null)
+      return TabBar(labelPadding: EdgeInsets.all(5), tabs: tabs, isScrollable: true,);
+     // 将所有子版块加进来
+    for (int i = 0; i < childBoard.length; i++) {
+      var tab = Text(childBoard[i].board_name, style: TextStyle(fontSize: 15));
       tabs.add(tab);
     }
-    return TabBar(labelPadding: EdgeInsets.all(8), tabs: tabs, isScrollable: true,);
+    return TabBar(labelPadding: EdgeInsets.all(5), tabs: tabs, isScrollable: true,);
   }
 
   // 构建Scallod的body
   List<Widget> _buildBody() {
     var result = <Widget>[];
-    for (int i = 0; i < sourceData.board_list.length; i++) {
-      var item = BoardPostWidget(sourceData.board_list[i].board_name, sourceData.board_list[i].board_id);
+    // 将该板块自己也加进去展示
+    var item0 = BoardPostWidget(boardName, fid);
+    result.add(item0);
+
+    if (childBoard == null)
+      return result;
+    // 将所有子版块加进去
+    for (int i = 0; i < childBoard.length; i++) {
+      var item = BoardPostWidget(childBoard[i].board_name, childBoard[i].board_id);
       result.add(item);
     }
     return result;

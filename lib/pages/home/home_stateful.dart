@@ -1,4 +1,3 @@
-
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
@@ -16,14 +15,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 ///created by sgh    2019-02-28
 ///Home中显示List的StatefulWidget
 class HomeWidget extends StatefulWidget {
-
-  HomePresenterImpl _presenter;    //创建——HomeState时传递的Presenter对象
+  HomePresenterImpl _presenter; //创建——HomeState时传递的Presenter对象
   HomeModelImpl _model;
   _HomeViewImpl _view;
   //表示该HomeWidget显示的List的内容，tap值为"最新回复""最新发表""今日热门"三者之一;
   String tap = '最新回复';
 
-  HomeWidget({@required this.tap}){
+  HomeWidget({@required this.tap}) {
     this._presenter = HomePresenterImpl();
     this._model = HomeModelImpl();
   }
@@ -39,20 +37,21 @@ class HomeWidget extends StatefulWidget {
 }
 
 ///HomeState为View层的实现类
-class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin implements IBaseView {
+class _HomeViewImpl extends State<HomeWidget>
+    with AutomaticKeepAliveClientMixin
+    implements IBaseView {
+  IBasePresenter _presenter; //用啦发起网络请求的Presenter
 
-  IBasePresenter _presenter;   //用啦发起网络请求的Presenter
+  List<Post> data; //展示的数据源
 
-  List<Post> data;          //展示的数据源
+  String tap; //表示该页代表的内容
 
-  String tap;    //表示该页代表的内容
+  int page = 1; //表示当前数据一共几页
 
-  int page = 1;       //表示当前数据一共几页
+  bool isLoading = false; //表示是否正在加载中
 
-  bool isLoading = false;    //表示是否正在加载中
+  bool hasMore = true; //表示还有更多数据可供加载
 
-  bool hasMore = true;          //表示还有更多数据可供加载
-  
   ScrollController _scrollController;
 
   _HomeViewImpl(String tap) {
@@ -63,19 +62,19 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener((){
+    _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-          if (!isLoading && hasMore) {
-            toGetMoreNetData();
-            setState(() {
-              isLoading = true;
-            });
-          }
+        if (!isLoading && hasMore) {
+          toGetMoreNetData();
+          setState(() {
+            isLoading = true;
+          });
         }
+      }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     if (data == null) {
@@ -91,12 +90,19 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
       builder: (context, snaphot) {
         //网络访问中
         if (!snaphot.hasData) {
-          return Center(child: CircularProgressIndicator(),);
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
         //网络出错
         if (snaphot.data.runtimeType == String) {
-          return Text('error');
+          return Center(child: Text('error'),);
         }
+
+        // 代表没有从服务器获取数据，一般是参数异常导致的
+        if ( snaphot.data.head.errCode != const_util.success)
+          return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
+
         data = snaphot.data.list;
         return _buildList();
       },
@@ -114,72 +120,96 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
             return GestureDetector(
               onTap: () {
                 var post = data[index];
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context){
-                      //注意今日热点的topicId等同于其source_id
-                      return DetailPageWidget(this.tap == const_util.TODATHOT ? post.source_id : post.topic_id);
-                    }));
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //注意今日热点的topicId等同于其source_id
+                  return DetailPageWidget(this.tap == const_util.TODATHOT
+                      ? post.source_id
+                      : post.topic_id);
+                }));
               },
               child: Container(
-                padding: const EdgeInsets.only(top: 6, bottom: 6, left: 10, right: 8),
-                margin: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
+                padding: const EdgeInsets.only(
+                    top: 6, bottom: 6, left: 10, right: 8),
+                margin:
+                    const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       margin: const EdgeInsets.only(top: 10, right: 10),
                       child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(data[index].userAvatar),
+                        backgroundImage:
+                            CachedNetworkImageProvider(data[index].userAvatar),
                         radius: 30,
                       ),
                     ),
-                    Flexible(child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text('${data[index].user_nick_name}', style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueGrey)),
-                            Text('${data[index].board_name}',
-                              style: TextStyle(fontSize: 12, color: Colors.grey),
-                              textAlign: TextAlign.right,),
-                          ],
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(top: 2),
-                            child: Text('${data[index].last_reply_date}',
-                                style: TextStyle(fontSize: 12, color: Colors.grey))
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(top: 4, bottom: 4),
-                            child: Text('${data[index].title}',
-                              style: TextStyle(fontSize: 14, color: Colors.black),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              softWrap: true,)
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Icon(Icons.remove_red_eye, size: 18, color: Colors.grey,),
-                            Container(
-                              margin: const EdgeInsets.only(left: 6, right: 6),
-                              child: Text('${data[index].hits}',
-                                  style: TextStyle(fontSize: 12, color: Colors.grey)),
-                            ),
-                            Icon(Icons.chat_bubble_outline, size: 18,
-                              color: Colors.grey,),
-                            Container(
-                              margin: const EdgeInsets.only(left: 6),
-                              child: Text('${data[index].replies}',
-                                  style: TextStyle(fontSize: 12, color: Colors.grey)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),)
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Text('${data[index].user_nick_name}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey)),
+                              Text(
+                                '${data[index].board_name}',
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                                textAlign: TextAlign.right,
+                              ),
+                            ],
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(top: 2),
+                              child: Text('${data[index].last_reply_date}',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey))),
+                          Container(
+                              padding: EdgeInsets.only(top: 4, bottom: 4),
+                              child: Text(
+                                '${data[index].title}',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.black),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: true,
+                              )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Icon(
+                                Icons.remove_red_eye,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 6, right: 6),
+                                child: Text('${data[index].hits}',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey)),
+                              ),
+                              Icon(
+                                Icons.chat_bubble_outline,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 6),
+                                child: Text('${data[index].replies}',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey)),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -203,11 +233,14 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(bottom: 6),
-                child:  CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   strokeWidth: 2,
                 ),
               ),
-              Text("正在加载数据...", style: TextStyle(color: Colors.lightBlueAccent),)
+              Text(
+                "正在加载数据...",
+                style: TextStyle(color: Colors.lightBlueAccent),
+              )
             ],
           ),
         ),
@@ -239,36 +272,49 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
   }
 
   @override
-  void showToast(content) {
-  }
+  void showToast(content) {}
 
   @override
   toGetMoreNetData() async {
     User finalUser = await user_cache.finalUser();
-    presenter.loadMoreNetData(type: tap, query :{ 'page' : page + 1, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
+    presenter.loadMoreNetData(type: tap, query: {
+      'page': page + 1,
+      'apphash': await user_cache.getAppHash(),
+      'accessSecret': finalUser.secret,
+      'accessToken': finalUser.token
+    });
   }
 
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    return presenter.loadNetData(type: tap, query :{ 'page' : page, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
+    return presenter.loadNetData(type: tap, query: {
+      'page': page,
+      'apphash': await user_cache.getAppHash(),
+      'accessSecret': finalUser.secret,
+      'accessToken': finalUser.token
+    });
   }
-
 
   //和toGetNetData的区别就是没有返回值，而是通过bindData方法更新数据
   @override
   Future<void> toRefresh() async {
     User finalUser = await user_cache.finalUser();
-    await presenter.refresh(type : tap, query: { 'page' : 1, 'apphash' : await user_cache.getAppHash(), 'accessSecret' : finalUser.secret, 'accessToken' : finalUser.token});
+    await presenter.refresh(type: tap, query: {
+      'page': 1,
+      'apphash': await user_cache.getAppHash(),
+      'accessSecret': finalUser.secret,
+      'accessToken': finalUser.token
+    });
   }
 
   @override
   bindData(sourcedata, type) {
     setState(() {
-      if ( type == const_util.loadMore ) {
+      if (type == const_util.loadMore) {
         page++;
         this.data.addAll(sourcedata.list);
-      } else if ( type == const_util.refresh ) {
+      } else if (type == const_util.refresh) {
         page = 1;
         this.data = sourcedata.list;
       } else {
@@ -280,5 +326,4 @@ class _HomeViewImpl extends State<HomeWidget> with AutomaticKeepAliveClientMixin
 
   @override
   bool get wantKeepAlive => true;
-
 }

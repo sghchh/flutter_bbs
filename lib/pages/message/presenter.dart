@@ -34,7 +34,7 @@ class MsgPresenterImpl extends IBasePresenter {
           return result;
       }
     }
-    view.showToast(response.statusCode);
+    view.showToast("Http error : ${response.statusCode}");
     return 'error';
   }
 

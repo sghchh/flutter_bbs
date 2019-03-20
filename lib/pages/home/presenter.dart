@@ -33,7 +33,7 @@ class HomePresenterImpl extends IBasePresenter {
       BBSRepListPost result = await compute(decodeResponse, response.data);
       return result;
     }
-    view.showToast(response.statusCode);
+    view.showToast("Http error : ${response.statusCode}");
     return 'error';
   }
 

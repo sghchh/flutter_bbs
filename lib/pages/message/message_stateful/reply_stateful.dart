@@ -46,10 +46,14 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
         if (!snaphot.hasData){
           return Center(child: CircularProgressIndicator(),);
         }
-        //网络错误
-        if (snaphot.data.runtimeType == String) {
-          return Text('error');
-        }
+        // 该情况代表http错误
+        if (snaphot.data.runtimeType == String)
+          return Center(child: Text('error'),);
+
+        // 代表没有从服务器获取数据，一般是参数异常导致的
+        if ( snaphot.data.head.errCode != const_util.success)
+          return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
+
         //成功得到数据
         sourceData = snaphot.data.body.data;
         return ListView.builder(

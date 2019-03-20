@@ -20,7 +20,7 @@ class UserPresenterImpl extends IBasePresenter {
     Response response;
     response = await model.onLoadNetData(type: type, query: query);
     if (response.statusCode != 200) {
-      view.showToast(response.statusCode);
+      view.showToast("Http error : ${response.statusCode}");
       return 'error';
     }
     var result;

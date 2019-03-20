@@ -1,3 +1,4 @@
+import 'package:flutter_bbs/network/json/bbs_response.dart';
 import 'package:flutter_bbs/network/json/post.dart';
 import 'package:flutter_bbs/pages/board/child_board/model.dart';
 import 'package:flutter_bbs/pages/board/child_board/presenter.dart';
@@ -97,9 +98,14 @@ class BoardPostViewImpl extends State<BoardPostWidget>
           );
         }
         //网络出错
-        if (snaphot.data.runtimeType == String) {
-          return Text('error');
+        if (snaphot.data.runtimeType != BBSRepListPost) {
+          return Center(child: Text('error'));
         }
+
+        // 代表没有从服务器获取数据，一般是参数异常导致的
+        if ( snaphot.data.head.errCode != const_util.success)
+          return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
+
         data = snaphot.data.list;
         return _buildList();
       },
@@ -118,7 +124,6 @@ class BoardPostViewImpl extends State<BoardPostWidget>
               onTap: () {
                 var post = data[index];
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  //注意今日热点的topicId等同于其source_id
                   return DetailPageWidget(post.topic_id);
                 }));
               },

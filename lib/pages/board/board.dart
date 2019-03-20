@@ -64,18 +64,21 @@ class BoardViewImpl extends State<BoardWidget> implements IBaseView {
     return FutureBuilder(
       future: toGetNetData(),
       builder: (context, snaphot) {
-        if (snaphot.hasData) {
-          if (snaphot.data.runtimeType != String) {
-            this.sourceData = snaphot.data;
-            return CustomScrollView(
-                slivers: MapUtil(sourceData.list, context).finalResult
-            );
-          } else {
-            return Text('出错了');
-          }
-        } else {
+
+        if (!snaphot.hasData)
           return Center(child: CircularProgressIndicator(),);
-        }
+
+        if (snaphot.data.runtimeType == String)
+          return Center(child: Text('error'),);
+
+        // 代表没有从服务器获取数据，一般是参数异常导致的
+        //if ( snaphot.data.head.errCode != const_util.success)
+         // return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
+
+        this.sourceData = snaphot.data;
+        return CustomScrollView(
+            slivers: MapUtil(sourceData.list, context).finalResult
+        );
       },
     );
 

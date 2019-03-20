@@ -65,7 +65,7 @@ class MapUtil {
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return ChildBoardInfoWidget(data.board_id, data.board_name);
-              //return BoardPostWidget('', 214);
+              //return BoardPostWidget('', 316);
             }));
           },
           child: Card(

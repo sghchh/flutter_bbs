@@ -22,3 +22,4 @@ const String sdkVersion = "2.6.1.7";
 const String refresh = 'refresh';                  //表示该网络请求是刷新
 const String loadMore = 'loadMore';              //表示该网络请求是加载更多数据
 const String noMore = 'noMore';                  //表示加载数据时没有更多数据了
+const String success = '00000000';         //代表成功获取服务器的数据

@@ -22,7 +22,7 @@ class PostPresenterImpl extends IBasePresenter {
         view.bindData(result, const_util.noMore);
       }
     }else {
-      view.showToast(response.statusCode);
+      view.showToast("Http error : ${response.statusCode}");
     }
   }
 
@@ -33,7 +33,7 @@ class PostPresenterImpl extends IBasePresenter {
       PostDetailResponse data = await compute(_decodeResponse, response.data);
       return data;
     }
-    view.showToast(response.statusCode);
+    view.showToast("Http error : ${response.statusCode}");
     return "error";
   }
 

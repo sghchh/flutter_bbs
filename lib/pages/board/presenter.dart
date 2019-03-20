@@ -31,7 +31,7 @@ class BoardPresenterImpl extends IBasePresenter {
       }
       return data;
     } else {
-      view.showToast(response.statusCode);
+      view.showToast("Http error : ${response.statusCode}");
       return 'error';
     }
   }

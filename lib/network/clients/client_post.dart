@@ -13,7 +13,14 @@ class PostClient {
 
 
   static Future getPostDetail(Map query) async {
-    final response = await _dioClient.post(_postDetailPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_postDetailPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 }

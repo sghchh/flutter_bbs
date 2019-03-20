@@ -9,12 +9,27 @@ class BoardClient {
 
   //获取板块列表的方法
   static Future<Response> getForumList ({query}) async{
-    final response = await _dioClient.post(_formlistPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_formlistPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 
+  // 获取某一板块或者子版块的帖子
   static Future<Response> getBoardPost(Map<String, dynamic> query) async{
-    final response = await _dioClient.post(_boardPostPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_boardPostPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 

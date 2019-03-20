@@ -31,7 +31,6 @@ class BoardChildPostPreImpl extends IBasePresenter {
       return result;
     }
     view.showToast(response.statusCode);
-    print("将要返回error");
     return 'error';
   }
 

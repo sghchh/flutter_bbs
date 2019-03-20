@@ -58,9 +58,6 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
           itemBuilder: (context, index) {
             return Container(
               padding: const EdgeInsets.only(top: 6, bottom: 6, left: 10, right: 8),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 2.0, color: Colors.grey),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
               margin: const EdgeInsets.only(left: 2, right: 2, top: 2, bottom: 2),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -19,7 +19,6 @@ class BoardPresenterImpl extends IBasePresenter {
   Future loadNetData ({String type, Map<String, dynamic> query}) async {
     Response response = await model.onLoadNetData(type: type, query: query);
     if (response.statusCode == 200) {
-      //print("这是presenter${response.data.toString()}");
       var data;
       switch (type){
         case const_util.board_boardList:

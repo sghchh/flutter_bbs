@@ -7,8 +7,20 @@ import 'package:dio/dio.dart';
 
 class UserModelImpl extends IBaseModel{
   @override
-  Future onLoadMoreData({String type, Map<String, dynamic> query}) {
-    return null;
+  Future onLoadMoreData({String type, Map<String, dynamic> query}) async{
+    var result;
+    switch (type) {
+      case const_util.user_publish:
+        result = await UserClient.getUserPublished(query);
+        break;
+      case const_util.user_favourite:
+        result = await UserClient.getUserFavorite(query);
+        break;
+      case const_util.user_friends:
+        result = await UserClient.getUserFriends(query);
+        break;
+    }
+    return result;
   }
 
   @override

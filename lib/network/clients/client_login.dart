@@ -15,7 +15,14 @@ class LoginClient {
   static Future login ({@required type, @required username, @required password}) async {
     var map = {"type" : type, "username" : username, "password" : password};
     //post请求的返回体
-    final response = await _dioClient.post(url, queryParameters: map);
+    var response;
+    try {
+      response = await _dioClient.post(url, queryParameters: map);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 

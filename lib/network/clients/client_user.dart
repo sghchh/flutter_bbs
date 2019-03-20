@@ -10,20 +10,40 @@ class UserClient {
 
   //获取已发表的方法
   static Future getUserPublished (Map<String, dynamic> query) async {
-    var type = 'topic';
-    final response = await _dioClient.post(_userPublishPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_userPublishPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 
   //获取我的收藏的方法
   static Future<Response> getUserFavorite (Map<String, dynamic> query) async {
-    var response = await _dioClient.post(_userPublishPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_userPublishPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 
   //获取好友列表
   static Future<Response> getUserFriends(Map<String, dynamic> query) async{
-    final response = await _dioClient.post(_userFriendsPath, queryParameters: query);
+    var response;
+    try {
+      response = await _dioClient.post(_userFriendsPath, queryParameters: query);
+    } on DioError catch(e) {
+      if (e.response != null)
+        print(e.response.statusCode);
+      response = e.response;
+    }
     return response;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert' as convert;
 import 'package:flutter_bbs/network/clients/client_login.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
                             children: <Widget>[
                               Expanded(
                                   child: RaisedButton(
-                                onPressed: _onRegasitorPressed,
+                                onPressed: null,
                                 child: Text('注册'),
                                 textColor: Colors.white,
                               ))
@@ -122,8 +123,14 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
         await LoginClient.login(type: 'login', username: name, password: pass);
     if (response.statusCode == 200) {
       User mUser = await compute(_getBody, response.data);
-      Navigator.of(mContext).popAndPushNamed('main/mainPage');
-      user_cache.storeUser(mUser);
+      // 代表密码账户都正确
+      if (mUser.head.errCode == const_util.success) {
+        Navigator.of(mContext).popAndPushNamed('main/mainPage');
+        user_cache.storeUser(mUser);
+      } else {
+        Scaffold.of(mContext)
+            .showSnackBar(showToast("${mUser.head.errCode} : ${mUser.head.errInfo}"));
+      }
     } else {
       Scaffold.of(mContext)
           .showSnackBar(showToast(response.statusCode.toString()));

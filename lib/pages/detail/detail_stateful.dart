@@ -174,6 +174,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
         child: Wrap(
           spacing: 2, //主轴上子控件的间距
           runSpacing: 5, //交叉轴上子控件之间的间距
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: _buildPostContent(topic.content[index - 1].infor), //要显示的子控件集合
         )
       );
@@ -242,6 +243,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                       child: Wrap(
                         spacing: 2, //主轴上子控件的间距
                         runSpacing: 5, //交叉轴上子控件之间的间距
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: _buildPostContent(comments[index].reply_content[0].infor), //要显示的子控件集合
                       )
                     ),
@@ -322,6 +324,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
   @override
   void showToast(content) {
+    var snackBar = SnackBar(
+      content: Text("${content}"),
+      duration: Duration(milliseconds: 1500),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -356,9 +363,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
 // 构建回复内容和帖子内容的布局
 List<Widget> _buildPostContent (String info) {
-  print("这是帖子回复内容${info}");
   List<regexp_util.RegExpType> source = regexp_util.getContentDetail(info);
-  print("这是获取到的内容${source.toString()}");
   var result = <Widget>[];
   for ( int i = 0 ; i  < source.length; i++) {
     regexp_util.RegExpType type = source[i];

@@ -122,6 +122,11 @@ class _MsgViewImpl extends State<MessageSystemWidget> with AutomaticKeepAliveCli
 
   @override
   void showToast(content) {
+    var snackBar = SnackBar(
+      content: Text("${content}"),
+      duration: Duration(milliseconds: 1500),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   @override

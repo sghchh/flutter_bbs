@@ -19,7 +19,7 @@ class BoardChildPostPreImpl extends IBasePresenter {
         view.bindData(result, const_util.noMore);
       }
     }else {
-      view.showToast(response.statusCode);
+      view.showToast("Http error: ${response.statusCode}");
     }
   }
 
@@ -30,7 +30,7 @@ class BoardChildPostPreImpl extends IBasePresenter {
       BBSRepListPost result = await compute(decodeResponse, response.data);
       return result;
     }
-    view.showToast(response.statusCode);
+    view.showToast("Http error: ${response.statusCode}");
     return 'error';
   }
 
@@ -41,7 +41,7 @@ class BoardChildPostPreImpl extends IBasePresenter {
       BBSRepListPost result = await compute(decodeResponse, response.data);
       view.bindData(result, const_util.refresh);
     } else {
-      view.showToast(response.statusCode);
+      view.showToast("Http error: ${response.statusCode}");
     }
   }
 }

@@ -11,6 +11,7 @@ import 'package:flutter_bbs/pages/detail/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -170,10 +171,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     if ( topic.content[index - 1].type == 0) {
       return Container(
         padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
-        child: Text(topic.content[index - 1].infor, style: TextStyle(fontSize: 14,),
-          maxLines: 100,
-          overflow: TextOverflow.ellipsis,
-        ),
+        child: Wrap(
+          spacing: 2, //主轴上子控件的间距
+          runSpacing: 5, //交叉轴上子控件之间的间距
+          children: _buildPostContent(topic.content[index - 1].infor), //要显示的子控件集合
+        )
       );
     }
     return Container(
@@ -237,7 +239,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                   Container(
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(comments[index].reply_content[0].infor, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,),
+                      child: Wrap(
+                        spacing: 2, //主轴上子控件的间距
+                        runSpacing: 5, //交叉轴上子控件之间的间距
+                        children: _buildPostContent(comments[index].reply_content[0].infor), //要显示的子控件集合
+                      )
                     ),
                     padding: EdgeInsets.only(bottom: 6, top: 6),
                   ),
@@ -346,4 +352,23 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
   toRefresh() {
     return null;
   }
+}
+
+// 构建回复内容和帖子内容的布局
+List<Widget> _buildPostContent (String info) {
+  print("这是帖子回复内容${info}");
+  List<regexp_util.RegExpType> source = regexp_util.getContentDetail(info);
+  print("这是获取到的内容${source.toString()}");
+  var result = <Widget>[];
+  for ( int i = 0 ; i  < source.length; i++) {
+    regexp_util.RegExpType type = source[i];
+    if (type.type == regexp_util.content_text) {
+      var item = Text(type.content, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,);
+      result.add(item);
+    } else {
+      var item = CachedNetworkImage(imageUrl : type.content, width: 50, height: 50,);
+      result.add(item);
+    }
+  }
+  return result;
 }

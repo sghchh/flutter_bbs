@@ -36,7 +36,8 @@ class ChildBoardInfoWidget extends StatefulWidget {
   }
 }
 
-class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTickerProviderStateMixin
+class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget>
+    with SingleTickerProviderStateMixin
     implements IBaseView {
   BoardPresenterImpl _presenter;
   ChildBoardInfoResponse sourceData;
@@ -65,29 +66,40 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTick
 
         //有可能该板块不含有子版块
         sourceData = snaphot.data;
-        board = sourceData.list.length == 0 ? null : sourceData.list[0];        //不为null则说明该板块含有子板块
+        board = sourceData.list.length == 0
+            ? null
+            : sourceData.list[0]; //不为null则说明该板块含有子板块
         childBoard = board == null ? null : board.board_list;
 
         return MaterialApp(
             title: "清水河畔",
-            home: DefaultTabController(length: board != null ? childBoard.length + 1 : 1,
+            home: DefaultTabController(
+                length: board != null ? childBoard.length + 1 : 1,
                 child: Scaffold(
                     appBar: sourceData == null
                         ? null
                         : PreferredSize(
-                      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
-                      child: AppBar(
-                        title: Text(boardName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white),),
-                        centerTitle: true,
-                        bottom: sourceData == null
-                            ? null
-                            : _buildTabBar(),
-                      ),
-                    ),
+                            preferredSize: Size.fromHeight(
+                                MediaQuery.of(context).size.height * 0.10),
+                            child: AppBar(
+                              leading: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () => Navigator.pop(context)),
+                              title: Text(
+                                boardName,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                              centerTitle: true,
+                              bottom:
+                                  sourceData == null ? null : _buildTabBar(),
+                            ),
+                          ),
                     body: TabBarView(children: _buildBody()))));
       },
     );
@@ -135,17 +147,28 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTick
   Widget _buildTabBar() {
     var tabs = <Widget>[];
     // 将板块自己加进去
-    var tab0 = Text(this.boardName, style: TextStyle(fontSize: 15),);
+    var tab0 = Text(
+      this.boardName,
+      style: TextStyle(fontSize: 15),
+    );
     tabs.add(tab0);
 
     if (childBoard == null)
-      return TabBar(labelPadding: EdgeInsets.all(5), tabs: tabs, isScrollable: true,);
-     // 将所有子版块加进来
+      return TabBar(
+        labelPadding: EdgeInsets.all(5),
+        tabs: tabs,
+        isScrollable: true,
+      );
+    // 将所有子版块加进来
     for (int i = 0; i < childBoard.length; i++) {
       var tab = Text(childBoard[i].board_name, style: TextStyle(fontSize: 15));
       tabs.add(tab);
     }
-    return TabBar(labelPadding: EdgeInsets.all(5), tabs: tabs, isScrollable: true,);
+    return TabBar(
+      labelPadding: EdgeInsets.all(5),
+      tabs: tabs,
+      isScrollable: true,
+    );
   }
 
   // 构建Scallod的body
@@ -155,11 +178,11 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget> with SingleTick
     var item0 = BoardPostWidget(boardName, fid);
     result.add(item0);
 
-    if (childBoard == null)
-      return result;
+    if (childBoard == null) return result;
     // 将所有子版块加进去
     for (int i = 0; i < childBoard.length; i++) {
-      var item = BoardPostWidget(childBoard[i].board_name, childBoard[i].board_id);
+      var item =
+          BoardPostWidget(childBoard[i].board_name, childBoard[i].board_id);
       result.add(item);
     }
     return result;

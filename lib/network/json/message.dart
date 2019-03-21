@@ -12,11 +12,12 @@ class MessageResponse {
 //组成MessageResponse的元素
 class _Head {
   String errInfo;
-
-  _Head({this.errInfo});
+  String errCode;
+  _Head({this.errInfo, this.errCode});
 
   _Head.fromJson(Map<String, dynamic> json)
-      : this.errInfo = json['errInfo'];
+      : this.errInfo = json['errInfo'],
+        this.errCode = json['errCode'];
 
 }
 

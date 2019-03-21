@@ -18,7 +18,7 @@ class DetailPageWidget extends StatelessWidget {
       home: Scaffold(
         appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),
           child: AppBar(
-            leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: null),
+            leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: () => Navigator.pop(context)),
             title: Text('帖子详情', style: TextStyle(fontSize: 20, color: Colors.white),),
             centerTitle: true,
           ),),

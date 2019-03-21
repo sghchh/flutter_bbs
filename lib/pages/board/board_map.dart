@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bbs/pages/board/child_board/board_child.dart';
 import 'package:flutter_bbs/pages/board/child_board/board_child_stateful.dart';
+import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
 ///created by sgh     2019-3-1
 /// 用来将板块列表的数据转化成Widget
@@ -19,12 +19,14 @@ class MapUtil {
 
   _mapToWidgetList() {
     for(int i = 0; i < _sourceData.length; i++) {
+      // 如果该板块关闭，直接跳过
+      if(const_util.forbiddenBoard[_sourceData[i].board_category_name] == 1)
+        continue;
       var categoryItem = _mapCategory(_sourceData[i]);
       for (int j = 0; j < categoryItem.length; j++) {
         finalResult.add(categoryItem[j]);
       }
     }
-    return finalResult;
   }
 
   //负责将每一个板块分类及其下面的板块构建成Widget
@@ -38,11 +40,20 @@ class MapUtil {
       ),),
     );
     results.add(name);
-    results.add(_mapCardBoard(sourceData.board_list));
+    List boardList = sourceData.board_list;
+    // 取出关闭的板块
+    for ( int i = 0; i < boardList.length; ) {
+      if (const_util.forbiddenBoard[boardList[i].board_name] == 1) {
+        boardList.removeAt(i);
+        continue;
+      }
+      i++;
+    }
+    results.add(_mapCardBoard(boardList));
     return results;
   }
 
-  // 构建Card的板块
+  // 构建Card的板块，参数为List<_BoardList>
   _mapCardBoard(sourceBoardData) {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -57,7 +68,7 @@ class MapUtil {
     );
   }
 
-// 构建card布局
+// 构建card布局,参数为_BoardList
   Widget _buildItem(data) {
     return Container(
       //padding: EdgeInsets.all(8),
@@ -74,7 +85,7 @@ class MapUtil {
                 Align(
                   child: Container(
                     padding: EdgeInsets.only(top: 5),
-                    child: CachedNetworkImage(imageUrl: data.board_img, height: 55, width: 55,),
+                    child: Image.network(data.board_img, height: 55, width: 55,),
                   ),
                   alignment: Alignment.topCenter,
                 ),

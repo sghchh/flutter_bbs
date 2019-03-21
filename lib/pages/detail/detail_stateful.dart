@@ -13,7 +13,6 @@ import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
 
-import 'package:cached_network_image/cached_network_image.dart';
 
 class DetailWidget extends StatefulWidget {
 
@@ -137,7 +136,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                 Container(
                   padding: EdgeInsets.all(6),
                   child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(topic.icon),
+                    backgroundImage: NetworkImage(topic.icon),
                     radius: 24,
                   ),
                 ),
@@ -183,7 +182,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
       margin: EdgeInsets.only(top: 5, bottom: 5),
       child: Align(
         alignment: Alignment.center,
-        child: CachedNetworkImage(imageUrl: topic.content[index - 1].infor, width: 300, height: 160,),
+        child: Image.network(topic.content[index - 1].infor, width: 300, height: 160,),
       ),
     );
 
@@ -204,7 +203,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(8),
-              child: CircleAvatar(backgroundImage: CachedNetworkImageProvider(comments[index].icon), radius: 24,),
+              child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
             ),
             Flexible(
               child: Column(
@@ -371,7 +370,7 @@ List<Widget> _buildPostContent (String info) {
       var item = Text(type.content, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,);
       result.add(item);
     } else {
-      var item = CachedNetworkImage(imageUrl : type.content, width: 50, height: 50,);
+      var item = Image.network(type.content, width: 50, height: 50,);
       result.add(item);
     }
   }

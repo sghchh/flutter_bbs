@@ -123,6 +123,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
         await LoginClient.login(type: 'login', username: name, password: pass);
     if (response.statusCode == 200) {
       User mUser = await compute(_getBody, response.data);
+      print("这里是login 用户信息是${mUser.toJson().toString()}");
       // 代表密码账户都正确
       if (mUser.head.errCode == const_util.success) {
         Navigator.of(mContext).popAndPushNamed('main/mainPage');

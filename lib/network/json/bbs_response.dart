@@ -42,9 +42,9 @@ class BBSRepListPost {
   BBSRepListPost.fromJson(Map<String, dynamic> json)
       : rs = json['rs'],
         errcode = json['errcode'],
-        page = json['page'],
-        has_next = json['has_next'],
-        total_num = json['total_num'],
+        this.page = json['page'],
+        this.has_next = json['has_next'],
+        this.total_num = json['total_num'],
         head = _Head.fromJson(json['head']){
 
     if (json['list'] == null) {
@@ -81,13 +81,17 @@ class BBSRespListUserPub {
         this.total_num = json['total_num'],
         this.head = _Head.fromJson(json['head']) {
 
-    var result = <UserPublish>[];
-    for (int i = 0; i < json['list'].length; i++) {
-      var item = UserPublish.fromJson(json['list'][i]);
-      result.add(item);
+
+    if (json['list'] == null) {
+      var result = <UserPublish>[];
+      for (int i = 0; i < json['list'].length; i++) {
+        var item = UserPublish.fromJson(json['list'][i]);
+        result.add(item);
+      }
+      this.list = result;
     }
-    this.list = result;
-  }
+    }
+
 }
 
 /// 帖子详情返回的json
@@ -104,18 +108,22 @@ class PostDetailResponse {
   PostDetailResponse.fromJson(Map<String, dynamic> json)
       : this.rs = json['rs'],
         this.errcode = json['errcode'],
-        this.page = json['page'],
-        this.has_next = json['has_next'],
-        this.total_num = json['total_num'],
+        this.page = json['page'] != null ? json['page'] : null,
+        this.has_next = json['has_next'] != null ? json['has_next'] : null,
+        this.total_num = json['total_num'] != null ? json['total_num'] : null,
         this.head = _Head.fromJson(json['head']),
         this.topic = json['page'] == 1 ? PostDetail.fromJson(json['topic']) : null {
 
-    var result = <ReplyDetail>[];
-    for (int i = 0; i < json['list'].length; i++) {
-      var item = ReplyDetail.fromJson(json['list'][i]);
-      result.add(item);
+
+    if (json['list'] != null) {
+      var result = <ReplyDetail>[];
+      for (int i = 0; i < json['list'].length; i++) {
+        var item = ReplyDetail.fromJson(json['list'][i]);
+        result.add(item);
+      }
+      this.list = result;
     }
-    this.list = result;
+
   }
 }
 
@@ -131,11 +139,14 @@ class ChildBoardInfoResponse {
         this.errcode = json['errcode'],
         this.head = _Head.fromJson(json['head']) {
 
-    var result = <Board>[];
-    for (int i = 0; i < json['list'].length; i++) {
-      var item = Board.fromJson(json['list'][i]);
-      result.add(item);
+
+    if (json['list'] != null) {
+      var result = <Board>[];
+      for (int i = 0; i < json['list'].length; i++) {
+        var item = Board.fromJson(json['list'][i]);
+        result.add(item);
+      }
+      this.list = result;
     }
-    this.list = result;
-  }
+    }
 }

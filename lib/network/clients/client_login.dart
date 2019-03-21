@@ -15,15 +15,19 @@ class LoginClient {
   static Future login ({@required type, @required username, @required password}) async {
     var map = {"type" : type, "username" : username, "password" : password};
     //post请求的返回体
-    var response;
     try {
-      response = await _dioClient.post(url, queryParameters: map);
+      Response response = await _dioClient.post(url, queryParameters: map);
+      print("这里是loginclient123 ${response.toString()}");
+      return response;
     } on DioError catch(e) {
+      print("这是错误信息${e.message}");
       if (e.response != null)
         print(e.response.statusCode);
-      response = e.response;
+      print("这里是loginclient ${e.response.toString()}");
+      return e.response;
     }
-    return response;
+
+
   }
 
 

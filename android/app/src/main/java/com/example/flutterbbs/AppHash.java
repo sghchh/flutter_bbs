@@ -36,7 +36,6 @@ public class AppHash {
     }
     public static String getAppHashValue() throws NoSuchAlgorithmException {
         String timeString = String.valueOf(System.currentTimeMillis());
-        Log.e("", "-------getAppHashValue: ----------"+timeString );
         String authkey = "appbyme_key";
         String authString = timeString.substring(0, 5) + authkey;
         MessageDigest md = MessageDigest.getInstance("MD5");

@@ -57,12 +57,15 @@ class User {
         this.groupid = json['groupid'],
         this.repeatList = json['repeatList'],
         this.verify = json['verify'] {
-    var result = <_CreditShowListBean>[];
-    for (int i = 0; i < json['creditShowList'].length; i ++) {
-      var item = _CreditShowListBean.fromJson(json['creditShowList'][i]);
-      result.add(item);
+
+    if (json['creditShowList'] != null) {
+      var result = <_CreditShowListBean>[];
+      for (int i = 0; i < json['creditShowList'].length; i ++) {
+        var item = _CreditShowListBean.fromJson(json['creditShowList'][i]);
+        result.add(item);
+      }
+      this.creditShowList = result;
     }
-    this.creditShowList = result;
   }
 
 
@@ -226,13 +229,15 @@ class UserList {
         this.page = json['page'],
         this.has_next = json['has_next'],
         this.total_num = json['total_num'] {
-    var result = <ListBean>[];
-    for (int i = 0; i < json['list'].length; i++) {
-      var item = ListBean.fromJson(json['list'][i]);
-      result.add(item);
+    if (json['list'] != null) {
+      var result = <ListBean>[];
+      for (int i = 0; i < json['list'].length; i++) {
+        var item = ListBean.fromJson(json['list'][i]);
+        result.add(item);
+      }
+      this.list = result;
     }
-    this.list = result;
-  }
+    }
 }
 
 /// UserList的一部分

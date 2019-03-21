@@ -23,3 +23,5 @@ const String refresh = 'refresh';                  //表示该网络请求是刷
 const String loadMore = 'loadMore';              //表示该网络请求是加载更多数据
 const String noMore = 'noMore';                  //表示加载数据时没有更多数据了
 const String success = '00000000';         //代表成功获取服务器的数据
+
+const forbiddenBoard = <String, int>{'学术交流' : 1, '出国留学' : 1, '考试专区' : 1, '新生专区' : 1, '自然科学' : 1, '科技资讯' : 1, '站务公告' : 1, '站务综合' : 1, '站务管理' : 1};     //已经关闭的板块

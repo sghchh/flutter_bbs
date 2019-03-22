@@ -97,7 +97,7 @@ class PostDetail {
 
 class _Content {
   String infor;
-  int type;
+  int type;             //0代表文字,1代表图片url，4代表网址url
   String url;
   String desc;
   String originalInfo;

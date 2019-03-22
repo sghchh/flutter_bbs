@@ -167,7 +167,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     }
 
     // 构建帖子内容
-    if ( topic.content[index - 1].type == 0) {
+    if ( topic.content[index - 1].type != 1) {
       return Container(
         padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
         child: Wrap(
@@ -367,7 +367,7 @@ List<Widget> _buildPostContent (String info) {
   for ( int i = 0 ; i  < source.length; i++) {
     regexp_util.RegExpType type = source[i];
     if (type.type == regexp_util.content_text) {
-      var item = Text(type.content, style: TextStyle(fontSize: 14, color: Colors.black), maxLines: 20, softWrap: true, overflow: TextOverflow.ellipsis,);
+      var item = Text(type.content, style: TextStyle(fontSize: 14, color: Colors.black), softWrap: true,);
       result.add(item);
     } else {
       var item = Image.network(type.content, width: 50, height: 50,);

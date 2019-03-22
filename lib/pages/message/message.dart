@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 /// 构建消息界面的Widget
 class MessagePageWidget extends StatelessWidget {
 
+  TabController controller;
+  MessagePageWidget({this.controller});
   @override
   Widget build(BuildContext context) {
     return TabBarView(
+      controller: controller,
       children: <Widget>[
         MessageReplyWidget(),
         MessageAtmeWidget(),

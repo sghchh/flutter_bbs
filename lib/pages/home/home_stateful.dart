@@ -37,7 +37,7 @@ class HomeWidget extends StatefulWidget {
 
 ///HomeState为View层的实现类
 class _HomeViewImpl extends State<HomeWidget>
-    with AutomaticKeepAliveClientMixin
+    with AutomaticKeepAliveClientMixin,SingleTickerProviderStateMixin
     implements IBaseView {
   IBasePresenter _presenter; //用啦发起网络请求的Presenter
 
@@ -109,8 +109,10 @@ class _HomeViewImpl extends State<HomeWidget>
     );
   }
 
+
   //构建链表
   Widget _buildList() {
+    _check();
     return RefreshIndicator(
       onRefresh: toRefresh,
       child: ListView.builder(
@@ -261,6 +263,17 @@ class _HomeViewImpl extends State<HomeWidget>
         child: Text("上拉加载更多...", style: TextStyle(color: Colors.blueGrey)),
       ),
     );
+  }
+
+  /// 该方法的作用是将List<Post>中属于已经关闭板块的帖子去掉
+  _check() {
+    for (int i = 0; i < data.length; ) {
+      if (const_util.forbiddenBoard[data[i].board_id] == 1) {
+        data.removeAt(i);
+        continue;
+      }
+      i++;
+    }
   }
 
   @override

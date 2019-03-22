@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 
 class HomePageWidget extends StatelessWidget {
 
+  TabController controller;
+  HomePageWidget({this.controller});
   @override
   Widget build(BuildContext context) {
     return TabBarView(
+      controller: controller,
       children: <Widget>[
         HomeWidget(tap: const_util.TODATHOT),
         HomeWidget(tap: const_util.NEWREPLY),

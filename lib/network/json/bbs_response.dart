@@ -82,7 +82,7 @@ class BBSRespListUserPub {
         this.head = _Head.fromJson(json['head']) {
 
 
-    if (json['list'] == null) {
+    if (json['list'] != null) {
       var result = <UserPublish>[];
       for (int i = 0; i < json['list'].length; i++) {
         var item = UserPublish.fromJson(json['list'][i]);

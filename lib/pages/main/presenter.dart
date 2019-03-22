@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
@@ -20,6 +21,7 @@ class MainPresenterImpl extends IMainPresenter {
   void _onBind() {
     mainViewImpl.setPresenter(this);
     mainModelImpl.setPresenter(this);
+
   }
 
   @override

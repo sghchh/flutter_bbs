@@ -68,6 +68,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
                     Container(
                       padding: EdgeInsets.only(bottom: 18),
                       child: TextField(
+                        obscureText: true,
                         controller: passController,
                         decoration: InputDecoration(
                             labelText: '密码', icon: Icon(Icons.lock)),

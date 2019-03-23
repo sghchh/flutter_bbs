@@ -22,6 +22,7 @@ class DioClient {
     mOptions.connectTimeout = 5000;   //设置5s的链接超时
     mOptions.contentType = ContentType.parse("application/x-www-form-urlencoded");
     mOptions.responseType = ResponseType.json;
+    mOptions.headers = {'Connection' : 'keep-alive'};
     _mClient.options = mOptions;
   }
 }

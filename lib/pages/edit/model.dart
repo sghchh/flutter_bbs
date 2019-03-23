@@ -18,7 +18,10 @@ class EditModelImpl extends IBaseModel {
   }
 
   publish (Map query) async{
-    print("这里是model");
+    return await EditClient.publish(query);
+  }
+
+  comment(Map query) async {
     return await EditClient.publish(query);
   }
 }

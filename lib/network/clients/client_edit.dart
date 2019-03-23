@@ -23,17 +23,14 @@ class EditClient {
 
   // 发帖
   static Future publish(Map query) async {
-    print("这里是client");
     Response response;
     try {
       response = await _dioClient.post(_publishPath, data: query);
     } on DioError catch(e) {
       if (e.response != null)
         print(e.response.statusCode);
-      print("这里是client try catch, error is ${e.message}");
       response = e.response;
     }
-    print("这里是client, response is ${response.toString()}");
     return response;
   }
 

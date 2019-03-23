@@ -162,7 +162,12 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
   bindData(sourcedata, type) {
     setState(() {
       this.classificationTypeList = sourcedata.classificationType_list;
-      ClassificationType type = ClassificationType("无", boardValue);
+      ClassificationType type = ClassificationType("无", -1);
+      if (classificationTypeList == null) {
+        this.classificationTypeList = <ClassificationType>[];
+        this.classificationTypeList.add(type);
+        return;
+      }
       this.classificationTypeList.add(type);
     });
   }
@@ -227,11 +232,10 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
     PublishInfo info = PublishInfo(
         title: title,
         fid: boardValue,
-        typeId: childBoard,
+        typeId: (childBoard == -1 || childBoard == null) ? null : childBoard,
         content: contents.toString());
     PublishBody body = PublishBody(info);
     PublishJson json = PublishJson(body);
-    print("这里是json测试${convert.jsonEncode(json.toJson())}");
     (presenter as EditPresenterImpl).publish(<String, dynamic>{
       'apphash' : await user_cache.getAppHash(),
       'accessToken' : finalUser.token,
@@ -239,5 +243,6 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
       'act' : "new",
       'json' : json.toString()
     });
+    Navigator.of(context).pop();
   }
 }

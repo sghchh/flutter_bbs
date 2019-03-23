@@ -9,6 +9,7 @@ import 'package:flutter_bbs/pages/board/board_map.dart';
 import 'package:flutter_bbs/pages/detail/model.dart';
 import 'package:flutter_bbs/pages/detail/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/pages/edit/comment/comment.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
@@ -249,7 +250,11 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                     padding: EdgeInsets.only(bottom: 6, top: 6),
                   ),
                   Align(
-                    child: FlatButton(onPressed: null, child: Text('回复', style: TextStyle(color: Colors.blue),)),
+                    child: FlatButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CommentWidget(topicId, replyId: comments[index].reply_id,);
+                      }));
+                    }, child: Text('回复', style: TextStyle(color: Colors.blue),)),
                     alignment: Alignment.centerRight,
                   )
                 ],

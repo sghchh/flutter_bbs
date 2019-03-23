@@ -1,3 +1,4 @@
+import 'package:flutter_bbs/dialog.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bbs/network/json/post.dart';
 import 'package:flutter_bbs/network/json/publish.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/edit/edit_menu_item.dart' as menu_item;
+import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
@@ -147,7 +149,7 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
                     margin: EdgeInsets.only(left: 16, right: 5),
                     child: IconButton(
                       icon: Icon(Icons.send, color: Colors.blue),
-                      onPressed: publish,
+                      onPressed: finalPublish,
                       iconSize: 36,
                     )),
               )
@@ -216,17 +218,30 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
     });
   }
 
-  publish() async{
+  finalPublish() {
+    var dialog = ShowAwait<ReturnType>(_publish(),);
+    showDialog<ReturnType>(context: context,
+        builder: (c) => dialog
+    ).then((onvalue){
+      if (onvalue.type == 1) {
+        Navigator.of(context).pop();
+        showToast("发表成功~");
+      } else {
+        showToast(onvalue.content);
+      }
+    });
+  }
+  Future _publish() async{
     User finalUser = await user_cache.finalUser();
     var title = controller1.text.trim();
     var content = controller2.text.trim();
     if (title == "" || title == null || content == "" || content == null) {
-      showToast('标题或者内容不能为空');
-      return;
+      ReturnType type = ReturnType(0, content: '标题或者内容不能为空');
+      return type;
     }
     if (typeValue == null || boardValue == null || childBoard == null){
-      showToast("请选择板块");
-      return;
+      ReturnType type = ReturnType(0, content: '请选择板块');
+      return type;
     }
     PublishContent contents = PublishContent(0, content);
     PublishInfo info = PublishInfo(
@@ -236,13 +251,13 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
         content: contents.toString());
     PublishBody body = PublishBody(info);
     PublishJson json = PublishJson(body);
-    (presenter as EditPresenterImpl).publish(<String, dynamic>{
+    var response = (presenter as EditPresenterImpl).publish(<String, dynamic>{
       'apphash' : await user_cache.getAppHash(),
       'accessToken' : finalUser.token,
       'accessSecret' : finalUser.secret,
       'act' : "new",
       'json' : json.toString()
     });
-    Navigator.of(context).pop();
+    return response;
   }
 }

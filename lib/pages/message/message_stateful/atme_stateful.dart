@@ -8,6 +8,7 @@ import 'package:flutter_bbs/pages/message/model.dart';
 import 'package:flutter_bbs/pages/message/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/time_util.dart' as time_util;
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -83,7 +84,7 @@ class _MsgViewImpl extends State<MessageAtmeWidget> with AutomaticKeepAliveClien
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Text(sourceData[index].user_name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
-                              Text(sourceData[index].replied_date, style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
+                              Text(time_util.decodeTime(sourceData[index].replied_date), style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                             ],
                           ),
                           Container(

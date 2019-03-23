@@ -1,7 +1,9 @@
 import 'dart:convert' as convert;
 
+import 'package:flutter_bbs/dialog.dart';
 import 'package:flutter_bbs/network/clients/client_login.dart';
 import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
@@ -83,7 +85,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
                             children: <Widget>[
                               Expanded(
                                   child: RaisedButton(
-                                onPressed: _onLoginPressed,
+                                onPressed: login,
                                 child: Text('登录'),
                                 color: Theme.of(context).buttonColor,
                                 textColor: Colors.white,
@@ -111,31 +113,49 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
     );
   }
 
+  login() {
+    var dialog = ShowAwait<ReturnType>(_onLoginPressed());
+    showDialog<ReturnType>(context: context,
+        builder: (c) => dialog
+    ).then((onvalue){
+      // 返回1代表请求成功
+      if (onvalue.type == 1)
+        Navigator.of(mContext).pushNamed(onvalue.content);
+      else
+        showToast(onvalue.content);
+    });
+
+  }
+
   //发起登陆的事件
-  void _onLoginPressed() async {
+  // 最后返回0还是1，都是为了在dialog中处理
+  // 返回1代表成功
+  Future<ReturnType> _onLoginPressed() async {
     var name = nameController.text.trim();
     var pass = passController.text.trim();
     if (name == "" || name == null || pass == "" || pass == null) {
-      Scaffold.of(mContext).showSnackBar(showToast('姓名或者密码不能为空'));
-      return;
+      ReturnType type = ReturnType(0, content: "姓名或者密码不能为空");
+      return type;
     }
 
     final response =
         await LoginClient.login(type: 'login', username: name, password: pass);
     if (response.statusCode == 200) {
       User mUser = await compute(_getBody, response.data);
-      print("这里是login 用户信息是${mUser.toJson().toString()}");
       // 代表密码账户都正确
       if (mUser.head.errCode == const_util.success) {
-        Navigator.of(mContext).popAndPushNamed('main/mainPage');
         user_cache.storeUser(mUser);
+        ReturnType type = ReturnType(1, content: "main/mainPage");
+        return type;
       } else {
-        Scaffold.of(mContext)
-            .showSnackBar(showToast("${mUser.head.errCode} : ${mUser.head.errInfo}"));
+        // 说明是参数错误
+        ReturnType type = ReturnType(0, content: "${mUser.head.errCode} : ${mUser.head.errInfo}");
+        return type;
       }
     } else {
-      Scaffold.of(mContext)
-          .showSnackBar(showToast(response.statusCode.toString()));
+      // 说明是http错误
+      ReturnType type = ReturnType(0, content: "Http error : ${response.statusCode}");
+      return type;
     }
   }
 

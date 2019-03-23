@@ -13,6 +13,7 @@ import 'package:flutter_bbs/pages/edit/comment/comment.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
+import 'package:flutter_bbs/utils/time_util.dart' as time_util;
 
 
 class DetailWidget extends StatefulWidget {
@@ -102,18 +103,19 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
       controller: _scrollController,
       slivers: <Widget>[
         SliverList(
-          delegate: SliverChildBuilderDelegate(_buildTopic, childCount: topic.content.length + 1),
+          delegate: SliverChildBuilderDelegate(_buildTopic, childCount: topic.content.length + 2),
         ),
+        /*
         SliverPersistentHeader(
           delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 40,
               child: Card(child: Container(
                 padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
-                child: Text("评论", textAlign: TextAlign.center,textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
+                child: Text("评论", textAlign: TextAlign.start,textScaleFactor: 1.2, style: TextStyle(color: Colors.grey),),
               ),)
           ),
-        ),
+        ),*/
         SliverList(
-          delegate: SliverChildBuilderDelegate(_buildCommentsItem, childCount: comments.length + 1),
+          delegate: SliverChildBuilderDelegate(_buildItem, childCount: comments.length + 1),
         )
       ],
     );
@@ -150,7 +152,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 6),
-                      child: Text(topic.create_date, style: TextStyle(fontSize: 10, color: Colors.grey),),
+                      child: Text(time_util.decodeTime(topic.create_date), style: TextStyle(fontSize: 10, color: Colors.grey),),
                     ),
                   ],
                 )
@@ -166,6 +168,13 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
         ),
       );
     }
+
+    if (index == topic.content.length + 1)
+      return Container(
+        margin: EdgeInsets.only(top: 4),
+        //padding: EdgeInsets.only(left: 12, right: 10),
+        child: Divider(height: 2, color: Colors.blueGrey,),
+      );
 
     // 构建帖子内容
     if ( topic.content[index - 1].type != 1) {
@@ -224,7 +233,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                       padding: EdgeInsets.only(left: 4, bottom: 2),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(comments[index].posts_date, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                        child: Text(time_util.decodeTime(comments[index].posts_date), style: TextStyle(fontSize: 12, color: Colors.grey)),
                       )
                   ),
 
@@ -262,6 +271,82 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildItem(context, index) {
+    if (index == comments.length){
+      return _buildLoadMore();
+    }
+    return Container(
+      padding: EdgeInsets.only(top: 10, left: 20, right: 10, bottom: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(8),
+                  child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
+                ),
+                Flexible(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 4, bottom: 6),
+                            child: Text(comments[index].reply_name, style: TextStyle(fontSize: 15, color: Colors.blue),),
+                          ),
+                          Text('${index + 1} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
+                        ],
+                      ),
+                      Container(
+                          padding: EdgeInsets.only(left: 4, bottom: 2),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(time_util.decodeTime(comments[index].posts_date), style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          )
+                      ),
+                    ],
+                  ),
+                )
+              ]
+          ),
+          // 根据是否是回复来显示内容
+          comments[index].quote_content != "" ? Container(
+            padding: EdgeInsets.only(left: 5),
+            decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(comments[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
+            ),
+          ) : Container(width: 0, height: 0,),
+          Container(
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Wrap(
+                  spacing: 2, //主轴上子控件的间距
+                  runSpacing: 5, //交叉轴上子控件之间的间距
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: _buildPostContent(comments[index].reply_content[0].infor), //要显示的子控件集合
+                )
+            ),
+            padding: EdgeInsets.only(bottom: 6, top: 6),
+          ),
+          Align(
+            child: FlatButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return CommentWidget(topicId, replyId: comments[index].reply_id,);
+              }));
+            }, child: Text('回复', style: TextStyle(color: Colors.blue),)),
+            alignment: Alignment.centerRight,
+          ),
+          Divider(height: 1, color: Colors.blueGrey,)
+        ],
       ),
     );
   }

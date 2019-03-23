@@ -37,14 +37,14 @@ class _MainPageWidgetState extends State<MainPageWidget>
 
   final _bottomNavigationBar = <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(Icons.assignment, color: Colors.grey,),
-        activeIcon: Icon(Icons.assignment, color: Colors.deepPurple,),
-        title: Text('Hmoe')),
+        activeIcon: Icon(Icons.assignment, color: Colors.blue,),
+        title: Text('主页')),
     BottomNavigationBarItem(icon: Icon(Icons.grid_on, color: Colors.grey,),
-        activeIcon: Icon(Icons.grid_on, color: Colors.deepPurple,),
-        title: Text('Board')),
+        activeIcon: Icon(Icons.grid_on, color: Colors.blue,),
+        title: Text('板块')),
     BottomNavigationBarItem(icon: Icon(Icons.message, color: Colors.grey,),
-        activeIcon: Icon(Icons.message, color: Colors.deepPurple,),
-        title: Text('Message'))
+        activeIcon: Icon(Icons.message, color: Colors.blue,),
+        title: Text('消息'))
   ];
 
   @override
@@ -59,17 +59,17 @@ class _MainPageWidgetState extends State<MainPageWidget>
           primarySwatch: Colors.blue,
           buttonColor: Colors.lightBlueAccent,
         ),
-        home: _buildScaffold()
+        home: _buildScaffold(context)
     );
   }
 
-  Widget _buildScaffold() {
+  Widget _buildScaffold(context) {
     return Scaffold(
-        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
           child: AppBar(
               leading: Builder(builder: (context) {
                 return IconButton(icon: Icon(
-                  Icons.person, color: Colors.white, size: 30.0,),
+                  Icons.person, color: Colors.white, size: 25.0,),
                   onPressed: () => Scaffold.of(context).openDrawer(),);
               }),
               title: Text('清水河畔', style: TextStyle(
@@ -78,18 +78,21 @@ class _MainPageWidgetState extends State<MainPageWidget>
                   color: Colors.white),),
               centerTitle: true,
               actions: <Widget>[IconButton(
-                icon: Icon(Icons.search, color: Colors.white, size: 30.0,),
-                onPressed: null,)
-              ],
+                icon: Icon(Icons.search, color: Colors.white, size: 25.0,),
+                onPressed: () {Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("该功能尚未开放"),
+                  duration: Duration(milliseconds: 1500),
+                ));}
+              )],
               bottom: _getTabBar()
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: _bottomNavigationBar,
-          iconSize: 34.0,
+          iconSize: 26.0,
           currentIndex: _currentItemIndex,
-          fixedColor: Colors.deepPurple,
-          type: BottomNavigationBarType.shifting,
+          fixedColor: Colors.blue,
+          type: BottomNavigationBarType.fixed,
           onTap: (index) {
             setState(() {
               _currentItemIndex = index;

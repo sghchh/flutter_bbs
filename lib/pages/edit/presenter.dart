@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/network/json/bbs_response.dart';
+import 'package:flutter_bbs/return_type.dart';
 import 'dart:convert' as convert;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 
@@ -39,22 +40,32 @@ class EditPresenterImpl extends IBasePresenter{
     Response response = await (model as EditModelImpl).publish(query);
     if (response.statusCode == 200) {
       BBSResponse data = await compute(_decodePublish, response.data);
-      if (data.head.errCode != const_util.success)
-        view.showToast("${data.head.errCode} : ${data.head.errInfo}");
-      return;
+      if (data.head.errCode == const_util.success) {
+        ReturnType type = ReturnType(1, content: "发表成功");
+        return type;
+      }
+      // 说明是参数错误
+      ReturnType type = ReturnType(0, content: "${data.head.errCode} : ${data.head.errInfo}");
+      return type;
     }
-    view.showToast("Http error : ${response.statusCode}");
+    ReturnType type = ReturnType(0, content: "Http error : ${response.statusCode}");
+    return type;
   }
 
   comment(Map query) async{
     Response response = await (model as EditModelImpl).comment(query);
     if (response.statusCode == 200) {
       BBSResponse data = await compute(_decodePublish, response.data);
-      if (data.head.errCode != const_util.success)
-        view.showToast("${data.head.errCode} : ${data.head.errInfo}");
-      return;
+      if (data.head.errCode == const_util.success) {
+        ReturnType type = ReturnType(1, content: "发表成功");
+        return type;
+      }
+      // 说明是参数错误
+      ReturnType type = ReturnType(0, content: "${data.head.errCode} : ${data.head.errInfo}");
+      return type;
     }
-    view.showToast("Http error : ${response.statusCode}");
+    ReturnType type = ReturnType(0, content: "Http error : ${response.statusCode}");
+    return type;
   }
 
   static BBSRepListPost _decodeResponse(data) {

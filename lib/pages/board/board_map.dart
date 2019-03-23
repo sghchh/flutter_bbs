@@ -35,8 +35,8 @@ class MapUtil {
     List<Widget> results = <Widget>[];
     var name = SliverPersistentHeader(
       delegate: SliverAppBarDelegate(minHeight: 20, maxHeight: 25, child: Container(
-        padding: EdgeInsets.only(left: 12, top: 1, bottom: 1),
-        child: Text("${categoryId}", textScaleFactor: 1.4, style: TextStyle(color: Colors.grey),),
+        padding: EdgeInsets.only(left: 20, top: 1, bottom: 1),
+        child: Text("${categoryId}", textScaleFactor: 1.2, style: TextStyle(color: Colors.grey),),
       ),),
     );
     results.add(name);
@@ -70,22 +70,22 @@ class MapUtil {
 
 // 构建card布局,参数为_BoardList
   Widget _buildItem(data) {
-    return Container(
-      //padding: EdgeInsets.all(8),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ChildBoardInfoWidget(data.board_id, data.board_name);
-              //return BoardPostWidget('', 316);
-            }));
-          },
-          child: Card(
+    return Card(
+      child: Container(
+        //padding: EdgeInsets.all(8),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ChildBoardInfoWidget(data.board_id, data.board_name);
+                //return BoardPostWidget('', 316);
+              }));
+            },
             child: Column(
               children: <Widget>[
                 Align(
                   child: Container(
                     padding: EdgeInsets.only(top: 5),
-                    child: Image.network(data.board_img, height: 55, width: 55,),
+                    child: Image.network(data.board_img, height: 60, width: 60,),
                   ),
                   alignment: Alignment.topCenter,
                 ),
@@ -93,13 +93,13 @@ class MapUtil {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     margin: EdgeInsets.only(top: 2, bottom: 2),
-                    child: Text("${data.board_name}" , style: TextStyle( fontSize: 12)),
+                    child: Text("${data.board_name}" , style: TextStyle( fontSize: 10)),
                   ),
                 )
               ],
             ),
-          ),
-        )
+          )
+      ),
     );
   }
 }

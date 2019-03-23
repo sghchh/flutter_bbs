@@ -8,6 +8,7 @@ import 'package:flutter_bbs/pages/home/model.dart';
 import 'package:flutter_bbs/pages/home/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/time_util.dart' as time_util;
 
 import 'package:flutter/material.dart';
 
@@ -168,7 +169,7 @@ class _HomeViewImpl extends State<HomeWidget>
                           ),
                           Container(
                               padding: EdgeInsets.only(top: 2),
-                              child: Text('${data[index].last_reply_date}',
+                              child: Text(time_util.decodeTime(data[index].last_reply_date),
                                   style: TextStyle(
                                       fontSize: 12, color: Colors.grey))),
                           Container(

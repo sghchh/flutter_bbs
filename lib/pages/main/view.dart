@@ -63,7 +63,7 @@ class MainViewImpl extends IMainView {
   Widget _buildHmoeTabBar() {
     return TabBar(
       controller: _controller1,
-      labelPadding: EdgeInsets.all(8),
+      labelPadding: EdgeInsets.all(5),
       tabs: <Widget>[
         Text(homeTabTitles[0], style: TextStyle(fontSize: 15)),
         Text(homeTabTitles[1], style: TextStyle(fontSize: 15)),
@@ -77,7 +77,7 @@ class MainViewImpl extends IMainView {
   Widget _buildMessageTabBar() {
     return TabBar(
       controller: _controller2,
-      labelPadding: EdgeInsets.all(8),
+      labelPadding: EdgeInsets.all(5),
       tabs: <Widget>[
         Text(messageTabTitles[0], style: TextStyle(fontSize: 15)),
         Text(messageTabTitles[1], style: TextStyle(fontSize: 15)),

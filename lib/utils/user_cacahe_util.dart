@@ -53,3 +53,9 @@ _bindUser(String soucre) {
   User u = User.fromJson(convert.jsonDecode(soucre));
   return;
 }
+
+/// 用于登出的时候清空数据
+clear() async{
+  var sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.clear();
+}

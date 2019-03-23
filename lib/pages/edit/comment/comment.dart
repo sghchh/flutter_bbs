@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bbs/dialog.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/network/json/bbs_response.dart';
 import 'package:flutter_bbs/network/json/publish.dart';
 import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/edit/model.dart';
 import 'package:flutter_bbs/pages/edit/presenter.dart';
+import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
@@ -59,7 +62,7 @@ class CommentState extends State<CommentWidget>  implements IBaseView{
           ),
           actions: <Widget>[IconButton(
             icon: Icon(Icons.send, color: Colors.white, size: 30.0,),
-            onPressed: comment,)
+            onPressed: finalComment,)
           ],
         ),
         body: Container(
@@ -112,11 +115,24 @@ class CommentState extends State<CommentWidget>  implements IBaseView{
     return null;
   }
 
-  comment() async {
+  finalComment() {
+    var dialog = ShowAwait<ReturnType>(_comment(),);
+    showDialog<ReturnType>(context: context,
+        builder: (c) => dialog
+    ).then((onvalue){
+      if (onvalue.type == 1) {
+        Navigator.of(context).pop();
+        showToast("发表成功~");
+      } else {
+        showToast(onvalue.content);
+      }
+    });
+  }
+
+  Future<ReturnType> _comment() async {
     User finalUser = await user_cache.finalUser();
     if (controller.text.trim() == null || controller.text.trim() == ""){
-      showToast("内容不能为空");
-      return;
+      return ReturnType(0, content: "内容不能为空");
     }
     PublishContent contents = PublishContent(0, controller.text);
     PublishInfo info = PublishInfo(
@@ -126,14 +142,14 @@ class CommentState extends State<CommentWidget>  implements IBaseView{
         content: contents.toString());
     PublishBody body = PublishBody(info);
     PublishJson json = PublishJson(body);
-    (presenter as EditPresenterImpl).comment(<String, dynamic>{
+    var response = await (presenter as EditPresenterImpl).comment(<String, dynamic>{
       'apphash' : await user_cache.getAppHash(),
       'accessToken' : finalUser.token,
       'accessSecret' : finalUser.secret,
       'json' : json.toString(),
       'act' : 'reply'
     });
-    Navigator.of(context).pop();
+    return response;
   }
 
   @override

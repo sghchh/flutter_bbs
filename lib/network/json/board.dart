@@ -1,12 +1,20 @@
+import 'package:flutter_bbs/network/json/bbs_response.dart';
+
 ///Board界面获取板块列表的Json
 class ForumListModel {
   List<_Data> list;
   int online_user_num;
   int td_visitors;
+  int rs;
+  String errcode;
+  Head head;
 
   ForumListModel.fromJson(Map<String, dynamic> json)
       : this.online_user_num = json['online_user_num'],
-        this.td_visitors = json['td_visitors'] {
+        this.td_visitors = json['td_visitors'],
+        this.rs = json['rs'],
+        this.errcode = json['errcode'],
+        this.head = Head.fromJson(json['head']){
 
     var results = <_Data>[];
     for(int i = 0; i < json['list'].length; i++) {
@@ -39,6 +47,7 @@ class _Data {
 }
 
 ///Data的内部元素
+/// 代表“就业创业”这种每个板块的信息
 class _BoardList {
   int board_id;
   String board_name;

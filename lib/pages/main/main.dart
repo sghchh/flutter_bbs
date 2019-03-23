@@ -62,7 +62,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
         home: _buildScaffold()
     );
   }
-  
+
   Widget _buildScaffold() {
     return Scaffold(
         appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),

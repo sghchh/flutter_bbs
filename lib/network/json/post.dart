@@ -48,8 +48,20 @@ class Post {
         this.vote = jsonSource['vote'];
 }
 
+/// 获取某一个板块所有发表帖子时
+/// 该板块下面的分类标签
+class ClassificationType {
+  int classificationType_id;
+  String classificationType_name;
+
+  ClassificationType(this.classificationType_name, this.classificationType_id);
+  ClassificationType.fromJson(Map<String, dynamic> json)
+      : this.classificationType_id = json['classificationType_id'],
+        this.classificationType_name = json['classificationType_name'];
+}
 
 /// 帖子详情的一部分
+/// 代表楼主的帖子信息
 /// 封装在PostDetailResponse中
 class PostDetail {
   int topic_id;
@@ -95,6 +107,7 @@ class PostDetail {
   }
 }
 
+/// 代表楼主发的帖子的内容
 class _Content {
   String infor;
   int type;             //0代表文字,1代表图片url，4代表网址url

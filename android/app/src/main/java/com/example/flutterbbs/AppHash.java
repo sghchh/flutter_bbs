@@ -40,6 +40,7 @@ public class AppHash {
         String authString = timeString.substring(0, 5) + authkey;
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] hashkey = md.digest(authString.getBytes());
-        return new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
+        String finalResult = new BigInteger(1, hashkey).toString(16).substring(8, 16);//16进制转换字符串
+        return finalResult;
     }
 }

@@ -29,4 +29,5 @@ flutter:
   assets:
     - images/c.jpg
     - images/bg_splash.png
+    - images/ic_launcher.png
 

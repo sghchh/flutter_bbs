@@ -72,6 +72,7 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget>
         childBoard = board == null ? null : board.board_list;
 
         return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: "清水河畔",
             home: DefaultTabController(
                 length: board != null ? childBoard.length + 1 : 1,

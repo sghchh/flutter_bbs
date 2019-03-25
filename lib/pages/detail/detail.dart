@@ -15,12 +15,13 @@ class DetailPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: '清水河畔',
       home: Scaffold(
-        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.11),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.08),
           child: AppBar(
             leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: () => Navigator.pop(context)),
-            title: Text('帖子详情', style: TextStyle(fontSize: 20, color: Colors.white),),
+            title: Text('帖子详情', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
             centerTitle: true,
           ),),
         body: DetailWidget(this.topicId),

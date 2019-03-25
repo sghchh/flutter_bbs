@@ -47,26 +47,27 @@ class PublishInfo {
   String content;
   int isAnonymous;
   int tid;        //评论的时候传入的
-  int replyId;
+  int replyId;       //该数值在传入的时候是ReplyDetail中reply_post_id字段而不是reply_id,这一点具有迷惑性
   int isQuote;
+  int isOnlyAuthor;
 
-  PublishInfo({this.content, this.typeId, this.fid, this.title, this.isAnonymous : 0, this.tid, this.isQuote, this.replyId});
+  PublishInfo({this.content, this.typeId : 0, this.fid, this.title, this.isAnonymous : 0, this.tid, this.isQuote : 0, this.replyId, this.isOnlyAuthor : 0});
 
   Map<String, dynamic> toJson() => {
     "title" : this.title,
     "fid" : this.fid,
     "typeId" : this.typeId,
     "content" : this.content,
-    'isAnonymous' : this.isAnonymous
+    'isAnonymous' : this.isAnonymous,
   };
 
   @override
   String toString() {
-    if (tid != null && replyId == null)
-      return '{\"content\":${this.content},\"tid\":${this.tid}}';
-    if (tid != null && replyId != null)
-      return '{\"content\":${this.content},\"replyId\":${this.replyId},\"isQuote\":${this.isQuote},\"tid\":${this.tid}}';
-    return '{\"title\":"${this.title}",\"fid\":${this.fid},\"typeId\":${this.typeId},\"content\":${this.content},\"isAnonymous\":${this.isAnonymous},\"tid\":${this.tid}}';
+    //if (tid != null && replyId == null)
+      //return '{\"content\":${this.content},\"tid\":${this.tid}}';
+    //if (tid != null && replyId != null)
+      //return '{\"content\":${this.content},\"replyId\":${this.replyId},\"isQuote\":${this.isQuote},\"tid\":${this.tid}}';
+    return '{\"title\":"${this.title}",\"fid\":${this.fid},\"typeId\":${this.typeId},\"content\":${this.content},\"isAnonymous\":${this.isAnonymous},\"tid\":${this.tid},\"isQuote\":${this.isQuote},\"isOnlyAuthor\":${this.isOnlyAuthor},\"replyId\":${this.replyId}}';
   }
 }
 

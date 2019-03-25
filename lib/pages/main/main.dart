@@ -55,6 +55,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           buttonColor: Colors.lightBlueAccent,
@@ -65,7 +66,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
 
   Widget _buildScaffold(context) {
     return Scaffold(
-        appBar: PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
+        appBar: _currentItemIndex == 1 ? null : PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
           child: AppBar(
               leading: Builder(builder: (context) {
                 return IconButton(icon: Icon(

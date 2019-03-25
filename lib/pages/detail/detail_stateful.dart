@@ -10,6 +10,7 @@ import 'package:flutter_bbs/pages/detail/model.dart';
 import 'package:flutter_bbs/pages/detail/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/edit/comment/comment.dart';
+import 'package:flutter_bbs/pages/image_page.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
@@ -192,87 +193,17 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
       margin: EdgeInsets.only(top: 5, bottom: 5),
       child: Align(
         alignment: Alignment.center,
-        child: Image.network(topic.content[index - 1].infor, width: 300, height: 160,),
-      ),
-    );
-
-  }
-
-  //构建回复列表项的item
-  Widget _buildCommentsItem(context, index) {
-    if (index == comments.length){
-      return _buildLoadMore();
-    }
-    return Card(
-      margin: EdgeInsets.only(top: 5, bottom: 5, left: 6, right: 6),
-      child: Container(
-        padding: EdgeInsets.only(top: 12, left: 6, right: 6, bottom: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(8),
-              child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
-            ),
-            Flexible(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 4, bottom: 2, right: 16),
-                        child: Text(comments[index].reply_name, style: TextStyle(fontSize: 15, color: Colors.blue),),
-                      ),
-                      Text('${index} 楼', style: TextStyle(fontSize: 12, color: Colors.grey),)
-                    ],
-                  ),
-                  Container(
-                      padding: EdgeInsets.only(left: 4, bottom: 2),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(time_util.decodeTime(comments[index].posts_date), style: TextStyle(fontSize: 12, color: Colors.grey)),
-                      )
-                  ),
-
-                  // 根据是否是回复来显示内容
-                  comments[index].quote_content != "" ? Container(
-                    padding: EdgeInsets.only(left: 5),
-                    decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.lightBlueAccent, width: 2))),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(comments[index].quote_content, style: TextStyle(fontSize: 12, color: Colors.grey), maxLines: 3, softWrap: true, overflow: TextOverflow.ellipsis,),
-                    ),
-                  ) : Container(width: 0, height: 0,),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        spacing: 2, //主轴上子控件的间距
-                        runSpacing: 5, //交叉轴上子控件之间的间距
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: _buildPostContent(comments[index].reply_content[0].infor), //要显示的子控件集合
-                      )
-                    ),
-                    padding: EdgeInsets.only(bottom: 6, top: 6),
-                  ),
-                  Align(
-                    child: FlatButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CommentWidget(topicId, replyId: comments[index].reply_id,);
-                      }));
-                    }, child: Text('回复', style: TextStyle(color: Colors.blue),)),
-                    alignment: Alignment.centerRight,
-                  )
-                ],
-              ),
-            )
-          ],
+        child: GestureDetector(
+          child: Image.network(topic.content[index - 1].infor, width: 300, height: 160,),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ImagePage(url : topic.content[index - 1].infor);
+            }));
+          },
         ),
       ),
     );
+
   }
 
   Widget _buildItem(context, index) {
@@ -340,7 +271,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
           Align(
             child: FlatButton(onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return CommentWidget(topicId, replyId: comments[index].reply_id,);
+                return CommentWidget(topicId, replyId: comments[index].reply_posts_id,);
               }));
             }, child: Text('回复', style: TextStyle(color: Colors.blue),)),
             alignment: Alignment.centerRight,

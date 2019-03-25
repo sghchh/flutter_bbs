@@ -81,7 +81,7 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
-                                Text(sourceData[index].toUserName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                                Text(sourceData[index].toUserName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueGrey)),
                                 Text(time_util.decodeTime(sourceData[index].lastDateline), style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                               ],
                             ),

@@ -18,6 +18,7 @@ class BoardPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: '清水河畔',
       home: Scaffold(
         appBar: AppBar(

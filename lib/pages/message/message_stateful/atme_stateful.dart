@@ -83,7 +83,7 @@ class _MsgViewImpl extends State<MessageAtmeWidget> with AutomaticKeepAliveClien
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(sourceData[index].user_name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                              Text(sourceData[index].user_name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueGrey)),
                               Text(time_util.decodeTime(sourceData[index].replied_date), style: TextStyle(fontSize: 12, color: Colors.grey), textAlign: TextAlign.right,),
                             ],
                           ),

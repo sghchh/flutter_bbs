@@ -118,6 +118,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
     showDialog<ReturnType>(context: context,
         builder: (c) => dialog
     ).then((onvalue){
+      print("返回值的type 是 ${onvalue.type}, content 是${onvalue.content}");
       // 返回1代表请求成功
       if (onvalue.type == 1)
         Navigator.of(mContext).pushNamed(onvalue.content);

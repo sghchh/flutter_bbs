@@ -10,6 +10,7 @@ import 'package:flutter_bbs/pages/edit/model.dart';
 import 'package:flutter_bbs/pages/edit/presenter.dart';
 import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/snapbar_util.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 class CommentWidget extends StatefulWidget {
@@ -36,6 +37,7 @@ class CommentState extends State<CommentWidget> implements IBaseView {
   EditPresenterImpl _presenter;
   int topicId;
   int replyId;
+  BuildContext _scaffoldContext;
 
   CommentState(topid, {this.replyId}) {
     this.topicId = topid;
@@ -80,18 +82,21 @@ class CommentState extends State<CommentWidget> implements IBaseView {
             ),
             preferredSize:
                 Size.fromHeight(MediaQuery.of(context).size.height * 0.08)),
-        body: Container(
-          margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
-          child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-                hintText: "内容",
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                border: InputBorder.none),
-            maxLines: 10,
-            cursorWidth: 0,
-          ),
-        ),
+        body: Builder(builder: (context){
+          _scaffoldContext = context;
+          return Container(
+            margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                  hintText: "内容",
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                  border: InputBorder.none),
+              maxLines: 10,
+              cursorWidth: 0,
+            ),
+          );
+        })
       ),
     );
   }
@@ -112,7 +117,7 @@ class CommentState extends State<CommentWidget> implements IBaseView {
       content: Text("${content}"),
       duration: Duration(milliseconds: 1500),
     );
-    Scaffold.of(context).showSnackBar(snack);
+    Scaffold.of(_scaffoldContext).showSnackBar(snack);
   }
 
   @override
@@ -136,11 +141,12 @@ class CommentState extends State<CommentWidget> implements IBaseView {
     );
     showDialog<ReturnType>(context: context, builder: (c) => dialog)
         .then((onvalue) {
+          print("ReturnType type 是 ${onvalue.type},其content是${onvalue.content}");
       if (onvalue.type == 1) {
-        //Navigator.of(context).pop();
-        showToast("发表成功~");
+        Navigator.of(context).pop();
+        SnapBarUtil.getInstance().show("发表成功");
       } else {
-        showToast(onvalue.content);
+        SnapBarUtil.getInstance().show(onvalue.content);
       }
     });
   }

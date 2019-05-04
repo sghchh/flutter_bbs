@@ -3,6 +3,7 @@ import 'package:flutter_bbs/pages/edit/comment/comment.dart';
 import 'package:flutter_bbs/pages/detail/detail_stateful.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bbs/utils/snapbar_util.dart';
 
 ///created by sgh    2019-02-27
 /// "帖子详情"的展示界面
@@ -24,7 +25,10 @@ class DetailPageWidget extends StatelessWidget {
             title: Text('帖子详情', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
             centerTitle: true,
           ),),
-        body: DetailWidget(this.topicId),
+        body: Builder(builder: (context) {
+          SnapBarUtil.init(context);
+          return DetailWidget(this.topicId);
+        }),
         floatingActionButton: FloatingActionButton(
           child: Text("评", style: TextStyle(fontSize: 20, color: Colors.white),),
           onPressed: () {Navigator.push(context, MaterialPageRoute(

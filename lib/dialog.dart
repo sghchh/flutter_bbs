@@ -17,11 +17,8 @@ class _ShowAwaitState extends State<ShowAwait> {
   @override
   initState() {
     super.initState();
-
-    new Timer(new Duration(seconds: 2), () {
-      widget.requestCallback.then((onValue) {
-        Navigator.of(context).pop(onValue);
-      });
+    widget.requestCallback.then((onValue) {
+      Navigator.of(context).pop(onValue);
     });
   }
 

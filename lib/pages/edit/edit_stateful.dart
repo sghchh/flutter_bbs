@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bbs/dialog.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/edit/edit_menu_item.dart' as menu_item;
 import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/snapbar_util.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 import 'package:flutter/material.dart';
@@ -225,9 +227,9 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
     ).then((onvalue){
       if (onvalue.type == 1) {
         Navigator.of(context).pop();
-        showToast("发表成功~");
+        SnapBarUtil.getInstance().show("发表成功");
       } else {
-        showToast(onvalue.content);
+        SnapBarUtil.getInstance().show(onvalue.content);
       }
     });
   }
@@ -251,7 +253,7 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
         content: contents.toString());
     PublishBody body = PublishBody(info);
     PublishJson json = PublishJson(body);
-    var response = (presenter as EditPresenterImpl).publish(<String, dynamic>{
+    ReturnType response = (presenter as EditPresenterImpl).publish(<String, dynamic>{
       'apphash' : await user_cache.getAppHash(),
       'accessToken' : finalUser.token,
       'accessSecret' : finalUser.secret,

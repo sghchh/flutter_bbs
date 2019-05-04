@@ -8,6 +8,7 @@ import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/user/UserDrawer.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bbs/utils/snapbar_util.dart';
 
 ///create by sgh   2019-02-17
 /// 登录后的首页面
@@ -73,7 +74,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
                   Icons.person, color: Colors.white, size: 25.0,),
                   onPressed: () => Scaffold.of(context).openDrawer(),);
               }),
-              title: Text('清水河畔', style: TextStyle(
+              title: Text(_currentItemIndex == 0 ? '最热最新' : '私人消息', style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Colors.white),),
@@ -109,7 +110,9 @@ class _MainPageWidgetState extends State<MainPageWidget>
           onPressed: () {Navigator.of(context).pushNamed('edit/editPage');},
           elevation: 24,
         ),
-        body:_getBody()
+        body: Builder(builder: (context) {
+          return _getBody();
+        })
     );
   }
 

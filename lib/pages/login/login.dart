@@ -121,7 +121,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
       print("返回值的type 是 ${onvalue.type}, content 是${onvalue.content}");
       // 返回1代表请求成功
       if (onvalue.type == 1)
-        Navigator.of(mContext).pushNamed(onvalue.content);
+        Navigator.of(mContext).pushReplacementNamed(onvalue.content);
       else
         showToast(onvalue.content);
     });

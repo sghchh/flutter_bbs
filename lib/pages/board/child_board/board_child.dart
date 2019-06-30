@@ -80,27 +80,30 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget>
                     appBar: sourceData == null
                         ? null
                         : PreferredSize(
-                            preferredSize: Size.fromHeight(
-                                MediaQuery.of(context).size.height * 0.10),
-                            child: AppBar(
-                              leading: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () => Navigator.pop(context)),
-                              title: Text(
-                                boardName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.white),
-                              ),
-                              centerTitle: true,
-                              bottom:
-                                  sourceData == null ? null : _buildTabBar(),
+                      preferredSize: Size.fromHeight(
+                          MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.10),
+                      child: AppBar(
+                        leading: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
                             ),
-                          ),
+                            onPressed: () => Navigator.pop(context)),
+                        title: Text(
+                          boardName,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white),
+                        ),
+                        centerTitle: true,
+                        bottom:
+                        sourceData == null ? null : _buildTabBar(),
+                      ),
+                    ),
                     body: TabBarView(children: _buildBody()))));
       },
     );
@@ -173,6 +176,7 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget>
   }
 
   // 构建Scallod的body
+  // 即展示发表帖子的List区域
   List<Widget> _buildBody() {
     var result = <Widget>[];
     // 将该板块自己也加进去展示
@@ -183,7 +187,7 @@ class ChildBoardInfoViewImpl extends State<ChildBoardInfoWidget>
     // 将所有子版块加进去
     for (int i = 0; i < childBoard.length; i++) {
       var item =
-          BoardPostWidget(childBoard[i].board_name, childBoard[i].board_id);
+      BoardPostWidget(childBoard[i].board_name, childBoard[i].board_id);
       result.add(item);
     }
     return result;

@@ -14,8 +14,8 @@ import 'package:flutter_bbs/utils/snapbar_util.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 class CommentWidget extends StatefulWidget {
-  int topicId;
-  int replyId;
+  int topicId;    // 指代某一个帖子
+  int replyId;    // 回复帖子下的评论的时候指代某一个评论
   CommentWidget(this.topicId, {this.replyId})
       : this.presenter = EditPresenterImpl(),
         this.model = EditModelImpl();
@@ -141,7 +141,7 @@ class CommentState extends State<CommentWidget> implements IBaseView {
     );
     showDialog<ReturnType>(context: context, builder: (c) => dialog)
         .then((onvalue) {
-          print("ReturnType type 是 ${onvalue.type},其content是${onvalue.content}");
+      print("ReturnType type 是 ${onvalue.type},其content是${onvalue.content}");
       if (onvalue.type == 1) {
         Navigator.of(context).pop();
         SnapBarUtil.getInstance().show("发表成功");

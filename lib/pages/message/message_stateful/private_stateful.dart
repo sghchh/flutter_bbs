@@ -133,7 +133,8 @@ class _MsgViewImpl extends State<MessagePrivateWidget> with AutomaticKeepAliveCl
   @override
   Future toGetNetData() async {
     User finaluser = await user_cache.finalUser();
-    var response = presenter.loadNetData (type: const_util.MESSAGE_PMSE, query: { 'accessToken' : finaluser.token,
+    var response = presenter.loadNetData (type: const_util.MESSAGE_PMSE, query: {
+      'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await user_cache.getAppHash(),
       'sdkVersion' : const_util.sdkVersion

@@ -251,7 +251,8 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
   @override
   toGetMoreNetData() async{
     User finalUser = await user_cache.finalUser();
-    presenter.loadMoreNetData(type: const_util.user_favourite,query: {"type" : const_util.userFavoriteType,
+    presenter.loadMoreNetData(type: const_util.user_favourite,query: {
+      "type" : const_util.userFavoriteType,
       "uid" : finalUser.uid,
       "apphash" : await user_cache.getAppHash(),
       "accessToken" : finalUser.token,
@@ -264,7 +265,8 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    var data = presenter.loadNetData(type: const_util.user_favourite,query: {"type" : const_util.userFavoriteType,
+    var data = presenter.loadNetData(type: const_util.user_favourite,query: {
+      "type" : const_util.userFavoriteType,
       "uid" : finalUser.uid,
       "apphash" : await user_cache.getAppHash(),
       "accessToken" : finalUser.token,

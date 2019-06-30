@@ -94,7 +94,8 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    var response = presenter.loadNetData(type: const_util.user_friends, query: {"page" : 1,
+    var response = presenter.loadNetData(type: const_util.user_friends, query: {
+      "page" : 1,
       "type" : const_util.userFriendsType,
       "accessToken" : finalUser.token,
       "accessSecret" : finalUser.secret,

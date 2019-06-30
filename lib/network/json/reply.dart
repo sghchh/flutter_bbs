@@ -6,8 +6,8 @@ class ReplyDetail {
   List<_ReplyContent> reply_content;
   String reply_name;
   int reply_posts_id;
-  String posts_date;
-  String icon;
+  String posts_date;     // 该评论的发表时间的时间戳
+  String icon;     // 该评论作者的头像URL
   String mobileSign;
   String quote_content;
   int position;

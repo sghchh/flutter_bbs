@@ -163,7 +163,7 @@ class _CreditShowListBean {
   };
 }
 
-/// 用户信息界面中已经发表帖子的json
+/// 用户信息界面中 已经发表帖子 的最终json
 class UserPublish {
   String pic_path;
   int board_id;
@@ -210,7 +210,7 @@ class UserPublish {
         this.userAvatar = json['userAvatar'];
 }
 
-/// 用户界面中获取好友列表的json类
+/// 用户界面中获取 好友列表 的最终json类
 class UserList {
   int rs;
   String errcode;

@@ -17,13 +17,10 @@ class LoginClient {
     //post请求的返回体
     try {
       Response response = await _dioClient.post(url, queryParameters: map);
-      print("这里是loginclient123 ${response.toString()}");
       return response;
     } on DioError catch(e) {
-      print("这是错误信息${e.message}");
       if (e.response != null)
         print(e.response.statusCode);
-      print("这里是loginclient ${e.response.toString()}");
       return e.response;
     }
 

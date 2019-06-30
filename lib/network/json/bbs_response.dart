@@ -78,7 +78,7 @@ class BBSRepListPost {
   }
 }
 
-/// 用户信息界面返回已发帖子的json
+/// 用户信息界面返回 已发帖子 的json
 class BBSRespListUserPub {
   int rs;
   String errcode;
@@ -112,7 +112,7 @@ class BBSRespListUserPub {
 
 }
 
-/// 帖子详情返回的json
+/// 帖子详情 返回的json
 class PostDetailResponse {
   int rs;
   String errcode;
@@ -145,8 +145,8 @@ class PostDetailResponse {
   }
 }
 
-/// 获取某一个板块的子版块的信息的json
-/// 例如获取就业创业下的子版块的信息
+/// 获取某一个板块的主题的信息的json
+/// 例如获取就业创业下的主题的信息
 class ChildBoardInfoResponse {
   int rs;
   String errcode;

@@ -29,7 +29,7 @@ class MapUtil {
     }
   }
 
-  //负责将每一个板块分类及其下面的板块构建成Widget
+  //负责将每一个Category分类及其下面的板块构建成Widget
   _mapCategory(sourceData) {
     var categoryId = sourceData.board_category_name;        //获取板块分类的名称
     List<Widget> results = <Widget>[];

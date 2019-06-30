@@ -1,4 +1,3 @@
-
 import 'package:flutter_bbs/pages/main/model.dart';
 import 'package:flutter_bbs/pages/main/presenter.dart';
 import 'package:flutter_bbs/pages/main/view.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_bbs/utils/snapbar_util.dart';
 /// 登录后的首页面
 
 class MainPageWidget extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _MainPageWidgetState();
@@ -23,7 +21,6 @@ class MainPageWidget extends StatefulWidget {
 
 class _MainPageWidgetState extends State<MainPageWidget>
     with TickerProviderStateMixin {
-
   IMainPresenter mPresenter;
   IMainView mView;
   IMainModel mModel;
@@ -37,14 +34,35 @@ class _MainPageWidgetState extends State<MainPageWidget>
   }
 
   final _bottomNavigationBar = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.assignment, color: Colors.grey,),
-        activeIcon: Icon(Icons.assignment, color: Colors.blue,),
+    BottomNavigationBarItem(
+        icon: Icon(
+          Icons.assignment,
+          color: Colors.grey,
+        ),
+        activeIcon: Icon(
+          Icons.assignment,
+          color: Colors.blue,
+        ),
         title: Text('主页')),
-    BottomNavigationBarItem(icon: Icon(Icons.grid_on, color: Colors.grey,),
-        activeIcon: Icon(Icons.grid_on, color: Colors.blue,),
+    BottomNavigationBarItem(
+        icon: Icon(
+          Icons.grid_on,
+          color: Colors.grey,
+        ),
+        activeIcon: Icon(
+          Icons.grid_on,
+          color: Colors.blue,
+        ),
         title: Text('板块')),
-    BottomNavigationBarItem(icon: Icon(Icons.message, color: Colors.grey,),
-        activeIcon: Icon(Icons.message, color: Colors.blue,),
+    BottomNavigationBarItem(
+        icon: Icon(
+          Icons.message,
+          color: Colors.grey,
+        ),
+        activeIcon: Icon(
+          Icons.message,
+          color: Colors.blue,
+        ),
         title: Text('消息'))
   ];
 
@@ -61,34 +79,53 @@ class _MainPageWidgetState extends State<MainPageWidget>
           primarySwatch: Colors.blue,
           buttonColor: Colors.lightBlueAccent,
         ),
-        home: _buildScaffold(context)
-    );
+        home: _buildScaffold());
   }
 
-  Widget _buildScaffold(context) {
+  Widget _buildScaffold() {
     return Scaffold(
-        appBar: _currentItemIndex == 1 ? null : PreferredSize(preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.10),
-          child: AppBar(
-              leading: Builder(builder: (context) {
-                return IconButton(icon: Icon(
-                  Icons.person, color: Colors.white, size: 25.0,),
-                  onPressed: () => Scaffold.of(context).openDrawer(),);
-              }),
-              title: Text(_currentItemIndex == 0 ? '最热最新' : '私人消息', style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.white),),
-              centerTitle: true,
-              actions: <Widget>[IconButton(
-                icon: Icon(Icons.search, color: Colors.white, size: 25.0,),
-                onPressed: () {Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text("该功能尚未开放"),
-                  duration: Duration(milliseconds: 1500),
-                ));}
-              )],
-              bottom: _getTabBar()
-          ),
-        ),
+        appBar: _currentItemIndex == 1
+            ? null
+            : PreferredSize(
+                preferredSize:
+                    Size.fromHeight(MediaQuery.of(context).size.height * 0.10),
+                child: Builder(
+                  builder: (context) {
+                    return AppBar(
+                        leading: IconButton(
+                          icon: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                        ),
+                        title: Text(
+                          _currentItemIndex == 0 ? '最热最新' : '私人消息',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white),
+                        ),
+                        centerTitle: true,
+                        actions: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                                size: 25.0,
+                              ),
+                              onPressed: () {
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text("该功能尚未开放"),
+                                  duration: Duration(milliseconds: 1500),
+                                ));
+                              })
+                        ],
+                        bottom: _getTabBar());
+                  },
+                ),
+              ),
         bottomNavigationBar: BottomNavigationBar(
           items: _bottomNavigationBar,
           iconSize: 26.0,
@@ -99,23 +136,27 @@ class _MainPageWidgetState extends State<MainPageWidget>
             setState(() {
               _currentItemIndex = index;
             });
-          },),
+          },
+        ),
         drawer: Drawer(
           child: UserDrawer.getGrawer(),
         ),
         floatingActionButton: _currentItemIndex != 0
             ? null
             : FloatingActionButton(
-          child: Icon(Icons.edit, color: Colors.white,),
-          onPressed: () {Navigator.of(context).pushNamed('edit/editPage');},
-          elevation: 24,
-        ),
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('edit/editPage');
+                },
+                elevation: 24,
+              ),
         body: Builder(builder: (context) {
           return _getBody();
-        })
-    );
+        }));
   }
-
 
   //根据BottomNavigationBar的索引返回不同的页面
   Widget _getBody() {
@@ -123,7 +164,7 @@ class _MainPageWidgetState extends State<MainPageWidget>
   }
 
   //根据BottomNavigationBar的索引展示不同的TabBar
-  Widget _getTabBar () {
+  Widget _getTabBar() {
     return mPresenter.getTabBarByIndex(_currentItemIndex);
   }
 }

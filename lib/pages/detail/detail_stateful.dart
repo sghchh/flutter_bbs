@@ -41,6 +41,7 @@ class DetailWidget extends StatefulWidget {
   }
 }
 
+/// 用来展示帖子详情内容的Widget
 class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
   ScrollController _scrollController;       //用来控制上拉加载
@@ -122,7 +123,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
     );
   }
 
-  // 构建发帖人及其帖子内容的widget
+  /// 构建发帖人及其帖子内容的widget
   Widget _buildTopic(context, index) {
     // 构建头像等
     if (index == 0) {
@@ -206,6 +207,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
 
   }
 
+  /// 构建评论区 评论项 的方法
   Widget _buildItem(context, index) {
     if (index == comments.length){
       return _buildLoadMore();

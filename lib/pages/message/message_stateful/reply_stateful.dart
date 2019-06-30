@@ -143,7 +143,8 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
   @override
   toGetNetData() async {
     User finaluser = await user_cache.finalUser();
-    var response = presenter.loadNetData (type: const_util.MESSAGE_REPLY, query: { 'accessToken' : finaluser.token,
+    var response = presenter.loadNetData (type: const_util.MESSAGE_REPLY, query: {
+      'accessToken' : finaluser.token,
       'accessSecret' :finaluser.secret,
       'apphash' : await user_cache.getAppHash(),
       'sdkVersion' : const_util.sdkVersion

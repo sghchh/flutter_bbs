@@ -269,7 +269,8 @@ class _UserViewImpl extends State<PostedWidget> implements IBaseView {
   @override
   Future toGetNetData() async {
     User finalUser = await user_cache.finalUser();
-    var data = presenter.loadNetData(type: const_util.user_publish,query: {"type" : const_util.userPublishType,
+    var data = presenter.loadNetData(type: const_util.user_publish,query: {
+      "type" : const_util.userPublishType,
       "uid" : finalUser.uid,
       "apphash" : await user_cache.getAppHash(),
       "accessToken" : finalUser.token,

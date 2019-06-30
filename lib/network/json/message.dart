@@ -21,8 +21,8 @@ class _Head {
 
 }
 
-//消息界面中“帖子回复”的json
-//实际是在MessageResponse的里面
+// 消息界面中“帖子回复”的json
+// 实际是在MessageResponse的里面
 class PostMessage {
   String board_name;
   int board_id;
@@ -242,7 +242,8 @@ class MsgRespListReply {
         this.body = _ReplyBody.fromJson(json['body']);
 }
 
-//搭配MsgRespListReply
+// 搭配MsgRespListReply
+// 封装了所有 我的回复 中的消息
 class _ReplyBody {
   List<PostMessage> data;
 

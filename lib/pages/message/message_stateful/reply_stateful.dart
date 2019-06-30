@@ -97,7 +97,7 @@ class _MsgViewImpl extends State<MessageReplyWidget> with AutomaticKeepAliveClie
                           ),
                           Container(
                               padding: EdgeInsets.only(left: 3, top: 4, right: 3),
-                              child: Text(sourceData[index].reply_content.toString(), style: TextStyle(fontSize: 12))
+                              child: Text(sourceData[index].content == null ? sourceData[index].reply_content.toString() : sourceData[index].content.toString(), style: TextStyle(fontSize: 12))
                           )
                         ],),
                     )

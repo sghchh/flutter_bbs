@@ -179,7 +179,8 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
       );
 
     // 构建帖子内容
-    if ( topic.content[index - 1].type != 1) {
+    // 该情况代表是文本内容
+    if ( topic.content[index - 1].type == 0) {
       return Container(
         padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
         child: Wrap(
@@ -189,21 +190,33 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
           children: _buildPostContent(topic.content[index - 1].infor), //要显示的子控件集合
         )
       );
-    }
-    return Container(
-      margin: EdgeInsets.only(top: 5, bottom: 5),
-      child: Align(
-        alignment: Alignment.center,
-        child: GestureDetector(
-          child: Image.network(topic.content[index - 1].infor, width: 300, height: 160,),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ImagePage(url : topic.content[index - 1].infor);
-            }));
-          },
+    }  else if (topic.content[index - 1].type == 1) {
+      // 该类型说明是图片内容
+      return Container(
+        margin: EdgeInsets.only(top: 5, bottom: 5),
+        child: Align(
+          alignment: Alignment.center,
+          child: GestureDetector(
+            child: Image.network(topic.content[index - 1].originalInfo, width: 300, height: 160,),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ImagePage(url : topic.content[index - 1].infor);
+              }));
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container(
+          padding: EdgeInsets.only(left: 14, right: 10, top: 6, bottom: 6),
+          child: Wrap(
+            spacing: 2, //主轴上子控件的间距
+            runSpacing: 5, //交叉轴上子控件之间的间距
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: _buildPostContent(topic.content[index - 1].infor), //要显示的子控件集合
+          )
+      );
+    }
 
   }
 

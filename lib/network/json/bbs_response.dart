@@ -24,9 +24,10 @@ class BBSResponse<T> {
         this.head = Head.fromJson(json['head']);
 }
 
+/// 获取帖子列表的返回 JSON中处于第一级中的head参数的类型
 class Head {
-  String errCode;
-  String errInfo;
+  String errCode;     // 本次请求的状态码
+  String errInfo;     // 本次请求结果的中文描述
 
   Head({this.errCode, this.errInfo});
 
@@ -39,22 +40,13 @@ class Head {
 /// 也是各个板块获取发表消息的
 /// 返回的Json
 class BBSRepListPost {
-  int rs;
-  String errcode;
-  int page;
   int has_next;
-  int total_num;
   Head head;
   List<Post> list;
-  List<ClassificationType> classificationType_list;
-  BBSRepListPost({this.rs, this.errcode, this.page, this.has_next, this.total_num, this.head, this.list});
+  BBSRepListPost({this.has_next, this.head, this.list});
 
   BBSRepListPost.fromJson(Map<String, dynamic> json)
-      : rs = json['rs'],
-        errcode = json['errcode'],
-        this.page = json['page'],
-        this.has_next = json['has_next'],
-        this.total_num = json['total_num'],
+      : this.has_next = json['has_next'],
         head = Head.fromJson(json['head']){
 
     if (json['list'] == null) {
@@ -66,14 +58,6 @@ class BBSRepListPost {
         result.add(item);
       }
       this.list = result;
-    }
-    if (json['classificationType_list'] != null) {
-      var res = <ClassificationType>[];
-      for (int i = 0; i < json['classificationType_list'].length; i++) {
-        var item = ClassificationType.fromJson(json['classificationType_list'][i]);
-        res.add(item);
-        this.classificationType_list = res;
-      }
     }
   }
 }
@@ -120,8 +104,8 @@ class PostDetailResponse {
   int has_next;
   int total_num;
   Head head;
-  List<ReplyDetail> list;
-  PostDetail topic;           //只有在请求的时候page为1的时候才会有该字段
+  List<ReplyDetail> list;     // 代表评论区所有的评论
+  PostDetail topic;           // 代表楼主的帖子详情
 
   PostDetailResponse.fromJson(Map<String, dynamic> json)
       : this.rs = json['rs'],

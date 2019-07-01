@@ -1,4 +1,4 @@
-/// 将时间解析出来
+/// 将时间差解析出来
 String decodeTime(String time) {
   DateTime now = DateTime.now();
   DateTime ti = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
@@ -16,4 +16,10 @@ String decodeTime(String time) {
   if (days <= 5)
     return '${days}天前';
   return '${ti.year}-${ti.month}-${ti.day}';
+}
+
+/// 将时间戳转化成标准时间格式
+String decodeTime2 (time) {
+  var finalTime = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+  return "${finalTime.year}年${finalTime.month}月${finalTime.day}日";
 }

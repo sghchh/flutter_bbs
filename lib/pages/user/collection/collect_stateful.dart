@@ -8,6 +8,7 @@ import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/user/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/time_util.dart' as time_util;
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -136,7 +137,7 @@ class _CollectionState extends State<CollectionWidget> implements IBaseView {
                     ),
                     Container(
                         padding: EdgeInsets.only(top: 2),
-                        child: Text(sourceData[index].last_reply_date,
+                        child: Text(time_util.decodeTime2(sourceData[index].last_reply_date),
                             style: TextStyle(fontSize: 12, color: Colors.grey))
                     ),
                     Container(

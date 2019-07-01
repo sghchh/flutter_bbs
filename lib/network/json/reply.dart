@@ -1,8 +1,7 @@
 
 /// 在获取帖子详情的时候的一部分
-/// 作为帖子评论区所有评论的封装
+/// 作为帖子评论区 每个评论 的封装
 class ReplyDetail {
-  //int reply_id;
   List<_ReplyContent> reply_content;    // 代表该条评论的内容，其和楼主的Content一个意思
   String reply_name;     // 评论者的用户名
   int reply_posts_id;    // 标志某一条评论，在回复某一个评论的时候需要传递该参数
@@ -11,8 +10,7 @@ class ReplyDetail {
   String quote_content;  // 如果该条是一个回复的话，代表被回复的内容
 
   ReplyDetail.fromJson(Map<String, dynamic> json)
-      : //this.reply_id = json['reply_id'],
-        this.reply_name = json['reply_name'],
+      : this.reply_name = json['reply_name'],
         this.reply_posts_id = json['reply_posts_id'],
         this.posts_date = json['posts_date'],
         this.icon = json['icon'],

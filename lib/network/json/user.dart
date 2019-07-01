@@ -163,14 +163,11 @@ class _CreditShowListBean {
   };
 }
 
-/// 用户信息界面中 已经发表帖子 的最终json
+/// 用户信息界面中 已经发表帖子 的每一条帖子的json
 class UserPublish {
-  String pic_path;
   int board_id;
   String board_name;
   int topic_id;
-  int type_id;
-  int sort_id;
   String title;
   String subject;
   int user_id;
@@ -178,24 +175,16 @@ class UserPublish {
   String user_nick_name;
   int hits;
   int replies;
-  int top;
-  int status;
-  int essence;
-  int hot;
   String userAvatar;
 
-  UserPublish(this.pic_path, this.board_id, this.board_name, this.topic_id,
-      this.type_id, this.sort_id, this.title, this.subject, this.user_id,
-      this.last_reply_date, this.user_nick_name, this.hits, this.replies,
-      this.top, this.status, this.essence, this.hot, this.userAvatar,);
+  UserPublish(this.board_id, this.board_name, this.topic_id, this.title, this.subject,
+      this.user_id, this.last_reply_date, this.user_nick_name, this.hits,
+      this.replies, this.userAvatar,);
 
   UserPublish.fromJson(Map<String, dynamic> json)
-      : this.pic_path = json['pic_path'],
-        this.board_id = json['board_id'],
+      : this.board_id = json['board_id'],
         this.board_name = json['board_name'],
         this.topic_id = json['topic_id'],
-        this.type_id = json['type_id'],
-        this.sort_id = json['sort_id'],
         this.title = json['title'],
         this.subject = json['subject'],
         this.user_id = json['user_id'],
@@ -203,17 +192,11 @@ class UserPublish {
         this.user_nick_name = json['user_nick_name'],
         this.hits = json['hits'],
         this.replies = json['replies'],
-        this.top = json['top'],
-        this.status = json['status'],
-        this.essence = json['essence'],
-        this.hot = json['hot'],
         this.userAvatar = json['userAvatar'];
 }
 
 /// 用户界面中获取 好友列表 的最终json类
 class UserList {
-  int rs;
-  String errcode;
   _HeadBean head;
   _BodyBean body;
   int page;
@@ -222,9 +205,7 @@ class UserList {
   List<ListBean> list;
 
   UserList.fromJson(Map<String, dynamic> json)
-      : this.rs = json['rs'],
-        this.errcode = json['errcode'],
-        this.head = _HeadBean.fromJson(json['head']),
+      : this.head = _HeadBean.fromJson(json['head']),
         this.body = _BodyBean.fromJson(json['body']),
         this.page = json['page'],
         this.has_next = json['has_next'],
@@ -255,9 +236,9 @@ class ListBean {
   String icon;
   int level;
   String userTitle;
-  String lastLogin;
+  String lastLogin;       // 上次登录事件
   String dateline;
-  String signature;
+  String signature;      // 个性签名
   int credits;
   List verify;
 

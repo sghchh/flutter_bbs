@@ -55,8 +55,11 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
           itemCount: sourceData.length,
           itemBuilder: (context, index) {
             return ListTile(
-                leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData[index].icon), radius: 16,),
-                title: Text(sourceData[index].name,style: TextStyle(fontSize: 18),)
+              isThreeLine: true,
+              subtitle: Text(sourceData[index].signature, style: TextStyle(fontSize: 14, color: Colors.grey)),
+              leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData[index].icon), radius: 24,),
+              title: Text(sourceData[index].name,style: TextStyle(fontSize: 18)),
+              onTap: null,  // 需要跳转到好友信息界面
             );
           },
         );

@@ -21,33 +21,24 @@ class _Head {
 
 }
 
-// 消息界面中“帖子回复”的json
-// 实际是在MessageResponse的里面
+/// 消息界面中“帖子回复”的json
+/// 实际是在MessageResponse的里面
 class PostMessage {
-  String board_name;
-  int board_id;
-  int topic_id;
-  String topic_subject;
-  String topic_content;
-  String topic_url;
-  String reply_content;
-  int reply_remind_id;
-  String reply_url;
-  String content;
-  String user_name;
-  int user_id;
-  String icon;
-  String type;
-  String replied_date;
-  int is_read;
-  String mod;
+  String board_name;    // 所属板块的名字，如水手之家
+  int board_id;          // 所属板块的id
+  int topic_id;      // 标识该帖子的id，查看详情的时候需要传递该参数
+  String topic_subject;  // 帖子的标题
+  String topic_content;   // 你在该帖子中发表的某一条评论
+  String reply_content;   // 某人根据你的topic_content评论做出的回复内容
+  String content;         // 如果是管理员删除你的帖子或者评论，该content会告诉你，这时候content代替reply_content
+  String user_name;       // 回复者的用户名
+  String icon;          // 回复者的头像URL
+  String replied_date;    // 回复的时间
 
 
   PostMessage(this.board_name, this.board_id, this.topic_id, this.topic_subject,
-      this.topic_content, this.topic_url, this.reply_content,
-      this.reply_remind_id, this.reply_url, this.content, this.user_name,
-      this.user_id, this.icon, this.type, this.replied_date, this.is_read,
-      this.mod);
+      this.topic_content, this.reply_content, this.content, this.user_name,
+      this.icon, this.replied_date);
 
   PostMessage.fromJson(Map<String, dynamic> json)
         : this.board_name = json['board_name'],
@@ -55,18 +46,11 @@ class PostMessage {
           this.topic_id = json['topic_id'],
           this.topic_subject = json['topic_subject'],
           this.topic_content = json['topic_content'],
-          this.topic_url = json['topic_url'],
           this.reply_content = json['reply_content'],
-          this.reply_remind_id = json['reply_remind_id'],
-          this.reply_url = json['reply_url'],
           this.content = json['content'],
           this.user_name = json['user_name'],
-          this.user_id = json['user_id'],
           this.icon = json['icon'],
-          this.type = json['type'],
-          this.replied_date = json['replied_date'],
-          this.is_read = json['is_read'],
-          this.mod = json['mod'];
+          this.replied_date = json['replied_date'];
 }
 
 //消息界面中@我的json
@@ -115,28 +99,20 @@ class AtMe {
 //也是嵌在MessageResponse中的
 class System {
   String replied_date;
-  String type;
   String icon;
   String user_name;
-  String user_id;
-  String mod;
   String note;
-  String is_read;
 
-  System(this.replied_date, this.type, this.icon, this.user_name, this.user_id,
-      this.mod, this.note, this.is_read);
+  System(this.replied_date, this.icon, this.user_name, this.note);
 
   System.fromJson(Map<String, dynamic> json)
       : this.replied_date = json['replied_date'],
-        this.type = json['type'],
         this.icon = json['icon'],
         this.user_name = json['user_name'],
-        this.user_id = json['user_id'],
-        this.mod = json['mod'],
-        this.note = json['note'],
-        this.is_read = json['is_read'];
+        this.note = json['note'];
 }
 
+/// 代表一条 私信
 class PmseMission {
   int plid;
   int pmid;
@@ -168,7 +144,7 @@ class PmseMission {
         this.isNew = json['isNew'];
 }
 
-//消息界面中 私信 的最终返回的json
+/// 消息界面中 私信 的最终返回的json
 class MsgRespListPmse {
   int rs;
   _Head head;
@@ -182,7 +158,7 @@ class MsgRespListPmse {
         this.body = _PmseBody.fromJson(json['body']);
 }
 
-//搭配MsgRespListPmse
+/// 搭配MsgRespListPmse
 class _PmseBody {
   List<PmseMission> list;
 
@@ -198,7 +174,7 @@ class _PmseBody {
   }
 }
 
-//消息界面中 系统消息 的最终返回的json
+/// 消息界面中 系统消息 的最终返回的json
 class MsgRespListSystem {
   int rs;
   _Head head;
@@ -212,7 +188,7 @@ class MsgRespListSystem {
         this.body = _SystemBody.fromJson(json['body']);
 }
 
-//搭配MsgRespListSystem
+/// 搭配MsgRespListSystem
 class _SystemBody {
   List<System> data;
 
@@ -228,7 +204,7 @@ class _SystemBody {
   }
 }
 
-//消息界面中 帖子回复 的最终返回的json
+/// 消息界面中 帖子回复 的最终返回的json
 class MsgRespListReply {
   int rs;
   _Head head;
@@ -242,8 +218,8 @@ class MsgRespListReply {
         this.body = _ReplyBody.fromJson(json['body']);
 }
 
-// 搭配MsgRespListReply
-// 封装了所有 我的回复 中的消息
+/// 搭配MsgRespListReply
+/// 封装了所有 帖子回复 中的消息
 class _ReplyBody {
   List<PostMessage> data;
 
@@ -259,7 +235,7 @@ class _ReplyBody {
   }
 }
 
-//消息界面中 @我 的最终返回的json
+/// 消息界面中 @我 的最终返回的json
 class MsgRespListAtMe {
   int rs;
   _Head head;
@@ -273,7 +249,7 @@ class MsgRespListAtMe {
         this.body = _AtMeBody.fromJson(json['body']);
 }
 
-//搭配MsgRespListAtMe
+/// 搭配MsgRespListAtMe
 class _AtMeBody {
   List<AtMe> data;
 

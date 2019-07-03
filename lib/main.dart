@@ -6,6 +6,7 @@ import 'package:flutter_bbs/pages/user/friends/friends.dart';
 import 'package:flutter_bbs/pages/user/posted/posted.dart';
 import 'package:flutter_bbs/pages/user/collection/collect.dart';
 import 'package:flutter_bbs/pages/detail/detail.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

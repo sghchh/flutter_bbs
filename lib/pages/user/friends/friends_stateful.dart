@@ -6,6 +6,7 @@ import 'package:flutter_bbs/pages/user/model.dart';
 import 'package:flutter_bbs/pages/user/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
+import 'package:flutter_bbs/utils/time_util.dart' as time_util;
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -56,9 +57,30 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
           itemBuilder: (context, index) {
             return ListTile(
               isThreeLine: true,
-              subtitle: Text(sourceData[index].signature, style: TextStyle(fontSize: 14, color: Colors.grey)),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("${sourceData[index].signature}",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text("最近登录:${time_util.decodeTime2(sourceData[index].lastLogin)}",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1),
+                      )
+                    ],
+                  )
+                ],
+              ),
               leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData[index].icon), radius: 24,),
-              title: Text(sourceData[index].name,style: TextStyle(fontSize: 18)),
+              title: Text(sourceData[index].name,style: TextStyle(fontSize: 18, color: Colors.blueAccent)),
               onTap: null,  // 需要跳转到好友信息界面
             );
           },

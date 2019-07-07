@@ -14,6 +14,8 @@ const String user_favourite = 'user_favourite';     //用来区分User界面中�
 const String userFavoriteType = 'favorite';        //用户界面中获取我的收藏时必须传递的type参数的值
 const String user_friends = 'user_friends';           //用来区分User界面中当前的请求是：好友列表
 const String userFriendsType = 'friend';          //用户界面中获取好友列表时必须传递的type参数的值
+const String friend_infor = 'friend_infor';       // 用来区分好友信息界面当前请求是：获取好友信息
+const String friend_published = 'friend_published';   // 用来区分好友信息界面当前请求是：获取好友发表
 
 const String board_boardList = 'boardList';    //板块界面获取板块列表
 const String board_childBoard = 'childBoard';        //板块界面获取子板块

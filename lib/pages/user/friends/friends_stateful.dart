@@ -2,6 +2,8 @@ import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/pages/detail/detail.dart';
+import 'package:flutter_bbs/pages/friends/friends_info.dart';
 import 'package:flutter_bbs/pages/user/model.dart';
 import 'package:flutter_bbs/pages/user/presenter.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
@@ -81,7 +83,12 @@ class _FriendsViewImpl extends State<FriendsWidget> implements IBaseView{
               ),
               leading: CircleAvatar(backgroundImage: CachedNetworkImageProvider(sourceData[index].icon), radius: 24,),
               title: Text(sourceData[index].name,style: TextStyle(fontSize: 18, color: Colors.blueAccent)),
-              onTap: null,  // 需要跳转到好友信息界面
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //注意今日热点的topicId等同于其source_id
+                  return FriendInfoWidget(uid: sourceData[index].uid);
+                }));
+              },  // 需要跳转到好友信息界面
             );
           },
         );

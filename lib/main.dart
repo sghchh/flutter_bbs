@@ -8,10 +8,14 @@ import 'package:flutter_bbs/pages/user/collection/collect.dart';
 import 'package:flutter_bbs/pages/detail/detail.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+import 'package:flutter_bbs/utils/emojis_util.dart' as emojis_util;
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  emojis_util.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

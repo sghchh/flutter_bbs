@@ -12,7 +12,6 @@ class FriendModelImpl extends IBaseModel {
         result = await FriendClient.getFriendPublished(query);
         break;
     }
-    print("this is model end");
     return result;
   }
 
@@ -31,9 +30,14 @@ class FriendModelImpl extends IBaseModel {
   }
 
   @override
-  Future onRefresh({String type, Map<String, dynamic> query}) {
-
-    return null;
+  Future onRefresh({String type, Map<String, dynamic> query}) async{
+    var result;
+    switch (type) {
+      case const_util.friend_published:
+        result = await FriendClient.getFriendPublished(query);
+        break;
+    }
+    return result;
   }
 
 }

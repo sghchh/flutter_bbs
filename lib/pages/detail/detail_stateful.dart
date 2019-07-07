@@ -10,6 +10,7 @@ import 'package:flutter_bbs/pages/detail/model.dart';
 import 'package:flutter_bbs/pages/detail/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
 import 'package:flutter_bbs/pages/edit/comment/comment.dart';
+import 'package:flutter_bbs/pages/friends/friends_info.dart';
 import 'package:flutter_bbs/pages/image_page.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
@@ -140,10 +141,17 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.all(6),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(topic.icon),
-                    radius: 24,
-                  ),
+                  child: GestureDetector(
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(topic.icon),
+                      radius: 24,
+                    ),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return FriendInfoWidget(uid: topic.user_id,);
+                      }));
+                    },
+                  )
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +242,14 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.all(8),
-                  child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
+                  child: GestureDetector(
+                    child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return FriendInfoWidget(uid: topic.user_id,);
+                      }));
+                    },
+                  ),
                 ),
                 Flexible(
                   child: Column(

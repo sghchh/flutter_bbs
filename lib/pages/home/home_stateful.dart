@@ -299,6 +299,7 @@ class _HomeViewImpl extends State<HomeWidget>
     User finalUser = await user_cache.finalUser();
     presenter.loadMoreNetData(type: tap, query: {
       'page': page + 1,
+      'pageSize' : 10,
       'apphash': await user_cache.getAppHash(),
       'accessSecret': finalUser.secret,
       'accessToken': finalUser.token
@@ -310,6 +311,7 @@ class _HomeViewImpl extends State<HomeWidget>
     User finalUser = await user_cache.finalUser();
     return presenter.loadNetData(type: tap, query: {
       'page': page,
+      'pageSize' : 10,
       'apphash': await user_cache.getAppHash(),
       'accessSecret': finalUser.secret,
       'accessToken': finalUser.token
@@ -322,6 +324,7 @@ class _HomeViewImpl extends State<HomeWidget>
     User finalUser = await user_cache.finalUser();
     await presenter.refresh(type: tap, query: {
       'page': 1,
+      'pageSize' : 10 * page,
       'apphash': await user_cache.getAppHash(),
       'accessSecret': finalUser.secret,
       'accessToken': finalUser.token
@@ -335,7 +338,6 @@ class _HomeViewImpl extends State<HomeWidget>
         page++;
         this.data.addAll(sourcedata.list);
       } else if (type == const_util.refresh) {
-        page = 1;
         this.data = sourcedata.list;
       }
       hasMore = sourcedata.has_next == 0 ? false : true;

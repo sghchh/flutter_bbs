@@ -6,11 +6,11 @@ import 'package:dio/dio.dart';
 ///负责Home界面的网络请求的客户端
 class HomeClient {
   static final newReply =
-      "/app/web/index.php?r=forum/topiclist&pageSize=10"; //"最新回复"网络请求的path
+      "/app/web/index.php?r=forum/topiclist"; //"最新回复"网络请求的path
   static final todayHot =
       "/app/web/index.php?r=portal/newslist&moduleId=2"; //"今日热点"网络请求的path
   static final newPublish =
-      "/app/web/index.php?r=forum/topiclist&pageSize=10"; //"最新发表"网络请求的path  和最新回复的区别是参数多了一个sortby = new
+      "/app/web/index.php?r=forum/topiclist"; //"最新发表"网络请求的path  和最新回复的区别是参数多了一个sortby = new
 
   static Dio _client = DioClient.getInstance(); //真正的网络请求的客户端
 

@@ -52,9 +52,14 @@ class FriendPresenterImpl extends IBasePresenter {
   }
 
   @override
-  refresh({String type, Map<String, dynamic> query}) {
-    // TODO: implement refresh
-    return null;
+  refresh({String type, Map<String, dynamic> query}) async{
+    Response response = await model.onRefresh(type: type, query: query);
+    if (response.statusCode == 200) {
+      BBSRepListPost result = await compute(_decodeFriendPublished, response.data);
+      view.bindData(result, const_util.refresh);
+    } else {
+      view.showToast(response.statusCode);
+    }
   }
 
   static FriendInforResponse _decodeFriendInfor(dynamic data) {

@@ -8,6 +8,7 @@ import 'package:flutter_bbs/network/json/user.dart';
 import 'package:flutter_bbs/pages/detail/detail.dart';
 import 'package:flutter_bbs/pages/friends/model.dart';
 import 'package:flutter_bbs/pages/friends/presenter.dart';
+import 'package:flutter_bbs/pages/image_page.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/time_util.dart' as time_util;
@@ -128,18 +129,25 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
             Stack(
               children: <Widget>[
                 // 构建头像区域的背景图
-                Container(
-                  width: screenWidght,
-                  height: screenHeight * 0.23,
-                  foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [Colors.transparent, Colors.black26, Colors.black],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter
+                GestureDetector(
+                  child: Container(
+                    width: screenWidght,
+                    height: screenHeight * 0.23,
+                    foregroundDecoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [Colors.transparent, Colors.black26, Colors.black],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter
+                      ),
+                    ),
+                    child: Image.network(inforResponse.icon,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
-                  child: Image.network(inforResponse.icon,
-                    fit: BoxFit.fitWidth,
-                  ),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return ImagePage(url : inforResponse.icon);
+                    }));
+                  },
                 ),
                 // 构建头像区域的信息展示内容
                 Container(
@@ -155,7 +163,7 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
                       Text(inforResponse.userTitle, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 15),)
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ],
@@ -258,9 +266,7 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
   Widget _buildListIfOk() {
     _check();
     return RefreshIndicator(
-      onRefresh: (){
-
-      },
+      onRefresh: toRefresh,
       child: ListView.builder(
         controller: _scrollController,
         itemBuilder: (context, index) {
@@ -425,13 +431,11 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
 
   @override
   bindData(sourcedata, type) {
-    print("this is bind");
     setState(() {
       if (type == const_util.loadMore && selectedType == 1) {
         page++;
         this.data.addAll(sourcedata.list);
       } else if (type == const_util.refresh && selectedType == 1) {
-        page = 1;
         this.data = sourcedata.list;
       } else {
         hasMore = false;
@@ -459,7 +463,6 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
 
   @override
   toGetMoreNetData() async{
-    print("this is getmore");
     User finalUser = await user_cache.finalUser();
     presenter.loadMoreNetData(type: const_util.friend_published,query: {
       "uid" : this.uid,
@@ -501,8 +504,17 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
   }
 
   @override
-  toRefresh() {
-    // TODO: implement toRefresh
-    return null;
+  Future<void> toRefresh() async{
+    User finalUser = await user_cache.finalUser();
+    await presenter.loadMoreNetData(type: const_util.friend_published,query: {
+    "uid" : this.uid,
+    "appHash" : await user_cache.getAppHash(),
+    "accessToken" : finalUser.token,
+    "accessSecret" : finalUser.secret,
+    "page" : 1,
+    "pageSize" : 10 * page,
+    "sdkVersion" : const_util.sdkVersion,
+    "type" : "topic"
+    });
   }
 }

@@ -46,7 +46,7 @@ class EditViewImpl extends State<EditWidget> implements IBaseView {
   var typeValue; //注意该值要为DropdownButton的value属性，所以不能赋初始值
   var boardValue; //注意该值要为DropdownButton的value属性，所以不能赋初始值
   var childBoard; //注意该值要为DropdownButton的value属性，所以不能赋初始值
-  List<ClassificationType> classificationTypeList; //某一板块分类的数据
+  var classificationTypeList = <ClassificationType>[];
 
   final TextEditingController controller1 = TextEditingController(); //标题输入框的控制器
   final TextEditingController controller2 = TextEditingController(); //内容输入框的控制器
@@ -144,59 +144,47 @@ class EditViewImpl extends State<EditWidget> implements IBaseView {
                           items: menu_item.typeMenuItem,
                           onChanged: (value) {
                             setState(() {
+                              boardValue = null;  // 这里赋值为null是为了第二级的DropdownButton能够被刷新
                               typeValue = value;
                             });
                           },
                           hint: Text('选择分类',
-                              style: TextStyle(color: Colors.grey, fontSize: 10)),
+                              style: TextStyle(color: Colors.grey, fontSize: 13)),
                           value: typeValue,
                         ),
                       ),
                     ),
                     Align(
                       alignment: Alignment.bottomLeft,
-                      child: typeValue == null
-                          ? Container(
-                        width: 0,
-                        height: 0,
-                      )
-                          : Container(
+                      child: Container(
                         padding: EdgeInsets.all(4),
                         child: DropdownButton<int>(
-                          items: menu_item.getMenuItem(typeValue),
+                          items: typeValue != null ? menu_item.getMenuItem(typeValue) : null,
                           onChanged: (value) {
-                            if (boardValue != value) {
-                              setState(() {
-                                classificationTypeList = null;
-                              });
+                            setState(() {
+                              childBoard= null;      // 这里赋值为null是为了第三级的DropdownButton能够被刷新
                               boardValue = value;
-                              toRefresh();
-                            }
+                            });
+                            toRefresh();
                           },
                           hint: Text('板块分类',
                               style:
-                              TextStyle(color: Colors.grey, fontSize: 10)),
+                              TextStyle(color: Colors.grey, fontSize: 13)),
                           value: boardValue,
                         ),
                       ),
                     ),
-                    classificationTypeList == null
-                        ? Container(
-                      width: 0,
-                      height: 0,
-                    )
-                        : Container(
+                    Container(
                       padding: EdgeInsets.all(4),
                       child: DropdownButton<int>(
-                        items: classificationTypeList != null ?
-                        menu_item.getChildMenuItem(classificationTypeList) : null,
+                        items: classificationTypeList == null ? null : menu_item.getChildMenuItem(classificationTypeList),
                         onChanged: (value) {
                           setState(() {
                             childBoard = value;
                           });
                         },
                         hint: Text('子板块',
-                            style: TextStyle(color: Colors.grey, fontSize: 10)),
+                            style: TextStyle(color: Colors.grey, fontSize: 13)),
                         value: childBoard,
                       )
                     ),
@@ -212,13 +200,8 @@ class EditViewImpl extends State<EditWidget> implements IBaseView {
   @override
   bindData(sourcedata, type) {
     setState(() {
-      this.classificationTypeList = sourcedata.classificationType_list;
+      classificationTypeList = sourcedata.classificationType_list;
       ClassificationType type = ClassificationType("无", -1);
-      if (classificationTypeList == null) {
-        this.classificationTypeList = <ClassificationType>[];
-        this.classificationTypeList.add(type);
-        return;
-      }
       this.classificationTypeList.add(type);
     });
   }

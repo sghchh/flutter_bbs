@@ -8,7 +8,6 @@ import 'package:flutter_bbs/utils/constant.dart' as const_util;
 ///created by sgh     2019-3-1
 /// 用来将板块列表的数据转化成Widget
 class MapUtil {
-
   BuildContext context;
   List _sourceData;           //从后台获取的板块列表的源数据
   final List<Widget> finalResult = <Widget>[];    //最后返回的Widget的List，用来给Board页面构建布局

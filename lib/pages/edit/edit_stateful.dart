@@ -7,11 +7,14 @@ import 'dart:convert' as convert;
 import 'package:flutter_bbs/network/json/post.dart';
 import 'package:flutter_bbs/network/json/publish.dart';
 import 'package:flutter_bbs/network/json/user.dart';
+import 'package:flutter_bbs/pages/edit/comment/emojis_stateful.dart';
 import 'package:flutter_bbs/pages/edit/edit_menu_item.dart' as menu_item;
 import 'package:flutter_bbs/return_type.dart';
 import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/snapbar_util.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
+import 'package:flutter_bbs/utils/emojis_util.dart' as emojis_util;
+import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bbs/pages/edit/model.dart';
@@ -22,7 +25,7 @@ import 'package:flutter_bbs/pages/edit/presenter.dart';
 class EditWidget extends StatefulWidget {
   EditPresenterImpl _presenter;
   EditModelImpl _model;
-  _EditViewImpl _view;
+  EditViewImpl _view;
 
   EditWidget()
       : this._presenter = EditPresenterImpl(),
@@ -30,7 +33,7 @@ class EditWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    _view = _EditViewImpl();
+    _view = EditViewImpl();
     _presenter.bindModel(_model);
     _presenter.bindView(_view);
     _view.setPresenter(_presenter);
@@ -38,7 +41,7 @@ class EditWidget extends StatefulWidget {
   }
 }
 
-class _EditViewImpl extends State<EditWidget> implements IBaseView {
+class EditViewImpl extends State<EditWidget> implements IBaseView {
   EditPresenterImpl _presenter;
   var typeValue; //注意该值要为DropdownButton的value属性，所以不能赋初始值
   var boardValue; //注意该值要为DropdownButton的value属性，所以不能赋初始值
@@ -48,92 +51,145 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
   final TextEditingController controller1 = TextEditingController(); //标题输入框的控制器
   final TextEditingController controller2 = TextEditingController(); //内容输入框的控制器
 
+  Map<String, String> allEmojis = <String, String>{};    // 保存所有需要添加的表情包
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
-            child: TextField(
-              controller: controller1,
-              decoration: InputDecoration(
-                  hintText: "标题",
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 16)),
-              maxLines: 3,
-              cursorWidth: 0,
-            ),
-          ),
-          //Divider(color: Colors.grey,),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
-              child: TextField(
-                controller: controller2,
-                decoration: InputDecoration(
-                    hintText: "内容",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                    border: InputBorder.none),
-                maxLines: 10,
-                cursorWidth: 0,
-              ),
-            ),
-          ),
-          //Divider(color: Colors.grey,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  child: DropdownButton<String>(
-                    items: menu_item.typeMenuItem,
-                    onChanged: (value) {
-                      setState(() {
-                        typeValue = value;
-                      });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        buttonColor: Colors.lightBlueAccent,
+      ),
+      home: Scaffold(
+          appBar: PreferredSize(
+              child: AppBar(
+                leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.pop(context)),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.insert_emoticon,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context, builder: showEmoijos);
                     },
-                    hint: Text('选择分类',
-                        style: TextStyle(color: Colors.grey, fontSize: 10)),
-                    value: typeValue,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                    onPressed: finalPublish,
+                  )
+                ],
+                title: Text(
+                  '编辑帖子',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20),
+                ),
+                centerTitle: true,
+              ),
+              preferredSize:  Size.fromHeight(MediaQuery.of(context).size.height*0.08)),
+
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
+                  child: TextField(
+                    controller: controller1,
+                    decoration: InputDecoration(
+                        hintText: "标题",
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16)),
+                    maxLines: 3,
+                    cursorWidth: 0,
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: typeValue == null
-                    ? Container(
+                //Divider(color: Colors.grey,),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
+                    child: TextField(
+                      controller: controller2,
+                      decoration: InputDecoration(
+                          hintText: "内容",
+                          hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                          border: InputBorder.none),
+                      maxLines: 10,
+                      cursorWidth: 0,
+                    ),
+                  ),
+                ),
+                //Divider(color: Colors.grey,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        child: DropdownButton<String>(
+                          items: menu_item.typeMenuItem,
+                          onChanged: (value) {
+                            setState(() {
+                              typeValue = value;
+                            });
+                          },
+                          hint: Text('选择分类',
+                              style: TextStyle(color: Colors.grey, fontSize: 10)),
+                          value: typeValue,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: typeValue == null
+                          ? Container(
                         width: 0,
                         height: 0,
                       )
-                    : Container(
+                          : Container(
                         padding: EdgeInsets.all(4),
                         child: DropdownButton<int>(
                           items: menu_item.getMenuItem(typeValue),
                           onChanged: (value) {
-                            setState(() {
+                            if (boardValue != value) {
+                              setState(() {
+                                classificationTypeList = null;
+                              });
                               boardValue = value;
-                            });
-                            toRefresh();
+                              toRefresh();
+                            }
                           },
                           hint: Text('板块分类',
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 10)),
+                              TextStyle(color: Colors.grey, fontSize: 10)),
                           value: boardValue,
                         ),
                       ),
-              ),
-              classificationTypeList == null
-                  ? Container(
+                    ),
+                    classificationTypeList == null
+                        ? Container(
                       width: 0,
                       height: 0,
                     )
-                  : Container(
+                        : Container(
                       padding: EdgeInsets.all(4),
                       child: DropdownButton<int>(
-                        items:
-                            menu_item.getChildMenuItem(classificationTypeList),
+                        items: classificationTypeList != null ?
+                        menu_item.getChildMenuItem(classificationTypeList) : null,
                         onChanged: (value) {
                           setState(() {
                             childBoard = value;
@@ -142,22 +198,13 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
                         hint: Text('子板块',
                             style: TextStyle(color: Colors.grey, fontSize: 10)),
                         value: childBoard,
-                      ),
+                      )
                     ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                    padding: EdgeInsets.all(8),
-                    margin: EdgeInsets.only(left: 16, right: 5),
-                    child: IconButton(
-                      icon: Icon(Icons.send, color: Colors.blue),
-                      onPressed: finalPublish,
-                      iconSize: 36,
-                    )),
-              )
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
       ),
     );
   }
@@ -210,6 +257,7 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
 
   @override
   toRefresh() async {
+    print("this is refresh");
     User finalUser = await user_cache.finalUser();
     presenter.refresh(query: {
       'accessToken': finalUser.token,
@@ -245,6 +293,13 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
       ReturnType type = ReturnType(0, content: '请选择板块');
       return type;
     }
+
+    Iterable<Match> allMatchs = regexp_util.getAllEmojis(content);
+    print(allMatchs.length);
+    for (int i = 0; i < allMatchs.length; i++) {
+      String substring = content.substring(allMatchs.elementAt(i).start, allMatchs.elementAt(i).end);
+      content = content.replaceFirst(substring, allEmojis[substring]);
+    }
     PublishContent contents = PublishContent(0, content);
     PublishInfo info = PublishInfo(
         title: title,
@@ -261,5 +316,26 @@ class _EditViewImpl extends State<EditWidget> implements IBaseView {
       'json' : json.toString()
     });
     return response;
+  }
+
+  /// 弹出选择表情包的bottomSheet
+  Widget showEmoijos(BuildContext context) {
+    emojis_util.type = emojis_util.publish;
+    emojis_util.editViewImpl = this;
+    return Container(
+      height: 210,
+      width: MediaQuery.of(context).size.width,
+      child: EmojisStateful(),
+    );
+  }
+
+  /// 暴露出来供EmojisStateful对象添加表情;由EmojisStateful对象调用，emojis_util完成
+  appendEmojis(emojis_util.EmojisIndex e) {
+    int start = controller2.text.length - 1;
+    e.start = start;
+    e.end = start + e.alt.length;
+    String newText = "${controller2.text}${e.alt}";
+    controller2.text = newText;
+    allEmojis[e.alt] = e.url;
   }
 }

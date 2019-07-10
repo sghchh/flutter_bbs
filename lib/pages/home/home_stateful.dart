@@ -19,7 +19,7 @@ class HomeWidget extends StatefulWidget {
   HomeModelImpl _model;
   _HomeViewImpl _view;
   //表示该HomeWidget显示的List的内容，tap值为"最新回复""最新发表""今日热门"三者之一;
-  String tap = '最新回复';
+  String tap = '今日热门';
 
   HomeWidget({@required this.tap}) {
     this._presenter = HomePresenterImpl();
@@ -102,7 +102,6 @@ class _HomeViewImpl extends State<HomeWidget>
         // 代表没有从服务器获取数据，一般是参数异常导致的
         if ( snaphot.data.head.errCode != const_util.success)
           return Center(child: Text("${snaphot.data.head.errCode} : ${snaphot.data.head.errInfo}"),);
-
         data = snaphot.data.list;
         hasMore = snaphot.data.has_next == 0 ? false : true;
         return _buildList();
@@ -113,6 +112,9 @@ class _HomeViewImpl extends State<HomeWidget>
 
   //构建链表
   Widget _buildList() {
+    if (data == null) {
+      data = <Post>[];
+    }
     _check();
     return RefreshIndicator(
       onRefresh: toRefresh,

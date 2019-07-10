@@ -34,6 +34,12 @@ List<RegExpType> getContentDetail(String source) {
   return list;
 }
 
+Iterable<Match> getAllEmojis(String source) {
+  String str = r"\[s:\d+\]";
+  RegExp reg = RegExp(str);
+  return reg.allMatches(source);
+}
+
 /// 用于标注正则表达式结果中的是文字内容还是url
 ///  type 取值为content_url 或者content_text
 class RegExpType {

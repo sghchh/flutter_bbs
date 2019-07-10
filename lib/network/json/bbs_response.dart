@@ -43,7 +43,8 @@ class BBSRepListPost {
   int has_next;      // 是否含有下一页，0代表没有，1代表有
   Head head;        // 封装了状态码、错误信息
   List<Post> list;    // 每一个item代表了已发的帖子
-  BBSRepListPost({this.has_next, this.head, this.list});
+  List<ClassificationType> classificationType_list;
+  BBSRepListPost({this.has_next, this.head, this.list, });
 
   BBSRepListPost.fromJson(Map<String, dynamic> json)
       : this.has_next = json['has_next'],
@@ -59,6 +60,23 @@ class BBSRepListPost {
       }
       this.list = result;
     }
+    if (json['classificationType_list'] == null) {
+      classificationType_list = null;
+    } else {
+      var result = <ClassificationType>[];
+      for (int i = 0; i < json['classificationType_list'].length; i++) {
+        var item = ClassificationType.fromJson(json['classificationType_list'][i]);
+        result.add(item);
+      }
+      this.classificationType_list = result;
+    }
+
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "错误信息：${head.errInfo},数据长度:${list.toString()}";
   }
 }
 
@@ -136,3 +154,5 @@ class ChildBoardInfoResponse {
     }
     }
 }
+
+

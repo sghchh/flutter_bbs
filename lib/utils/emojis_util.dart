@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 
 import 'package:flutter_bbs/pages/edit/comment/comment.dart';
+import 'package:flutter_bbs/pages/edit/edit_stateful.dart';
 /// 该dart文件用来处理表情包
 
 /// 将dataJson转化为Emojis对象
@@ -15,6 +16,7 @@ _Emojis emojis;
 /// baseURL连同_Data中的src拼接成表情包的完整URL
 String baseURL = "http://bbs.uestc.edu.cn/static/image/smiley/";
 CommentState commentState;
+EditViewImpl editViewImpl;
 
 // 用来调用添加表情操作
 appendEmojis(EmojisIndex e) {
@@ -23,6 +25,7 @@ appendEmojis(EmojisIndex e) {
       commentState.appendEmojis(e);
       break;
     case publish:
+      editViewImpl.appendEmojis(e);
       break;
   }
 }

@@ -1,7 +1,8 @@
 
+import 'package:flutter_bbs/pages/edit/edit_stateful.dart';
 import 'package:flutter_bbs/pages/login/login.dart';
 import 'package:flutter_bbs/pages/main/main.dart' as mainpage;
-import 'package:flutter_bbs/pages/edit/edit.dart' as edit;
+import 'package:flutter_bbs/pages/edit/edit_stateful.dart' as edit;
 import 'package:flutter_bbs/pages/user/friends/friends.dart';
 import 'package:flutter_bbs/pages/user/posted/posted.dart';
 import 'package:flutter_bbs/pages/user/collection/collect.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String,WidgetBuilder>{
         'main/mainPage': (context) => mainpage.MainPageWidget(),
-        'edit/editPage': (context) => edit.EditPageWidget(),
+        'edit/editPage': (context) => edit.EditWidget(),
         'user/userPost': (context) => UserPostPageWidget(),
         'user/userCollection' : (context) => UserCollectionWidget(),
         'login/loginPage' : (context) => LoginPageWidget(),

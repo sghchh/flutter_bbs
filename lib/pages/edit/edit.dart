@@ -16,25 +16,26 @@ class EditPageWidget extends StatelessWidget {
         buttonColor: Colors.lightBlueAccent,
       ),
       home: Scaffold(
-        appBar: PreferredSize(
-            child: AppBar(
-              leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Navigator.pop(context)),
-              title: Text(
-                '编辑帖子',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 20),
+          appBar: PreferredSize(
+              child: AppBar(
+                leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.pop(context)),
+                title: Text(
+                  '编辑帖子',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20),
+                ),
+                centerTitle: true,
               ),
-              centerTitle: true,
-            ),
-            preferredSize:  Size.fromHeight(MediaQuery.of(context).size.height*0.08)),
-        body: EditWidget()
+              preferredSize:  Size.fromHeight(MediaQuery.of(context).size.height*0.08)),
+
+          body: EditWidget()
       ),
     );
   }

@@ -14,6 +14,7 @@ import 'package:flutter_bbs/utils/constant.dart' as const_util;
 import 'package:flutter_bbs/utils/snapbar_util.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/emojis_util.dart' as emojis_util;
+import 'package:flutter_bbs/utils/regexp_util.dart' as regexp_util;
 
 class CommentWidget extends StatefulWidget {
   int topicId; // 指代某一个帖子
@@ -40,7 +41,7 @@ class CommentState extends State<CommentWidget> implements IBaseView {
   int topicId;
   int replyId;
   BuildContext _scaffoldContext;
-  List<emojis_util.EmojisIndex> allEmojis = [];    // 保存所有需要添加的表情包
+  Map<String, String> allEmojis = <String, String>{};    // 保存所有需要添加的表情包
 
   CommentState(topid, {this.replyId}) {
     this.topicId = topid;
@@ -171,10 +172,12 @@ class CommentState extends State<CommentWidget> implements IBaseView {
       return ReturnType(0, content: "内容不能为空");
     }
     var oldContent = controller.text;
-    for (int i = 0; i < allEmojis.length; i++) {
-      oldContent = oldContent.replaceFirst(allEmojis[i].alt, allEmojis[i].url);
+    Iterable<Match> allMatchs = regexp_util.getAllEmojis(oldContent);
+    print(allMatchs.length);
+    for (int i = 0; i < allMatchs.length; i++) {
+      String substring = oldContent.substring(allMatchs.elementAt(i).start, allMatchs.elementAt(i).end);
+      oldContent = oldContent.replaceFirst(substring, allEmojis[substring]);
     }
-    print(oldContent);
     PublishContent contents = PublishContent(0, controller.text);
     PublishInfo info = PublishInfo(
         replyId: replyId,
@@ -215,6 +218,6 @@ class CommentState extends State<CommentWidget> implements IBaseView {
     e.end = start + e.alt.length;
     String newText = "${controller.text}${e.alt}";
     controller.text = newText;
-    allEmojis.add(e);
+    allEmojis[e.alt] = e.url;
   }
 }

@@ -153,14 +153,14 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.23,
-                  padding: EdgeInsets.only(left: 10, top: isSigned ? screenHeight * 0.10 : screenHeight * 0.13, bottom: 10),
+                  padding: EdgeInsets.only(left: 10, top: isSigned ? screenHeight * 0.10 : screenHeight * 0.13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(inforResponse.name, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 20),),
-                      isSigned ? Text(inforResponse.sign, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 15), maxLines: 2, overflow: TextOverflow.ellipsis,) : Container(height: 0,),
-                      Text(inforResponse.userTitle, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 15),)
+                      isSigned ? Text(inforResponse.sign, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 13), maxLines: 2, overflow: TextOverflow.ellipsis,) : Container(height: 0,),
+                      Text(inforResponse.userTitle, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 13),)
                     ],
                   ),
                 ),
@@ -218,7 +218,7 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
           itemCount: informations.length,
           itemBuilder: (context, index) {
             return Container(
-              decoration: BoxDecoration(border: Border(top: BorderSide(width: 0.5), bottom: index == informations.length - 1 ? BorderSide(width: 0.8) : BorderSide(width: 0))),
+              decoration: BoxDecoration(border: Border(top: BorderSide(width: 0.1, color: Colors.black26), bottom: index == informations.length - 1 ? BorderSide(width: 0.2, color: Colors.black26) : BorderSide(width: 0))),
               padding: EdgeInsets.only(top: 10, bottom: 6, left: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

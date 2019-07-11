@@ -1,13 +1,9 @@
-
-import 'package:flutter_bbs/pages/edit/edit_stateful.dart';
 import 'package:flutter_bbs/pages/login/login.dart';
 import 'package:flutter_bbs/pages/main/main.dart' as mainpage;
 import 'package:flutter_bbs/pages/edit/edit_stateful.dart' as edit;
 import 'package:flutter_bbs/pages/user/friends/friends.dart';
 import 'package:flutter_bbs/pages/user/posted/posted.dart';
 import 'package:flutter_bbs/pages/user/collection/collect.dart';
-import 'package:flutter_bbs/pages/detail/detail.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bbs/utils/user_cacahe_util.dart' as user_cache;
 import 'package:flutter_bbs/utils/emojis_util.dart' as emojis_util;
 
@@ -54,3 +50,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

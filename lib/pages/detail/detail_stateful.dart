@@ -246,7 +246,7 @@ class PostViewImpl extends State<DetailWidget> implements IBaseView{
                     child: CircleAvatar(backgroundImage: NetworkImage(comments[index].icon), radius: 24,),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return FriendInfoWidget(uid: topic.user_id,);
+                        return FriendInfoWidget(uid: comments[index].reply_id,);
                       }));
                     },
                   ),

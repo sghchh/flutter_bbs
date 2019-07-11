@@ -22,7 +22,7 @@ class FriendInfoWidget extends StatelessWidget {
                     print("this is test");
                   }),
               title: Text(
-                '我的好友',
+                '个人信息',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

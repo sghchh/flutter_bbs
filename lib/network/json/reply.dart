@@ -8,12 +8,14 @@ class ReplyDetail {
   String posts_date;     // 该评论的发表时间的时间戳
   String icon;     // 该评论作者的头像URL
   String quote_content;  // 如果该条是一个回复的话，代表被回复的内容
+  int reply_id;       // 其值实际上代表着用户的id，即user_id
 
   ReplyDetail.fromJson(Map<String, dynamic> json)
       : this.reply_name = json['reply_name'],
         this.reply_posts_id = json['reply_posts_id'],
         this.posts_date = json['posts_date'],
         this.icon = json['icon'],
+        this.reply_id = json['reply_id'],
         this.quote_content = json['quote_content']{
 
     var result = <_ReplyContent>[];

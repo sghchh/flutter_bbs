@@ -236,6 +236,7 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
       );
   }
 
+  /// 构建发表帖子的界面
   Widget _buildList() {
     if (data == null) {
       return FutureBuilder(
@@ -262,7 +263,7 @@ class _FriendViewImpl extends State<FriendInfoStateful> implements IBaseView {
     }
     return _buildListIfOk();
   }
-  /// 构建链表
+  /// 构建发表帖子的链表
   Widget _buildListIfOk() {
     _check();
     return RefreshIndicator(

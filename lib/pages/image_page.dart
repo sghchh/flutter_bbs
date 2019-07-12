@@ -30,7 +30,7 @@ class ImagePage extends StatelessWidget {
         onLongPress: () {
           showDialog(context: context, builder: (context) {
             return AlertDialog(
-              title: Text("是否想要下载图片？", style: TextStyle(color: Colors.black),),
+              title: Text("下载图片功能暂未开放", style: TextStyle(color: Colors.black),),
               titleTextStyle: TextStyle(),
               actions: <Widget>[
                 FlatButton(

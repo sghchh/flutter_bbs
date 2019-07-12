@@ -4,6 +4,7 @@ import 'package:flutter_bbs/pages/main/view.dart';
 import 'package:flutter_bbs/mvp/model.dart';
 import 'package:flutter_bbs/mvp/presenter.dart';
 import 'package:flutter_bbs/mvp/view.dart';
+import 'package:flutter_bbs/pages/search/search.dart';
 import 'package:flutter_bbs/pages/user/UserDrawer.dart';
 
 import 'package:flutter/material.dart';
@@ -116,10 +117,10 @@ class _MainPageWidgetState extends State<MainPageWidget>
                                 size: 25.0,
                               ),
                               onPressed: () {
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text("该功能尚未开放"),
-                                  duration: Duration(milliseconds: 1500),
-                                ));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  //注意今日热点的topicId等同于其source_id
+                                  return SearchWidget();
+                                }));
                               })
                         ],
                         bottom: _getTabBar());

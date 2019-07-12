@@ -424,7 +424,7 @@ class _SearchViewImpl extends State<SearchWidget> with TickerProviderStateMixin 
             "page": selectedType == 0 ? _topicPage + 1 : _userPage + 1,
             "pageSize": 10,
             "sdkVersion": const_util.sdkVersion,
-            "keyword": _textEditingController.text
+            "keyword": keyword
           });
     }
 
@@ -461,7 +461,7 @@ class _SearchViewImpl extends State<SearchWidget> with TickerProviderStateMixin 
             "page": 1,
             "pageSize": selectedType == 0 ? 10 * _topicPage : 10 * _userPage,
             "sdkVersion": const_util.sdkVersion,
-            "keyword": _textEditingController.text
+            "keyword": keyword
           });
     }
 

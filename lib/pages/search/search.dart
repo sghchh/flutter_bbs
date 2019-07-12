@@ -107,14 +107,23 @@ class _SearchViewImpl extends State<SearchWidget> with TickerProviderStateMixin 
         appBar: PreferredSize(
             child: AppBar(
               backgroundColor: Colors.blue,
-              leading: IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    toGetNetData();
-                  }),
+              leading: Builder(
+                  builder: (context) {
+                    return IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          keyword = _textEditingController.text;
+                          if (keyword == null || keyword == "") {
+                            Scaffold.of(context).showSnackBar(SnackBar(content: Text("关键字不能为空"), duration: Duration(milliseconds: 800),));
+                            return;
+                          }
+                          toGetNetData();
+                        });
+                  }
+              ),
               title: TextField(
                 controller: _textEditingController,
                 decoration: InputDecoration(
